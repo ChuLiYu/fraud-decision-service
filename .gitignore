@@ -1,5 +1,5 @@
 # Raw and derived data (fetched by script; never committed)
-data/
+/data/
 *.parquet
 *.csv
 
