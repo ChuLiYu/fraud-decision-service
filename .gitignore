@@ -1,0 +1,33 @@
+# Raw and derived data (fetched by script; never committed)
+data/
+*.parquet
+*.csv
+
+# Model artifacts and experiment tracking
+mlruns/
+mlartifacts/
+models/
+*.pkl
+*.joblib
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Java
+target/
+build/
+.gradle/
+
+# Secrets
+.env
+*.pem
+kaggle.json
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
