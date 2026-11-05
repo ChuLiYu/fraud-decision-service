@@ -2,8 +2,8 @@
 
 英文權威來源：[scope.md](scope.md)
 類型：完整翻譯
-來源版本：尚未提交，docs/product/scope.md
-同步狀態：草稿（來源尚未提交）
+來源版本：4e14b3f，docs/product/scope.md
+同步狀態：已核對
 
 狀態：擁有者於 2026-11-05 接受。變更範圍須更新英文來源；重大取捨另寫 ADR。
 
