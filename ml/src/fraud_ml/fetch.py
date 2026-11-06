@@ -54,8 +54,9 @@ def fetch(raw_dir: Path) -> list[Path]:
         )
         if result.returncode != 0:
             raise RuntimeError(
-                f"Kaggle download of {name} failed; check that the competition rules are "
-                f"accepted and the API token is configured.\n{result.stderr.strip()}"
+                f"Kaggle download of {name} failed. If the error below mentions 401/403 or "
+                f"credentials, accept the competition rules and configure the API token.\n"
+                f"{result.stderr.strip()}"
             )
         archive = raw_dir / f"{name}.zip"
         if archive.exists():  # the CLI zips single files larger than a threshold
