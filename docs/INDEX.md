@@ -18,6 +18,11 @@ Pick the document for your task; do not load everything.
 | `docs/ml/model-card.md` + evaluation report | Metrics, calibration, slices, limits | End of phase 1 |
 | `docs/operations/reliability-report.md` | Fault-injection and load-test evidence | Phases 3–4 |
 
+## Proposals (not accepted)
+
+- [Fusion model](proposals/fusion-model.md) — draft, pending owner review
+- [Jev comparison experiment](proposals/jev-experiment.md) — draft, pending owner review
+
 ## Decision records
 
 - [ADR-001](decisions/ADR-001-new-repository.md) — Start a new repository instead of converting `aml-streaming-lab`
@@ -30,3 +35,5 @@ English documents are authoritative. zh-TW reading versions sit beside their sou
 
 - [README.zh-TW.md](../README.zh-TW.md)
 - [product/scope.zh-TW.md](product/scope.zh-TW.md)
+- [proposals/fusion-model.zh-TW.md](proposals/fusion-model.zh-TW.md)
+- [proposals/jev-experiment.zh-TW.md](proposals/jev-experiment.zh-TW.md)
