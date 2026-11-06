@@ -40,7 +40,7 @@ As described on the competition data page (summary reviewed during planning; rec
 ## How this project uses it
 
 - **Labeled data only.** The competition test set has no public labels, so evaluation uses a held-out, later time range of the labeled training data.
-- **Time-based split.** Train, validation, and test are consecutive `TransactionDT` ranges; boundaries are recorded with the split code.
+- **Time-based split.** Train, validation, and test are consecutive `TransactionDT` ranges; cuts fall on timestamp changes, and boundaries are recorded in the prepare stage's `manifest.json` (fractions in `ml/params.yaml`).
 - **Replay as traffic.** Rows are replayed in `TransactionDT` order as simulated requests; replay speed is a parameter.
 
 ## Leakage rules

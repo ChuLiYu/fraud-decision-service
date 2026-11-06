@@ -1,0 +1,19 @@
+# Tunable parameters for the pipeline. This file is the single source of truth
+# for values; docs/ml/tuning-guide.md explains what each one does.
+# Changing any value changes the params hash recorded in the manifest, so
+# training will refuse artifacts produced with different settings.
+
+data:
+  raw_dir: ../data/raw              # where fetch puts the Kaggle CSVs
+  processed_dir: ../data/processed  # where prepare writes its artifacts
+
+split:
+  # Consecutive TransactionDT ranges. Fractions are of rows, but each cut is
+  # moved to a TransactionDT boundary so no timestamp spans two splits.
+  train_fraction: 0.70
+  valid_fraction: 0.15              # test gets the remainder
+
+preprocess:
+  # A category value seen fewer times than this in the training range is
+  # treated as unknown (code -1), so rare values cannot be memorized.
+  min_category_count: 10

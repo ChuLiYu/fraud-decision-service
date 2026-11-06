@@ -7,6 +7,7 @@ Pick the document for your task; do not load everything.
 | What the project does and does not do; priorities; phase milestones and acceptance | [product/scope.md](product/scope.md) |
 | Why a decision was made | [decisions/](decisions/) (ADRs) |
 | Dataset terms, time semantics, splits, leakage rules | [data/dataset-card.md](data/dataset-card.md) |
+| What each pipeline parameter does and how to tune it | [ml/tuning-guide.md](ml/tuning-guide.md) |
 
 ## Planned documents (not yet written)
 
@@ -38,3 +39,4 @@ English documents are authoritative. zh-TW reading versions sit beside their sou
 - [product/scope.zh-TW.md](product/scope.zh-TW.md)
 - [proposals/fusion-model.zh-TW.md](proposals/fusion-model.zh-TW.md)
 - [proposals/jev-experiment.zh-TW.md](proposals/jev-experiment.zh-TW.md)
+- [ml/tuning-guide.zh-TW.md](ml/tuning-guide.zh-TW.md)
