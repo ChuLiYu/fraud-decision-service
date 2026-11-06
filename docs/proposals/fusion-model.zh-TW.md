@@ -2,10 +2,10 @@
 
 英文權威來源：[fusion-model.md](fusion-model.md)
 類型：完整翻譯
-來源版本：未提交，docs/proposals/fusion-model.md
+來源版本：與英文狀態行修訂同一次提交（aef96c6 之後），docs/proposals/fusion-model.md
 同步狀態：已核對
 
-狀態：**草稿，待擁有者審查**。尚未接受，不在 [scope](../product/scope.zh-TW.md) 內；接受須更新 scope 或寫 ADR。
+狀態：**部分接受。** 離線 fusion ablation 已列入 [scope](../product/scope.zh-TW.md) 的 S-18（[ADR-004](../decisions/ADR-004-course-first-priority.md)）。在服務路徑中使用 fusion 仍是待擁有者審查的草稿，須另寫 ADR。
 
 ## 想法
 

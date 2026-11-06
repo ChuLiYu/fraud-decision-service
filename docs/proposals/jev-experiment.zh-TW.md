@@ -2,7 +2,7 @@
 
 英文權威來源：[jev-experiment.md](jev-experiment.md)
 類型：完整翻譯
-來源版本：未提交，docs/proposals/jev-experiment.md
+來源版本：aef96c6，docs/proposals/jev-experiment.md
 同步狀態：已核對
 
 狀態：**草稿，待擁有者審查**。尚未接受，不在 [scope](../product/scope.zh-TW.md) 內；接受須更新 scope 或寫 ADR。

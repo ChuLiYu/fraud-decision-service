@@ -1,6 +1,6 @@
 # Proposal: fusion model (second model combined with LightGBM)
 
-Status: **draft, pending owner review**. Not accepted; not in [scope](../product/scope.md). Acceptance requires a scope update or an ADR.
+Status: **partly accepted.** The offline fusion ablation is in [scope](../product/scope.md) as S-18 ([ADR-004](../decisions/ADR-004-course-first-priority.md)). Fusion in the serving path remains a draft pending owner review and needs its own ADR.
 
 Reading version (zh-TW): [fusion-model.zh-TW.md](fusion-model.zh-TW.md)
 

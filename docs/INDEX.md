@@ -4,7 +4,7 @@ Pick the document for your task; do not load everything.
 
 | Task | Authoritative document |
 |---|---|
-| What the project does and does not do; phase acceptance | [product/scope.md](product/scope.md) |
+| What the project does and does not do; priorities; phase milestones and acceptance | [product/scope.md](product/scope.md) |
 | Why a decision was made | [decisions/](decisions/) (ADRs) |
 | Dataset terms, time semantics, splits, leakage rules | [data/dataset-card.md](data/dataset-card.md) |
 
@@ -15,12 +15,12 @@ Pick the document for your task; do not load everything.
 | `contracts/` (OpenAPI, event schemas) | Scoring/decision APIs, decision record and event formats | Before phase 2 code |
 | `docs/domain/decision-policy.md` | Thresholds, review budget, idempotency rules | Phase 2 |
 | `docs/operations/model-rollout.md` | Model versions, shadow, canary, rollback rules | Before phase 4 code |
-| `docs/ml/model-card.md` + evaluation report | Metrics, calibration, slices, limits | End of phase 1 |
+| `docs/ml/model-card.md` + evaluation report | Metrics, calibration, slices, limits | Phase 1, M2–M4 |
 | `docs/operations/reliability-report.md` | Fault-injection and load-test evidence | Phases 3–4 |
 
 ## Proposals (not accepted)
 
-- [Fusion model](proposals/fusion-model.md) — draft, pending owner review
+- [Fusion model](proposals/fusion-model.md) — offline ablation accepted (S-18); serving use pending review
 - [Jev comparison experiment](proposals/jev-experiment.md) — draft, pending owner review
 
 ## Decision records
@@ -28,6 +28,7 @@ Pick the document for your task; do not load everything.
 - [ADR-001](decisions/ADR-001-new-repository.md) — Start a new repository instead of converting `aml-streaming-lab`
 - [ADR-002](decisions/ADR-002-java-decision-python-inference.md) — Java decision service, Python inference service
 - [ADR-003](decisions/ADR-003-failure-routes-to-review.md) — Model failure routes to review, never approval
+- [ADR-004](decisions/ADR-004-course-first-priority.md) — Course project first, job portfolio second
 
 ## Language
 
