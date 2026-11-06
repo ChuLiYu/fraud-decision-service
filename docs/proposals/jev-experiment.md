@@ -1,6 +1,6 @@
 # Proposal: Jev (TypeSafe AI) as a comparison experiment
 
-Status: **draft, pending owner review**. Not accepted; not in [scope](../product/scope.md). Acceptance requires a scope update or an ADR.
+Status: **blocked on real data.** Competition rules section 7B prohibit transmitting the data to parties who have not accepted the rules ([dataset card](../data/dataset-card.md)). Kept for owner review; only possible on data that is not Competition Data.
 
 Reading version (zh-TW): [jev-experiment.zh-TW.md](jev-experiment.zh-TW.md)
 
@@ -34,11 +34,10 @@ Not suitable as the active model or as part of the serving path.
 
 An offline comparison only, outside the serving path:
 
-1. Preconditions: Kaggle terms permit sending rows to a third party; scope or ADR updated.
+1. Preconditions: input data is not Competition Data (rules 7B); scope or ADR updated.
 2. Sample from the time-based test range; send raw fields only, no engineered features from future data.
 3. Compare with LightGBM on PR-AUC, precision/recall at fixed review rates, calibration, cost per decision, and measured latency, with hardware and settings recorded.
 
 ## Open questions for the owner
 
-- Whether the Kaggle terms allow sending data to an external model API.
 - Whether the course values a comparison with a hosted foundation model.

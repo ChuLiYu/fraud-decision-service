@@ -2,10 +2,10 @@
 
 英文權威來源：[jev-experiment.md](jev-experiment.md)
 類型：完整翻譯
-來源版本：aef96c6，docs/proposals/jev-experiment.md
+來源版本：與英文修訂同一次提交（bfb5446 之後），docs/proposals/jev-experiment.md
 同步狀態：已核對
 
-狀態：**草稿，待擁有者審查**。尚未接受，不在 [scope](../product/scope.zh-TW.md) 內；接受須更新 scope 或寫 ADR。
+狀態：**以真實資料而言受阻。** 競賽規則 7B 禁止把資料傳給未接受規則的對象（[dataset card](../data/dataset-card.md)）。保留供擁有者審查；只能用非競賽資料進行。
 
 ## Jev 是什麼（截至 2026-11-05）
 
@@ -37,11 +37,10 @@ TypeSafe AI 的「System One」模型，2026 年 9 月以 early access 推出。
 
 僅限離線比較，不進服務路徑：
 
-1. 前提：Kaggle 條款允許把資料列送給第三方；scope 或 ADR 已更新。
+1. 前提：輸入資料不是競賽資料（規則 7B）；scope 或 ADR 已更新。
 2. 從時間切分的 test 段抽樣；只送原始欄位，不送用到未來資料的工程特徵。
 3. 與 LightGBM 比較 PR-AUC、固定 review 比例下的 precision/recall、校準、每筆決策成本與實測延遲，並記錄硬體與設定。
 
 ## 待擁有者回答
 
-- Kaggle 條款是否允許把資料送到外部模型 API。
 - 課程是否重視與託管基礎模型的比較。

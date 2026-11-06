@@ -36,3 +36,7 @@ Against this rubric, the earlier plan lacked feature engineering, tuning, presen
 - The Java decision service and later phases are delayed; the portfolio is complete later.
 - Phase 1 carries more ML work and more leakage risk (feature engineering, stacking), so the leakage rules in the [dataset card](../data/dataset-card.md) need tests.
 - If the course deadline is short, the cut order in the scope applies: drop the Jev experiment and fusion first.
+
+## Update 2026-11-05
+
+The dataset terms were verified: rules section 7B prohibit transmitting the data to third parties, so the Jev comparison cannot use the competition data and is no longer part of the cut order ([dataset card](../data/dataset-card.md)).

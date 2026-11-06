@@ -70,7 +70,7 @@ Milestones, in order; dates are set once the course deadline is known.
 
 | Milestone | Content | Done when |
 |---|---|---|
-| M0 Setup | Confirm deadline and presentation format; check dataset terms; scaffold the Python project with pinned versions | Open questions below that block phase 1 are answered |
+| M0 Setup | Confirm deadline and presentation format; check dataset terms (done: [dataset card](../data/dataset-card.md)); scaffold the Python project with pinned versions | Open questions below that block phase 1 are answered |
 | M1 Data pipeline | Fetch, validate, time split, preprocessing fitted on train only | One command writes the processed dataset, the fitted preprocessing pipeline, and a manifest; training refuses a mismatched manifest; leakage rules are tested |
 | M2 First model | Baseline and LightGBM; first evaluation report; `params.yaml` with a tunable-parameters guide | Report compares with the baseline |
 | M3 Depth | Time-safe feature engineering; tuning on validation; comparison model and fusion ablation | Each step's effect is reported against M2 |
@@ -83,7 +83,7 @@ Acceptance for the phase:
 - Report includes ROC-AUC, PR-AUC, precision/recall at fixed review rates, a calibration check, results by time slice, and error analysis, compared with a baseline.
 - Dataset limitations documented in the [dataset card](../data/dataset-card.md).
 
-Cut order if time is short: Jev experiment and fusion first; keep feature engineering, tuning, and decision-level evaluation.
+Cut order if time is short: fusion first; keep feature engineering, tuning, and decision-level evaluation.
 
 ### Phase 2 — Synchronous decision service (S-2 to S-5, S-10)
 
@@ -125,7 +125,5 @@ Starts after the course submission. Within the phase, S-5 may be deferred if tim
 
 | Question | Blocks |
 |---|---|
-| Kaggle competition terms for data use and publishing derived artifacts (not yet verified) | Publishing models, sample data, or demos |
 | AI course rules on publishing the project and individual vs team contribution | Making the repository public; resume wording |
 | Course deadline, presentation format and length, and whether a written report or code submission is required | Phase 1 dates and M4 format |
-| Whether the Jev comparison may send dataset rows to an external API ([proposal](../proposals/jev-experiment.md)) | Optional Jev experiment |

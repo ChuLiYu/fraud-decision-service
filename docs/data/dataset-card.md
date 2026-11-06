@@ -1,21 +1,31 @@
 # Dataset card: IEEE-CIS Fraud Detection
 
-Status: draft. Items marked **unverified** must be checked against the Kaggle competition pages before phase 1 code or any publication.
+Status: draft. Terms of use verified on 2026-11-05; structure figures are rechecked when the data is downloaded.
 
 ## Source
 
 - Kaggle competition "IEEE-CIS Fraud Detection": https://www.kaggle.com/c/ieee-fraud-detection
 - Access requires a Kaggle account that has accepted the competition rules. Data is downloaded by script into an ignored `data/` directory and never committed.
 
-## Terms of use (unverified)
+## Terms of use (verified 2026-11-05)
 
-The competition rules page could not be read automatically on 2026-11-05 (the page requires a browser session). Before relying on the data, the owner records here:
+Source: competition rules, section 7 "Competition Data", read at https://www.kaggle.com/competitions/ieee-fraud-detection/rules on 2026-11-05. Paraphrased; the rules page is authoritative.
 
-- Permitted uses after the competition (education, research, non-commercial).
-- Whether derived artifacts may be published: trained models, aggregated metrics, sample rows, screenshots, demos.
-- Attribution requirements.
+- **Permitted use (7A):** non-commercial only, explicitly including academic research and education. The course project qualifies.
+- **No redistribution (7B):** the data may not be transmitted, published, redistributed, or otherwise made available to anyone who has not accepted the competition rules, and reasonable measures must keep it from such people.
+- **Derived artifacts:** the rules do not address trained models, aggregate metrics, or figures explicitly. The winners' open-source license applies only to prize winners.
 
-Until then: publish code and aggregate metrics only; no raw or sample rows, no trained model files.
+Project rules that follow (interpretation, not legal advice):
+
+| Artifact | Allowed | Reason |
+|---|---|---|
+| Code, aggregate metrics, plots of aggregates | Yes | Contain no rows of Competition Data |
+| Raw or sample rows (repo, slides, screenshots, demos) | No | Redistribution under 7B; course audiences have not accepted the rules |
+| Sending rows to third-party APIs or hosted models | No | Transmission under 7B; blocks the [Jev proposal](../proposals/jev-experiment.md) on real data |
+| Trained model files | Not published | Not addressed by the rules; models can memorize rows, so kept local |
+| Training on hosted compute (for example, notebooks in the cloud) | Avoid; train locally | Copies data to a third party's infrastructure; not addressed explicitly |
+
+Downloading requires a Kaggle account that has accepted the rules and an API token configured by the owner; the token is never committed.
 
 ## Structure
 
@@ -55,3 +65,4 @@ Replaying a full historical row shows that the serving path works; it does not p
 ## Change log
 
 - 2026-11-05: Initial draft; terms of use unverified.
+- 2026-11-05: Terms of use verified from competition rules section 7; artifact rules added.

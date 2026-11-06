@@ -21,7 +21,7 @@ Pick the document for your task; do not load everything.
 ## Proposals (not accepted)
 
 - [Fusion model](proposals/fusion-model.md) — offline ablation accepted (S-18); serving use pending review
-- [Jev comparison experiment](proposals/jev-experiment.md) — draft, pending owner review
+- [Jev comparison experiment](proposals/jev-experiment.md) — blocked on real data by dataset terms
 
 ## Decision records
 
