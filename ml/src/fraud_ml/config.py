@@ -21,6 +21,8 @@ class DataParams:
 
     raw_dir: Path
     processed_dir: Path
+    models_dir: Path
+    reports_dir: Path
 
 
 @dataclass(frozen=True)
@@ -51,12 +53,55 @@ class PreprocessParams:
 
 
 @dataclass(frozen=True)
+class BaselineParams:
+    """Logistic regression settings."""
+
+    C: float
+    max_iter: int
+
+
+@dataclass(frozen=True)
+class LightGBMParams:
+    """LightGBM settings; see docs/ml/tuning-guide.md for each one."""
+
+    learning_rate: float
+    num_leaves: int
+    min_child_samples: int
+    feature_fraction: float
+    bagging_fraction: float
+    bagging_freq: int
+    lambda_l2: float
+    max_rounds: int
+    early_stopping_rounds: int
+
+
+@dataclass(frozen=True)
+class EvaluationParams:
+    """How results are summarized."""
+
+    review_rates: list[float]
+    calibration_bins: int
+    time_slices: int
+
+    def __post_init__(self) -> None:
+        """Reject review rates outside (0, 1) and non-positive counts."""
+        if not all(0 < rate < 1 for rate in self.review_rates):
+            raise ValueError("review_rates must be between 0 and 1")
+        if self.calibration_bins < 2 or self.time_slices < 1:
+            raise ValueError("calibration_bins must be >= 2 and time_slices >= 1")
+
+
+@dataclass(frozen=True)
 class Params:
     """All pipeline parameters."""
 
     data: DataParams
     split: SplitParams
     preprocess: PreprocessParams
+    seed: int
+    baseline: BaselineParams
+    lightgbm: LightGBMParams
+    evaluation: EvaluationParams
 
     def stage_hash(self, *sections: str) -> str:
         """Return a stable SHA-256 of the named sections.
@@ -64,7 +109,10 @@ class Params:
         Paths are excluded on purpose: moving the data directory must not
         invalidate artifacts, but changing a split fraction must.
         """
-        payload = {name: asdict(getattr(self, name)) for name in sections}
+        payload = {}
+        for name in sections:
+            value = getattr(self, name)
+            payload[name] = asdict(value) if hasattr(value, "__dataclass_fields__") else value
         text = json.dumps(payload, sort_keys=True, default=str)
         return hashlib.sha256(text.encode()).hexdigest()
 
@@ -85,10 +133,11 @@ def load_params(path: Path) -> Params:
     raw = yaml.safe_load(path.read_text())
     base = path.resolve().parent
     return Params(
-        data=DataParams(
-            raw_dir=(base / raw["data"]["raw_dir"]).resolve(),
-            processed_dir=(base / raw["data"]["processed_dir"]).resolve(),
-        ),
+        data=DataParams(**{key: (base / value).resolve() for key, value in raw["data"].items()}),
         split=SplitParams(**raw["split"]),
         preprocess=PreprocessParams(**raw["preprocess"]),
+        seed=int(raw["seed"]),
+        baseline=BaselineParams(**raw["baseline"]),
+        lightgbm=LightGBMParams(**raw["lightgbm"]),
+        evaluation=EvaluationParams(**raw["evaluation"]),
     )

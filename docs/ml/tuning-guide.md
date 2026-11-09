@@ -21,6 +21,44 @@ Cuts move to the next timestamp change so no `TransactionDT` value spans two ran
 |---|---|---|---|---|
 | `min_category_count` | Category values rarer than this in training become unknown (`-1`) | Fewer, more reliable categories; less memorization of rare values | More categories, including rare ones the model may overfit | Number of categories per column in `preprocessor.json`; gap between validation and test results |
 
+## seed
+
+Fixes randomness in LightGBM (row and feature sampling) and the baseline. Changing it and seeing a large metric change means a result is within noise.
+
+## baseline (logistic regression)
+
+Numeric features are mapped to normal quantiles learned on the training range, so values beyond that range cannot push the model to extreme scores.
+
+| Parameter | Effect | Raising it | Lowering it | Watch |
+|---|---|---|---|---|
+| `C` | Inverse regularization strength | Weaker regularization; fits training data more closely | Stronger regularization; smaller weights, simpler model | Validation PR-AUC versus training |
+| `max_iter` | Solver iteration limit | Lets the solver converge; slower | Faster; may stop before converging | `baseline.iterations` in the models manifest: equal to `max_iter` means it did not converge |
+
+## lightgbm
+
+| Parameter | Effect | Raising it | Lowering it | Watch |
+|---|---|---|---|---|
+| `learning_rate` | How much each tree corrects the previous ones | Fewer rounds needed; risk of overshooting | More rounds and time; often slightly better | `best_iteration` in the report |
+| `num_leaves` | Maximum leaves per tree (complexity) | Captures more interactions; overfits more easily | Simpler trees; may underfit | Gap between validation and test |
+| `min_child_samples` | Minimum rows per leaf | Smoother, more general rules | Rules from fewer rows; can memorize rare cases | Same as above; fraud is rare, so very low values overfit |
+| `feature_fraction` | Share of features sampled per tree | Each tree sees more features | More randomness; less reliance on a few strong features | Stability of results across seeds |
+| `bagging_fraction`, `bagging_freq` | Row sampling per iteration (`freq` 0 disables) | Less randomness | More randomness and speed | As above |
+| `lambda_l2` | L2 penalty on leaf values | Smaller, more conservative leaf scores | Leaves fit training data more closely | Calibration (ECE) and validation PR-AUC |
+| `max_rounds` | Upper bound on trees | Allows more rounds if early stopping has not triggered | Caps training time | If `best_iteration` equals `max_rounds`, raise it |
+| `early_stopping_rounds` | Rounds without validation PR-AUC improvement before stopping | Tolerates plateaus; slower | Stops sooner; may stop too early | `best_iteration` |
+
+Tune these against the **validation** range only. The test range is for one final result per configuration.
+
+## evaluation
+
+These change how results are summarized, not the models.
+
+| Parameter | Effect |
+|---|---|
+| `review_rates` | Shares of transactions sent to review at which precision and recall are reported. Review capacity is a scenario parameter (dataset card), so several rates are shown |
+| `calibration_bins` | Number of equal-count bins in the reliability table. More bins show more detail but each is noisier |
+| `time_slices` | Number of equal-row slices of each range in time order. More slices reveal drift in more detail, with fewer frauds per slice |
+
 ## Planned
 
-Model hyperparameters (M2), feature engineering windows (M3), and decision thresholds and review rates (M4) are added here when those stages exist.
+Feature engineering windows (M3) and decision thresholds and costs (M4) are added here when those stages exist.

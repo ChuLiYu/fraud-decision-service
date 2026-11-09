@@ -12,16 +12,19 @@ import pytest
 import yaml
 
 
-def make_transactions(n: int = 200, seed: int = 0) -> pd.DataFrame:
+def make_transactions(n: int = 600, seed: int = 0) -> pd.DataFrame:
     rng = np.random.default_rng(seed)
     times = np.sort(rng.integers(86_400, 86_400 * 30, size=n))
     times[10:13] = times[10]  # a run of tied timestamps
+    amount = rng.gamma(2.0, 50.0, size=n).round(2)
+    # Large amounts are riskier, so models have a signal to learn.
+    fraud = rng.random(n) < np.where(amount > 150, 0.3, 0.05)
     return pd.DataFrame(
         {
             "TransactionID": np.arange(3_000_000, 3_000_000 + n),
             "TransactionDT": times,
-            "isFraud": (rng.random(n) < 0.1).astype(int),
-            "TransactionAmt": rng.gamma(2.0, 50.0, size=n).round(2),
+            "isFraud": fraud.astype(int),
+            "TransactionAmt": amount,
             "ProductCD": rng.choice(["W", "C", "R"], size=n),
             "card4": rng.choice(["visa", "mastercard", None], size=n),
         }
@@ -51,9 +54,28 @@ def workspace(tmp_path: Path, raw_tables) -> Path:
     transactions.to_csv(raw / "train_transaction.csv", index=False)
     identity.to_csv(raw / "train_identity.csv", index=False)
     params = {
-        "data": {"raw_dir": "data/raw", "processed_dir": "data/processed"},
+        "data": {
+            "raw_dir": "data/raw",
+            "processed_dir": "data/processed",
+            "models_dir": "data/models",
+            "reports_dir": "reports",
+        },
         "split": {"train_fraction": 0.7, "valid_fraction": 0.15},
         "preprocess": {"min_category_count": 2},
+        "seed": 0,
+        "baseline": {"C": 1.0, "max_iter": 200},
+        "lightgbm": {
+            "learning_rate": 0.1,
+            "num_leaves": 7,
+            "min_child_samples": 5,
+            "feature_fraction": 1.0,
+            "bagging_fraction": 1.0,
+            "bagging_freq": 0,
+            "lambda_l2": 0.0,
+            "max_rounds": 30,
+            "early_stopping_rounds": 10,
+        },
+        "evaluation": {"review_rates": [0.05, 0.1], "calibration_bins": 5, "time_slices": 2},
     }
     (tmp_path / "params.yaml").write_text(yaml.safe_dump(params))
     return tmp_path
