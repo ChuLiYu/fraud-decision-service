@@ -1,6 +1,6 @@
 # Dataset card: IEEE-CIS Fraud Detection
 
-Status: draft. Terms of use verified on 2026-11-05; structure figures are rechecked when the data is downloaded.
+Status: draft. Terms of use verified on 2026-11-05; structure figures measured on 2026-11-08.
 
 ## Source
 
@@ -35,7 +35,25 @@ As described on the competition data page (summary reviewed during planning; rec
 - Label: `isFraud` in the training transaction table.
 - `TransactionDT` is a time delta from an undisclosed reference datetime, not a real timestamp.
 - Many columns are anonymized or masked; their business meaning is not published.
-- Row counts and file sizes: record from the downloaded files (not stated here to avoid unverified figures).
+- Measured from the downloaded files on 2026-11-08 (files dated 2019-12-11):
+
+| Item | Value |
+|---|---|
+| `train_transaction.csv` | 590,540 rows; 683,351,067 bytes |
+| `train_identity.csv` | 144,233 rows; 26,529,680 bytes (24% of transactions have identity) |
+| Fraud rate | 3.50% |
+| `TransactionDT` span | 86,400 to 15,811,131 seconds (about 182 days, if the unit is seconds) |
+| Features after prepare | 400 numeric, 31 text columns encoded as categories |
+
+- Split with `ml/params.yaml` (0.70 / 0.15 / 0.15), from the prepare manifest:
+
+| Range | Rows | Fraud rate | Starts at `TransactionDT` |
+|---|---|---|---|
+| Train | 413,378 | 3.52% | 86,400 |
+| Validation | 88,581 | 3.43% | 10,438,003 |
+| Test | 88,581 | 3.48% | 13,151,880 |
+
+- Some numeric columns (for example `card1`, `addr1`) are codes rather than quantities; they pass through as numbers for now, and their treatment is a feature engineering decision (M3).
 
 ## How this project uses it
 
@@ -66,3 +84,4 @@ Replaying a full historical row shows that the serving path works; it does not p
 
 - 2026-11-05: Initial draft; terms of use unverified.
 - 2026-11-05: Terms of use verified from competition rules section 7; artifact rules added.
+- 2026-11-08: Row counts, file sizes, and split figures recorded from the first prepare run.
