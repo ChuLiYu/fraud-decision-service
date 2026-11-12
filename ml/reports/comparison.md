@@ -7,3 +7,5 @@ validation columns; test columns report the final result of each run.
 |---|---|---|---|---|---|---|---|---|
 | m2 | baseline | 0.4343 | 0.8557 | 0.232 | 0.4006 | 0.8570 | 0.217 | `ac09341` |
 | m2 | lightgbm | 0.6223 | 0.9273 | 0.274 | 0.5483 | 0.9032 | 0.255 | `ac09341` |
+| m3a-features | baseline | 0.4292 | 0.8573 | 0.230 | 0.3870 | 0.8572 | 0.208 | `1a4f9be` |
+| m3a-features | lightgbm | 0.6410 | 0.9279 | 0.274 | 0.5571 | 0.9047 | 0.256 | `1a4f9be` |
