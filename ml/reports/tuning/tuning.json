@@ -1,0 +1,106 @@
+{
+  "code": {
+    "commit": "1070d1a8a83ac823a4a43288aa6ed3a6d8175aed",
+    "dirty": false
+  },
+  "lightgbm_base": {
+    "learning_rate": 0.05,
+    "num_leaves": 63,
+    "min_child_samples": 100,
+    "feature_fraction": 0.5,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "max_rounds": 10000,
+    "early_stopping_rounds": 100
+  },
+  "grid": [
+    {
+      "setting": {
+        "num_leaves": 31,
+        "min_child_samples": 50
+      },
+      "valid_pr_auc": 0.6233320484282935,
+      "best_iteration": 2362,
+      "seconds": 155.4
+    },
+    {
+      "setting": {
+        "num_leaves": 31,
+        "min_child_samples": 200
+      },
+      "valid_pr_auc": 0.6221792298020121,
+      "best_iteration": 2344,
+      "seconds": 183.0
+    },
+    {
+      "setting": {
+        "num_leaves": 63,
+        "min_child_samples": 50
+      },
+      "valid_pr_auc": 0.6417683918752153,
+      "best_iteration": 2378,
+      "seconds": 244.0
+    },
+    {
+      "setting": {
+        "num_leaves": 63,
+        "min_child_samples": 200
+      },
+      "valid_pr_auc": 0.6232435777193722,
+      "best_iteration": 1128,
+      "seconds": 146.1
+    },
+    {
+      "setting": {
+        "num_leaves": 127,
+        "min_child_samples": 50
+      },
+      "valid_pr_auc": 0.6556406599352418,
+      "best_iteration": 2775,
+      "seconds": 540.7
+    },
+    {
+      "setting": {
+        "num_leaves": 127,
+        "min_child_samples": 200
+      },
+      "valid_pr_auc": 0.6518229973599272,
+      "best_iteration": 3377,
+      "seconds": 685.5
+    }
+  ],
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "seed_study": {
+    "current": {
+      "setting": {
+        "num_leaves": 63,
+        "min_child_samples": 100
+      },
+      "scores": [
+        0.6272905581306644,
+        0.6483414477835429,
+        0.6189656087906034
+      ],
+      "mean": 0.6315325382349369,
+      "stdev": 0.015140369068769722
+    },
+    "best_grid": {
+      "setting": {
+        "num_leaves": 127,
+        "min_child_samples": 50
+      },
+      "scores": [
+        0.6507845343788168,
+        0.6527820888578368,
+        0.6562826836227533
+      ],
+      "mean": 0.653283102286469,
+      "stdev": 0.0027831047624734327
+    }
+  }
+}
