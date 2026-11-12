@@ -45,10 +45,17 @@ lightgbm:
   bagging_fraction: 0.8             # share of rows sampled per iteration
   bagging_freq: 1
   lambda_l2: 1.0
-  max_rounds: 3000                  # upper bound; early stopping picks the count
+  max_rounds: 10000                 # upper bound; early stopping picks the count
   early_stopping_rounds: 100        # stop when validation PR-AUC stops improving
 
 evaluation:
   review_rates: [0.005, 0.01, 0.02, 0.05]  # share of transactions sent to review
   calibration_bins: 10
   time_slices: 4                    # equal-row slices of the evaluated range, in time order
+
+tuning:
+  # make tune: validation range only; never reads the test range.
+  grid:                             # every combination is trained once
+    num_leaves: [31, 63, 127]
+    min_child_samples: [50, 200]
+  seeds: [1, 2, 3]                  # repeated for current and best settings

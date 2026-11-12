@@ -77,6 +77,7 @@ def workspace(tmp_path: Path, raw_tables) -> Path:
             "early_stopping_rounds": 10,
         },
         "evaluation": {"review_rates": [0.05, 0.1], "calibration_bins": 5, "time_slices": 2},
+        "tuning": {"grid": {"num_leaves": [3, 7]}, "seeds": [1, 2]},
     }
     (tmp_path / "params.yaml").write_text(yaml.safe_dump(params))
     return tmp_path

@@ -100,6 +100,22 @@ class EvaluationParams:
 
 
 @dataclass(frozen=True)
+class TuningParams:
+    """Validation-only tuning: a LightGBM grid and seeds for noise estimates."""
+
+    grid: dict[str, list]
+    seeds: list[int]
+
+    def __post_init__(self) -> None:
+        """Reject unknown LightGBM settings and empty lists early."""
+        unknown = set(self.grid) - set(LightGBMParams.__dataclass_fields__)
+        if unknown:
+            raise ValueError(f"unknown lightgbm settings in tuning.grid: {sorted(unknown)}")
+        if not self.seeds or not all(self.grid.values()):
+            raise ValueError("tuning.grid values and tuning.seeds must be non-empty")
+
+
+@dataclass(frozen=True)
 class Params:
     """All pipeline parameters."""
 
@@ -111,6 +127,7 @@ class Params:
     baseline: BaselineParams
     lightgbm: LightGBMParams
     evaluation: EvaluationParams
+    tuning: TuningParams
 
     def stage_hash(self, *sections: str) -> str:
         """Return a stable SHA-256 of the named sections.
@@ -150,4 +167,5 @@ def load_params(path: Path) -> Params:
         baseline=BaselineParams(**raw["baseline"]),
         lightgbm=LightGBMParams(**raw["lightgbm"]),
         evaluation=EvaluationParams(**raw["evaluation"]),
+        tuning=TuningParams(**raw["tuning"]),
     )
