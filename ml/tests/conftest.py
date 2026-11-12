@@ -62,6 +62,7 @@ def workspace(tmp_path: Path, raw_tables) -> Path:
         },
         "split": {"train_fraction": 0.7, "valid_fraction": 0.15},
         "preprocess": {"min_category_count": 2},
+        "features": {"enabled": True, "group_keys": [["card4"], ["card4", "ProductCD"]]},
         "seed": 0,
         "baseline": {"C": 1.0, "max_iter": 200},
         "lightgbm": {

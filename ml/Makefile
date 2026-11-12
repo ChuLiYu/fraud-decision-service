@@ -1,5 +1,5 @@
 # Entry points for the ml/ component. Run from this directory.
-.PHONY: setup lint test check fetch prepare data train evaluate all
+.PHONY: setup lint test check fetch prepare data train evaluate compare all
 
 setup:  ## Create the virtual environment from uv.lock
 	uv sync --locked
@@ -25,7 +25,11 @@ data: fetch prepare  ## Raw download through processed artifacts
 train:  ## Train baseline and LightGBM from prepared artifacts (verifies the manifest first)
 	uv run python -m fraud_ml.train
 
-evaluate:  ## Score validation and test ranges; write reports/metrics.json and evaluation.md
-	uv run python -m fraud_ml.evaluate
+RUN ?= latest
+evaluate:  ## Score validation and test ranges into reports/runs/$(RUN); e.g. make evaluate RUN=m3-features
+	uv run python -m fraud_ml.evaluate --run $(RUN)
 
-all: data train evaluate  ## Reproduce everything from download to report
+compare:  ## Tabulate all runs into reports/comparison.md
+	uv run python -m fraud_ml.compare
+
+all: data train evaluate compare  ## Reproduce everything from download to report

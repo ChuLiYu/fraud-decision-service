@@ -4,6 +4,7 @@ import pandas as pd
 import pytest
 
 from fraud_ml import manifest
+from fraud_ml.compare import compare
 from fraud_ml.config import load_params
 from fraud_ml.evaluate import evaluate
 from fraud_ml.manifest import ManifestMismatchError
@@ -22,13 +23,14 @@ def trained(workspace):
 
 def test_evaluate_writes_report_for_both_models(trained):
     _, params = trained
-    report = evaluate(params)
-    result = json.loads((params.data.reports_dir / "metrics.json").read_text())
+    report = evaluate(params, "unit")
+    result = json.loads((params.data.reports_dir / "runs" / "unit" / "metrics.json").read_text())
     assert set(result["ranges"]) == {"valid", "test"}
     for data in result["ranges"].values():
         assert set(data["models"]) == {"baseline", "lightgbm"}
         assert len(data["models"]["lightgbm"]["at_review_rate"]) == 2
     assert "| lightgbm |" in report.read_text()
+    assert "| unit | lightgbm |" in compare(params.data.reports_dir).read_text()
 
 
 def test_train_refuses_changed_prepared_data(workspace):
@@ -47,7 +49,7 @@ def test_evaluate_refuses_models_from_other_params(trained):
     )
     (workspace / "params.yaml").write_text(text)
     with pytest.raises(ManifestMismatchError, match="parameters"):
-        evaluate(load_params(workspace / "params.yaml"))
+        evaluate(load_params(workspace / "params.yaml"), "unit")
 
 
 def test_evaluate_refuses_models_trained_on_older_data(trained):
@@ -61,7 +63,7 @@ def test_evaluate_refuses_models_trained_on_older_data(trained):
     data["outputs"]["train.parquet"] = manifest.sha256_file(path)
     prepare_manifest.write_text(json.dumps(data))
     with pytest.raises(ManifestMismatchError, match="retrain"):
-        evaluate(params)
+        evaluate(params, "unit")
 
 
 def test_baseline_does_not_saturate_on_values_beyond_training_range(workspace):

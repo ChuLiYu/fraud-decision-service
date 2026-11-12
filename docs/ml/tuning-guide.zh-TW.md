@@ -2,7 +2,7 @@
 
 英文權威來源：[tuning-guide.md](tuning-guide.md)
 類型：完整翻譯
-來源版本：與英文同一次提交（M2），docs/ml/tuning-guide.md
+來源版本：與英文同一次提交（M3a），docs/ml/tuning-guide.md
 同步狀態：已核對
 
 說明 [`ml/params.yaml`](../../ml/params.yaml) 每個參數的作用、調整後的變化與要觀察的指標。數值只存在 `params.yaml`；本指南負責解釋，並隨里程碑擴充。
@@ -17,6 +17,17 @@
 | `valid_fraction` | 用於調參與選門檻的比例 | 調參訊號較穩；test 變小 | 調參較雜訊 | test 必須保留足夠詐欺筆數，PR-AUC 才穩定 |
 
 切點會移到下一個時間戳變化處，所以同一個 `TransactionDT` 不會跨兩段。各段不打亂順序，這正是時間切分的目的。
+
+## features
+
+在 `ml/src/fraud_ml/features.py` 中，只用該筆交易本身與更早的交易產生特徵（leakage rule 2）。
+
+| 參數 | 作用 | 改動時 | 觀察 |
+|---|---|---|---|
+| `enabled` | 開關所有工程特徵 | `false` 重現 M2 的特徵集合，用於 ablation | `reports/comparison.md` 的 validation PR-AUC |
+| `group_keys` | 每個清單定義一組「這些欄位值相同」的交易；每組新增 4 個歷史特徵（之前筆數、之前平均金額、金額比、距上一筆秒數） | key 越多或越長：分組越細、特徵越多、每組的歷史筆數越少 | 同上；之後也看 LightGBM 特徵重要度 |
+
+分組只是欄位值相同，不是已驗證的客戶（dataset card）。
 
 ## preprocess
 
@@ -64,4 +75,4 @@
 
 ## 規劃中
 
-特徵工程時間窗（M3）與決策門檻和成本（M4）會在對應階段完成時加入。
+決策門檻與成本（M4）會在該階段完成時加入。

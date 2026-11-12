@@ -59,6 +59,7 @@ As described on the competition data page (summary reviewed during planning; rec
 
 - **Labeled data only.** The competition test set has no public labels, so evaluation uses a held-out, later time range of the labeled training data.
 - **Time-based split.** Train, validation, and test are consecutive `TransactionDT` ranges; cuts fall on timestamp changes, and boundaries are recorded in the prepare stage's `manifest.json` (fractions in `ml/params.yaml`).
+- **Engineered features.** Computed over the full labeled history in time order before the split, using each transaction and earlier ones only (`ml/src/fraud_ml/features.py`); hour and weekday assume `TransactionDT` is in seconds.
 - **Replay as traffic.** Rows are replayed in `TransactionDT` order as simulated requests; replay speed is a parameter.
 
 ## Leakage rules

@@ -15,6 +15,15 @@ split:
   train_fraction: 0.70
   valid_fraction: 0.15              # test gets the remainder
 
+features:
+  # Time-safe features from the transaction and earlier transactions only.
+  # Set enabled: false to reproduce the M2 feature set.
+  enabled: true
+  group_keys:                       # each list defines one group of transactions
+    - [card1]
+    - [card1, addr1]
+    - [card1, addr1, P_emaildomain]
+
 preprocess:
   # A category value seen fewer times than this in the training range is
   # treated as unknown (code -1), so rare values cannot be memorized.

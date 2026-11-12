@@ -15,6 +15,17 @@ Any change alters the manifest's params hash, so rerun `make prepare` before tra
 
 Cuts move to the next timestamp change so no `TransactionDT` value spans two ranges. Ranges are not shuffled: that is the point of a time split.
 
+## features
+
+Engineered in `ml/src/fraud_ml/features.py` from the transaction and earlier transactions only (leakage rule 2).
+
+| Parameter | Effect | Changing it | Watch |
+|---|---|---|---|
+| `enabled` | Turns all engineered features on or off | `false` reproduces the M2 feature set, for ablation | Validation PR-AUC in `reports/comparison.md` |
+| `group_keys` | Each list defines transactions that share those field values; each adds 4 history features (prior count, prior mean amount, amount ratio, seconds since previous) | More or longer keys: finer groups, more features, fewer earlier transactions per group | Same; also LightGBM feature importance once available |
+
+Groups are shared field values, not verified customers (dataset card).
+
 ## preprocess
 
 | Parameter | Effect | Raising it | Lowering it | Watch |
@@ -61,4 +72,4 @@ These change how results are summarized, not the models.
 
 ## Planned
 
-Feature engineering windows (M3) and decision thresholds and costs (M4) are added here when those stages exist.
+Decision thresholds and costs (M4) are added here when that stage exists.

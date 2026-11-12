@@ -53,6 +53,14 @@ class PreprocessParams:
 
 
 @dataclass(frozen=True)
+class FeatureParams:
+    """Time-safe feature engineering settings (see fraud_ml.features)."""
+
+    enabled: bool
+    group_keys: list[list[str]]
+
+
+@dataclass(frozen=True)
 class BaselineParams:
     """Logistic regression settings."""
 
@@ -98,6 +106,7 @@ class Params:
     data: DataParams
     split: SplitParams
     preprocess: PreprocessParams
+    features: FeatureParams
     seed: int
     baseline: BaselineParams
     lightgbm: LightGBMParams
@@ -136,6 +145,7 @@ def load_params(path: Path) -> Params:
         data=DataParams(**{key: (base / value).resolve() for key, value in raw["data"].items()}),
         split=SplitParams(**raw["split"]),
         preprocess=PreprocessParams(**raw["preprocess"]),
+        features=FeatureParams(**raw["features"]),
         seed=int(raw["seed"]),
         baseline=BaselineParams(**raw["baseline"]),
         lightgbm=LightGBMParams(**raw["lightgbm"]),

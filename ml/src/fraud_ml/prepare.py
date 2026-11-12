@@ -1,7 +1,7 @@
 """Stage 2: turn raw tables into the artifacts that training reads.
 
-Steps: load and validate, split by time, fit preprocessing on the training
-range only, transform all three ranges, and write:
+Steps: load and validate, add time-safe features, split by time, fit
+preprocessing on the training range only, transform all three ranges, and write:
 
 * ``train.parquet``, ``valid.parquet``, ``test.parquet``: transformed rows.
 * ``preprocessor.json``: the fitted preprocessing, reused by serving later.
@@ -19,11 +19,12 @@ from pathlib import Path
 from fraud_ml import manifest
 from fraud_ml.config import Params, load_params
 from fraud_ml.data import LABEL, load_raw, validate
+from fraud_ml.features import add_features
 from fraud_ml.fetch import REQUIRED_FILES
 from fraud_ml.preprocess import Preprocessor
 from fraud_ml.split import time_split
 
-PARAM_SECTIONS = ("split", "preprocess")
+PARAM_SECTIONS = ("features", "split", "preprocess")
 
 
 def params_hash(params: Params) -> str:
@@ -43,6 +44,8 @@ def prepare(params: Params) -> Path:
     raw_dir, out_dir = params.data.raw_dir, params.data.processed_dir
     df = load_raw(raw_dir)
     validate(df)
+    # Past-only features are computed before the split; see fraud_ml.features.
+    df = add_features(df, params.features)
     split = time_split(df, params.split)
 
     preprocessor = Preprocessor(params.preprocess.min_category_count).fit(split.train)
