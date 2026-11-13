@@ -32,8 +32,8 @@ preprocess:
 seed: 42                            # fixes randomness in model training
 
 baseline:
-  # Logistic regression on median-imputed, standardized numeric features plus
-  # one-hot categories. A simple reference the main model must beat.
+  # Logistic regression on median-imputed, quantile-normalized numeric features
+  # plus one-hot categories. A simple reference the main model must beat.
   C: 1.0                            # inverse regularization strength
   max_iter: 500
 
@@ -48,6 +48,17 @@ lightgbm:
   max_rounds: 10000                 # upper bound; early stopping picks the count
   early_stopping_rounds: 100        # stop when validation PR-AUC stops improving
 
+mlp:
+  # Comparison model: a neural network on the baseline's inputs. Smooth
+  # functions of normalized features instead of axis-aligned tree splits, so
+  # its errors may differ from LightGBM's (fusion ablation).
+  hidden_layer_sizes: [128, 64]     # neurons per hidden layer
+  alpha: 0.0001                     # L2 penalty on weights
+  learning_rate_init: 0.001         # Adam step size
+  batch_size: 1024                  # rows per gradient step
+  max_epochs: 30                    # upper bound on passes over the training range
+  patience: 3                       # stop after this many epochs without validation PR-AUC gain
+
 evaluation:
   review_rates: [0.005, 0.01, 0.02, 0.05]  # share of transactions sent to review
   calibration_bins: 10
@@ -59,3 +70,9 @@ tuning:
     num_leaves: [31, 63, 127]
     min_child_samples: [50, 200]
   seeds: [1, 2, 3]                  # repeated for current and best settings
+
+fusion:
+  # make fuse: combine model scores, fit on the first half of the validation
+  # range, choose on the second half, report on test. Decided before running:
+  blend_weights: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]  # LightGBM share
+  min_gain: 0.005                   # test PR-AUC gain over LightGBM alone needed to adopt fusion

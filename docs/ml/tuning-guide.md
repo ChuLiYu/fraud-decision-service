@@ -60,6 +60,18 @@ Numeric features are mapped to normal quantiles learned on the training range, s
 
 Tune these against the **validation** range only. The test range is for one final result per configuration.
 
+## mlp
+
+The comparison model: a feed-forward neural network on the baseline's inputs (quantile-normalized numeric features plus one-hot categories). Each epoch is one pass over the training range; training stops when validation PR-AUC has not improved for `patience` epochs, and the best epoch's weights are kept.
+
+| Parameter | Effect | Raising it | Lowering it | Watch |
+|---|---|---|---|---|
+| `hidden_layer_sizes` | Neurons per hidden layer | More capacity; slower; overfits more easily | Closer to a linear model | Gap to the baseline; best epoch |
+| `alpha` | L2 penalty on weights | Smoother, more conservative functions | Fits training data more closely | Validation PR-AUC |
+| `learning_rate_init` | Adam step size | Faster progress; unstable if too high | Slower, steadier | Validation PR-AUC per epoch |
+| `batch_size` | Rows per gradient step | Faster epochs; smoother gradients | Noisier steps; slower | Training time |
+| `max_epochs`, `patience` | Upper bound and early-stopping patience | Trains longer | Stops sooner | If the best epoch equals `max_epochs`, raise it |
+
 ## tuning
 
 Read only by `make tune`, which trains LightGBM on the train range for each setting, scores the validation range, and writes [`ml/reports/tuning/tuning.md`](../../ml/reports/tuning/tuning.md). It never reads the test range and never edits `params.yaml`: the owner copies the chosen values into the `lightgbm` section, and that commit records the decision.
@@ -70,6 +82,15 @@ Read only by `make tune`, which trains LightGBM on the train range for each sett
 | `seeds` | Seeds used to retrain the current and the best grid setting | Standard deviation across seeds: a gap smaller than about two standard deviations is not a reliable improvement |
 
 Two limits apply to the scores. Early stopping also uses the validation range, and picking the best of several settings on the same range adds selection bias, so validation scores are optimistic. Use them to rank settings; the test range of the next evaluation run gives the unbiased result.
+
+## fusion
+
+Read only by `make fuse`. The protocol is fixed before the run (dataset card, leakage rule 5): fusion is fitted on the first half of the validation range, chosen on the second half, and reported once on test.
+
+| Parameter | Effect |
+|---|---|
+| `blend_weights` | LightGBM's share values tried for the logit blend of LightGBM and the MLP; `1.0` is LightGBM alone |
+| `min_gain` | Test PR-AUC gain over LightGBM alone required to adopt fusion; the chosen method must also win every test time slice. Set it before running, never after seeing the result |
 
 ## evaluation
 

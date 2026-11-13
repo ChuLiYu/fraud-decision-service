@@ -2,7 +2,7 @@
 
 英文權威來源：[fusion-model.md](fusion-model.md)
 類型：完整翻譯
-來源版本：與英文狀態行修訂同一次提交（aef96c6 之後），docs/proposals/fusion-model.md
+來源版本：與英文同一次提交（M3c），docs/proposals/fusion-model.md
 同步狀態：已核對
 
 狀態：**部分接受。** 離線 fusion ablation 已列入 [scope](../product/scope.zh-TW.md) 的 S-18（[ADR-004](../decisions/ADR-004-course-first-priority.md)）。在服務路徑中使用 fusion 仍是待擁有者審查的草稿，須另寫 ADR。
@@ -13,7 +13,7 @@
 
 ## 接受前需解決的問題
 
-1. **Stacking 洩漏。** Meta-model 只能用「時間晚於子模型訓練段」的預測來訓練（例如 validation 段的預測），不能用 in-sample 預測。此規則屆時加入 dataset card 的 leakage rules。
+1. **Stacking 洩漏。** Meta-model 只能用「時間晚於子模型訓練段」的預測來訓練（例如 validation 段的預測），不能用 in-sample 預測。此規則已加入 dataset card（leakage rule 5），離線 ablation（`make fuse`）依此執行。
 2. **部分失敗語意。** 一個子模型成功、另一個逾時時，結果必須事先定義。依 [ADR-003](../decisions/ADR-003-failure-routes-to-review.md) 最保守的做法是整筆 `review`；改成退回單一模型需另寫 ADR。
 3. **版本。** Model version 變成組合版本（fusion 版本加上每個子模型版本），decision log 全部記錄。
 4. **證據門檻。** Fusion 必須在每個時間切片上贏過單獨的 LightGBM，且幅度事先訂好，足以抵銷增加的延遲、一致性檢查（S-10）與維運成本。

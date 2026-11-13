@@ -32,14 +32,17 @@ from fraud_ml import manifest, metrics
 from fraud_ml.config import Params, load_params
 from fraud_ml.data import LABEL, TIME
 from fraud_ml.preprocess import Preprocessor
-from fraud_ml.train import BASELINE_FILE, LIGHTGBM_FILE, load_prepared, models_hash
+from fraud_ml.train import BASELINE_FILE, LIGHTGBM_FILE, MLP_FILE, load_prepared, models_hash
 
 RANGES = ("valid", "test")
-MODELS = ("baseline", "lightgbm")
+MODELS = ("baseline", "lightgbm", "mlp")
 
 
-def load_models(params: Params) -> tuple[object, lgb.Booster, dict]:
+def load_models(params: Params) -> tuple[dict, dict]:
     """Verify and load trained models.
+
+    Returns:
+        Models by name (see ``MODELS``) and the models manifest.
 
     Raises:
         ManifestMismatchError: If the models were trained with other
@@ -51,15 +54,22 @@ def load_models(params: Params) -> tuple[object, lgb.Booster, dict]:
     for name, digest in trained["inputs"].items():
         if prepared["outputs"].get(name) != digest:
             raise manifest.ManifestMismatchError(f"models were trained on another {name}; retrain")
-    return joblib.load(out / BASELINE_FILE), lgb.Booster(model_file=out / LIGHTGBM_FILE), trained
+    models = {
+        "baseline": joblib.load(out / BASELINE_FILE),
+        "lightgbm": lgb.Booster(model_file=out / LIGHTGBM_FILE),
+        "mlp": joblib.load(out / MLP_FILE),
+    }
+    return models, trained
 
 
-def score(baseline, booster: lgb.Booster, frame: pd.DataFrame, pre: Preprocessor) -> dict:
-    """Fraud probabilities from both models for one range."""
+def score(models: dict, frame: pd.DataFrame, pre: Preprocessor) -> dict:
+    """Fraud probabilities from every model for one range."""
     features = frame[pre.feature_names]
     return {
-        "baseline": baseline.predict_proba(features)[:, 1],
-        "lightgbm": booster.predict(features),
+        name: model.predict(features)
+        if isinstance(model, lgb.Booster)
+        else model.predict_proba(features)[:, 1]
+        for name, model in models.items()
     }
 
 
@@ -115,8 +125,10 @@ def render(result: dict) -> str:
         f"Python {result['environment']['python']}, "
         + ", ".join(f"{k} {v}" for k, v in result["environment"]["libraries"].items()),
         f"- LightGBM best iteration: {result['training']['lightgbm']['best_iteration']}; "
-        f"training time: baseline {result['training']['baseline']['train_seconds']} s, "
-        f"LightGBM {result['training']['lightgbm']['train_seconds']} s",
+        f"MLP best epoch: {result['training']['mlp']['best_epoch']} "
+        f"of {result['training']['mlp']['epochs_run']} run",
+        "- Training time: "
+        + ", ".join(f"{name} {t['train_seconds']} s" for name, t in result["training"].items()),
         "",
     ]
     for range_name, data in result["ranges"].items():
@@ -164,7 +176,7 @@ def evaluate(params: Params, run: str) -> Path:
     if not run or "/" in run or run.startswith("."):
         raise ValueError(f"invalid run name: {run!r}")
     pre, ranges = load_prepared(params, RANGES)
-    baseline, booster, trained = load_models(params)
+    models, trained = load_models(params)
     result = {
         "run": run,
         "code": manifest.code_version(),
@@ -172,7 +184,7 @@ def evaluate(params: Params, run: str) -> Path:
         "environment": environment(),
         "training": {name: trained[name] for name in MODELS},
         "ranges": {
-            name: summarize(frame, score(baseline, booster, frame, pre), params)
+            name: summarize(frame, score(models, frame, pre), params)
             for name, frame in ranges.items()
         },
     }

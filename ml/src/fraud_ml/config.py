@@ -84,6 +84,25 @@ class LightGBMParams:
 
 
 @dataclass(frozen=True)
+class MLPParams:
+    """Comparison neural network settings (see fraud_ml.train.fit_mlp)."""
+
+    hidden_layer_sizes: list[int]
+    alpha: float
+    learning_rate_init: float
+    batch_size: int
+    max_epochs: int
+    patience: int
+
+    def __post_init__(self) -> None:
+        """Reject empty layers and non-positive counts."""
+        if not self.hidden_layer_sizes or min(self.hidden_layer_sizes) < 1:
+            raise ValueError("hidden_layer_sizes must list positive layer widths")
+        if self.batch_size < 1 or self.max_epochs < 1 or self.patience < 1:
+            raise ValueError("batch_size, max_epochs and patience must be at least 1")
+
+
+@dataclass(frozen=True)
 class EvaluationParams:
     """How results are summarized."""
 
@@ -116,6 +135,21 @@ class TuningParams:
 
 
 @dataclass(frozen=True)
+class FusionParams:
+    """Offline fusion ablation (see fraud_ml.fusion)."""
+
+    blend_weights: list[float]
+    min_gain: float
+
+    def __post_init__(self) -> None:
+        """Reject weights outside [0, 1] and a negative required gain."""
+        if not self.blend_weights or not all(0 <= w <= 1 for w in self.blend_weights):
+            raise ValueError("blend_weights must be a non-empty list of values in [0, 1]")
+        if self.min_gain < 0:
+            raise ValueError("min_gain must not be negative")
+
+
+@dataclass(frozen=True)
 class Params:
     """All pipeline parameters."""
 
@@ -126,8 +160,10 @@ class Params:
     seed: int
     baseline: BaselineParams
     lightgbm: LightGBMParams
+    mlp: MLPParams
     evaluation: EvaluationParams
     tuning: TuningParams
+    fusion: FusionParams
 
     def stage_hash(self, *sections: str) -> str:
         """Return a stable SHA-256 of the named sections.
@@ -166,6 +202,8 @@ def load_params(path: Path) -> Params:
         seed=int(raw["seed"]),
         baseline=BaselineParams(**raw["baseline"]),
         lightgbm=LightGBMParams(**raw["lightgbm"]),
+        mlp=MLPParams(**raw["mlp"]),
         evaluation=EvaluationParams(**raw["evaluation"]),
         tuning=TuningParams(**raw["tuning"]),
+        fusion=FusionParams(**raw["fusion"]),
     )

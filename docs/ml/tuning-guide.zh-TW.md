@@ -2,7 +2,7 @@
 
 英文權威來源：[tuning-guide.md](tuning-guide.md)
 類型：完整翻譯
-來源版本：與英文同一次提交（M3b），docs/ml/tuning-guide.md
+來源版本：與英文同一次提交（M3c），docs/ml/tuning-guide.md
 同步狀態：已核對
 
 說明 [`ml/params.yaml`](../../ml/params.yaml) 每個參數的作用、調整後的變化與要觀察的指標。數值只存在 `params.yaml`；本指南負責解釋，並隨里程碑擴充。
@@ -63,6 +63,18 @@
 
 這些參數只能對照 **validation** 段調整。test 段每種設定只用來產生一次最終結果。
 
+## mlp
+
+對照模型：使用與 baseline 相同輸入（數值特徵做 quantile 正規化，類別做 one-hot）的前饋神經網路。每個 epoch 走過一次 train 段；validation PR-AUC 連續 `patience` 個 epoch 沒有改善就停止，並保留最佳 epoch 的權重。
+
+| 參數 | 作用 | 調高 | 調低 | 觀察 |
+|---|---|---|---|---|
+| `hidden_layer_sizes` | 每個隱藏層的神經元數 | 容量較大、較慢，較易過度擬合 | 較接近線性模型 | 與 baseline 的差距；最佳 epoch |
+| `alpha` | 權重的 L2 懲罰 | 函數較平滑、較保守 | 更貼近訓練資料 | validation PR-AUC |
+| `learning_rate_init` | Adam 的步長 | 進展較快；太高會不穩定 | 較慢、較穩 | 每個 epoch 的 validation PR-AUC |
+| `batch_size` | 每次梯度更新的筆數 | epoch 較快、梯度較平滑 | 更新較吵、較慢 | 訓練時間 |
+| `max_epochs`、`patience` | epoch 上限與早停耐心 | 訓練較久 | 較早停止 | 最佳 epoch 等於 `max_epochs` 時應調高 |
+
 ## tuning
 
 只有 `make tune` 會讀取：對每種設定在 train 段訓練 LightGBM、對 validation 段評分，並寫出 [`ml/reports/tuning/tuning.md`](../../ml/reports/tuning/tuning.md)。它不讀 test 段，也不修改 `params.yaml`：由擁有者把選定的值抄進 `lightgbm` 段，該次 commit 就是決策紀錄。
@@ -73,6 +85,15 @@
 | `seeds` | 用來重訓「目前設定」與「grid 最佳設定」的 seed | 不同 seed 的標準差：差距小於約兩個標準差，不算可靠的進步 |
 
 分數有兩個限制：早停也使用 validation 段，而且在同一段挑出多個設定中的最佳者會帶來選擇偏差，所以 validation 分數偏樂觀。它只用來排序設定；不偏的結果看下一次評估執行的 test 段。
+
+## fusion
+
+只有 `make fuse` 會讀取。流程在執行前就固定（dataset card leakage rule 5）：fusion 在 validation 段前半擬合、在後半挑選方法，最後在 test 段報告一次。
+
+| 參數 | 作用 |
+|---|---|
+| `blend_weights` | LightGBM 與 MLP 做 logit 混合時，嘗試的 LightGBM 權重；`1.0` 等於只用 LightGBM |
+| `min_gain` | 採用 fusion 所需的 test PR-AUC 增幅（相對於單獨 LightGBM）；選中的方法還必須贏下每個 test 時間切片。須在執行前設定，不可看過結果才改 |
 
 ## evaluation
 

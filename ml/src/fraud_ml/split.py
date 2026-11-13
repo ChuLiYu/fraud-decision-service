@@ -31,7 +31,7 @@ class TimeSplit:
     test_start: int
 
 
-def _boundary(times: pd.Series, row_index: int) -> int:
+def time_boundary(times: pd.Series, row_index: int) -> int:
     """Return the time value where a range starting at ``row_index`` should begin.
 
     If the row at ``row_index`` shares its timestamp with the row before it,
@@ -71,8 +71,10 @@ def time_split(df: pd.DataFrame, params: SplitParams) -> TimeSplit:
     ordered = df.sort_values([TIME, ID], kind="stable").reset_index(drop=True)
     times = ordered[TIME]
     n = len(ordered)
-    valid_start = _boundary(times, int(n * params.train_fraction))
-    test_start = _boundary(times, max(int(n * (params.train_fraction + params.valid_fraction)), 1))
+    valid_start = time_boundary(times, int(n * params.train_fraction))
+    test_start = time_boundary(
+        times, max(int(n * (params.train_fraction + params.valid_fraction)), 1)
+    )
 
     train = ordered[times < valid_start]
     valid = ordered[(times >= valid_start) & (times < test_start)]

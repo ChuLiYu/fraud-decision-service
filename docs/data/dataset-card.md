@@ -68,6 +68,7 @@ As described on the competition data page (summary reviewed during planning; rec
 2. Any historical or velocity feature for a transaction uses only transactions strictly before it; ties on `TransactionDT` are ordered by `TransactionID` and that rule is tested.
 3. No feature uses the label or information available only after the decision time.
 4. Hyperparameters are tuned on validation; the test range is used once per reported result.
+5. Fusion (stacking, blending, score references) is fitted only on predictions for a range later than the base models' training range, never on in-sample predictions: the first half of the validation range fits it, the second half chooses between methods, and the test range reports the result. Changing test labels must not change anything fusion learns (tested).
 
 ## Feature availability assumptions
 

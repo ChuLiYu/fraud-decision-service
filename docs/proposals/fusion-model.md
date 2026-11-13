@@ -10,7 +10,7 @@ Train a second model alongside LightGBM and combine their scores (averaging, wei
 
 ## Concerns to resolve before acceptance
 
-1. **Stacking leakage.** A meta-model may be trained only on predictions for a time range later than the base models' training range (for example, validation-range predictions), never on in-sample predictions. This rule would be added to the dataset card's leakage rules.
+1. **Stacking leakage.** A meta-model may be trained only on predictions for a time range later than the base models' training range (for example, validation-range predictions), never on in-sample predictions. Added to the dataset card as leakage rule 5 and applied by the offline ablation (`make fuse`).
 2. **Partial failure semantics.** If one sub-model succeeds and another times out, the outcome must be defined. The conservative option under [ADR-003](../decisions/ADR-003-failure-routes-to-review.md) is `review` for the whole request; falling back to a single model would need its own ADR.
 3. **Versioning.** The model version becomes a composite (fusion version plus each sub-model version); the decision log records all of them.
 4. **Evidence threshold.** Fusion must beat LightGBM alone on every time slice by a margin stated in advance, enough to justify added latency, parity checks (S-10), and operating cost.

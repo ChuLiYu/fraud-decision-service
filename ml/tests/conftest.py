@@ -76,8 +76,17 @@ def workspace(tmp_path: Path, raw_tables) -> Path:
             "max_rounds": 30,
             "early_stopping_rounds": 10,
         },
+        "mlp": {
+            "hidden_layer_sizes": [8],
+            "alpha": 0.0001,
+            "learning_rate_init": 0.01,
+            "batch_size": 64,
+            "max_epochs": 5,
+            "patience": 2,
+        },
         "evaluation": {"review_rates": [0.05, 0.1], "calibration_bins": 5, "time_slices": 2},
         "tuning": {"grid": {"num_leaves": [3, 7]}, "seeds": [1, 2]},
+        "fusion": {"blend_weights": [0.0, 0.5, 1.0], "min_gain": 0.005},
     }
     (tmp_path / "params.yaml").write_text(yaml.safe_dump(params))
     return tmp_path
