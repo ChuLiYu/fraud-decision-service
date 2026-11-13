@@ -8,6 +8,7 @@ Pick the document for your task; do not load everything.
 | Why a decision was made | [decisions/](decisions/) (ADRs) |
 | Dataset terms, time semantics, splits, leakage rules | [data/dataset-card.md](data/dataset-card.md) |
 | Course presentation: slide outline and figure list (draft) | [presentation/outline.md](presentation/outline.md) |
+| Model purpose, limits, results summary | [ml/model-card.md](ml/model-card.md) |
 | What each pipeline parameter does and how to tune it | [ml/tuning-guide.md](ml/tuning-guide.md) |
 | Model results across runs (generated; do not edit) | [../ml/reports/comparison.md](../ml/reports/comparison.md); per-run reports in [../ml/reports/runs/](../ml/reports/runs/); tuning in [../ml/reports/tuning/tuning.md](../ml/reports/tuning/tuning.md) |
 
@@ -18,7 +19,6 @@ Pick the document for your task; do not load everything.
 | `contracts/` (OpenAPI, event schemas) | Scoring/decision APIs, decision record and event formats | Before phase 2 code |
 | `docs/domain/decision-policy.md` | Thresholds, review budget, idempotency rules | Phase 2 |
 | `docs/operations/model-rollout.md` | Model versions, shadow, canary, rollback rules | Before phase 4 code |
-| `docs/ml/model-card.md` | Model limits and intended use, citing the evaluation report | Phase 1, M4 |
 | `docs/operations/reliability-report.md` | Fault-injection and load-test evidence | Phases 3–4 |
 
 ## Proposals (not accepted)
