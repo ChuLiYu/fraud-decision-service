@@ -1,5 +1,5 @@
 # Entry points for the ml/ component. Run from this directory.
-.PHONY: setup lint test check fetch prepare data train evaluate compare tune fuse decide figures all
+.PHONY: setup lint test check fetch prepare data train evaluate compare tune fuse decide errors figures all
 
 setup:  ## Create the virtual environment from uv.lock
 	uv sync --locked
@@ -32,7 +32,7 @@ evaluate:  ## Score validation and test ranges into reports/runs/$(RUN); e.g. ma
 compare:  ## Tabulate all runs into reports/comparison.md
 	uv run python -m fraud_ml.compare
 
-all: data train evaluate compare fuse decide  ## Reproduce everything from download to report
+all: data train evaluate compare fuse decide errors figures  ## Reproduce everything from download to report
 
 tune:  ## Validation-only LightGBM grid and seed-noise study into reports/tuning
 	uv run python -m fraud_ml.tune
@@ -46,3 +46,6 @@ decide:  ## Decision-level evaluation: thresholds fitted on validation, costs re
 figures:  ## Presentation figures from committed reports into reports/figures (no data needed)
 	uv sync --locked --extra figures
 	uv run python -m fraud_ml.figures
+
+errors:  ## Error analysis: LightGBM misses and false alarms by segment on test
+	uv run python -m fraud_ml.errors
