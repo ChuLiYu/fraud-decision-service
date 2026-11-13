@@ -1,18 +1,18 @@
 {
   "code": {
-    "commit": "2a8f675178e95dacbd49222249934030b5ec76e3",
+    "commit": "47642fa487015cabae0e5ff1d2c6068012a37f42",
     "dirty": false
   },
-  "models_params_hash": "bef09cde7b2503fe5e5aa99d8cca1a47fe5104922f0c3e13356b8e65970b2c47",
+  "models_params_hash": "28d4a5d7e8a03abfd190b30353af43ee38e4109920459d6728dc82ac9ff4c3a0",
   "review_rate": 0.02,
-  "threshold": 0.14545503032588547,
-  "test_review_share": 0.020421986656280693,
-  "test_recall": 0.42426208238728513,
+  "threshold": 0.14531529386396883,
+  "test_review_share": 0.019688194985380613,
+  "test_recall": 0.42458644177748944,
   "missed": {
-    "missed_count_share": 0.5757379176127149,
-    "missed_amount_share": 0.6760908099638256,
-    "median_missed_amount": 85.82599639892578,
-    "median_caught_amount": 49.66400146484375
+    "missed_count_share": 0.5754135582225105,
+    "missed_amount_share": 0.6701308652115621,
+    "median_missed_amount": 77.0,
+    "median_caught_amount": 54.224998474121094
   },
   "segments": {
     "amount band": [
@@ -21,30 +21,30 @@
         "rows": 45725,
         "fraud_rate": 0.02895571350464735,
         "fraud_share": 0.42945183263055464,
-        "recall": 0.4040785498489426,
-        "missed_share": 0.4445070422535211,
-        "flagged_legit": 158,
-        "pr_auc": 0.5501209460210619
+        "recall": 0.4123867069486405,
+        "missed_share": 0.43855693348365277,
+        "flagged_legit": 143,
+        "pr_auc": 0.5840928392482014
       },
       {
         "segment": "$100-500",
         "rows": 32558,
         "fraud_rate": 0.03062227409546041,
         "fraud_share": 0.32338631203373336,
-        "recall": 0.3600802407221665,
-        "missed_share": 0.35943661971830987,
-        "flagged_legit": 141,
-        "pr_auc": 0.5219026525304085
+        "recall": 0.37512537612838515,
+        "missed_share": 0.3511837655016911,
+        "flagged_legit": 132,
+        "pr_auc": 0.5251328158078311
       },
       {
         "segment": "$0-25",
         "rows": 6548,
         "fraud_rate": 0.08307880268784362,
         "fraud_share": 0.17645150827116446,
-        "recall": 0.6617647058823529,
-        "missed_share": 0.10366197183098591,
-        "flagged_legit": 160,
-        "pr_auc": 0.7089240340898274
+        "recall": 0.6158088235294118,
+        "missed_share": 0.11781285231116122,
+        "flagged_legit": 127,
+        "pr_auc": 0.7162807077311757
       },
       {
         "segment": "$500+",
@@ -52,9 +52,9 @@
         "fraud_rate": 0.058133333333333335,
         "fraud_share": 0.07071034706454751,
         "recall": 0.24770642201834864,
-        "missed_share": 0.0923943661971831,
-        "flagged_legit": 42,
-        "pr_auc": 0.40512507334648495
+        "missed_share": 0.09244644870349493,
+        "flagged_legit": 33,
+        "pr_auc": 0.4363194000758104
       }
     ],
     "product": [
@@ -63,50 +63,50 @@
         "rows": 69468,
         "fraud_rate": 0.01861288650889618,
         "fraud_share": 0.41939669153421993,
-        "recall": 0.12064965197215777,
-        "missed_share": 0.6405633802816901,
-        "flagged_legit": 137,
-        "pr_auc": 0.25580865715621603
+        "recall": 0.15390564578499613,
+        "missed_share": 0.616685456595265,
+        "flagged_legit": 102,
+        "pr_auc": 0.31718723571128143
       },
       {
         "segment": "C",
         "rows": 9388,
         "fraud_rate": 0.13527907967618236,
         "fraud_share": 0.4119364255595199,
-        "recall": 0.6889763779527559,
-        "missed_share": 0.22253521126760564,
-        "flagged_legit": 302,
-        "pr_auc": 0.7590096986850561
+        "recall": 0.6456692913385826,
+        "missed_share": 0.25366403607666294,
+        "flagged_legit": 263,
+        "pr_auc": 0.7572399867952708
       },
       {
         "segment": "R",
         "rows": 4190,
         "fraud_rate": 0.050596658711217185,
         "fraud_share": 0.06876419072332143,
-        "recall": 0.7405660377358491,
-        "missed_share": 0.030985915492957747,
-        "flagged_legit": 26,
-        "pr_auc": 0.8415305679857282
+        "recall": 0.7452830188679245,
+        "missed_share": 0.030439684329199548,
+        "flagged_legit": 25,
+        "pr_auc": 0.8483887241464725
       },
       {
         "segment": "S",
         "rows": 2973,
         "fraud_rate": 0.04843592330978809,
         "fraud_share": 0.04670775218942588,
-        "recall": 0.3819444444444444,
-        "missed_share": 0.05014084507042253,
-        "flagged_legit": 12,
-        "pr_auc": 0.614429350533069
+        "recall": 0.4305555555555556,
+        "missed_share": 0.046223224351747465,
+        "flagged_legit": 14,
+        "pr_auc": 0.6361180791658273
       },
       {
         "segment": "H",
         "rows": 2562,
         "fraud_rate": 0.06401249024199844,
         "fraud_share": 0.05319493999351281,
-        "recall": 0.39634146341463417,
-        "missed_share": 0.05577464788732395,
-        "flagged_legit": 24,
-        "pr_auc": 0.5591574475179631
+        "recall": 0.4268292682926829,
+        "missed_share": 0.05298759864712514,
+        "flagged_legit": 31,
+        "pr_auc": 0.5706090266112834
       }
     ],
     "device type": [
@@ -115,30 +115,30 @@
         "rows": 70399,
         "fraud_rate": 0.019261637239165328,
         "fraud_share": 0.4398313331170937,
-        "recall": 0.13348082595870206,
-        "missed_share": 0.6619718309859155,
-        "flagged_legit": 146,
-        "pr_auc": 0.2741983444715542
+        "recall": 0.16297935103244837,
+        "missed_share": 0.6397970687711386,
+        "flagged_legit": 107,
+        "pr_auc": 0.33243891071931714
       },
       {
         "segment": "desktop",
         "rows": 10461,
         "fraud_rate": 0.07609215180193098,
         "fraud_share": 0.25819007460265975,
-        "recall": 0.7022613065326633,
-        "missed_share": 0.13352112676056338,
-        "flagged_legit": 168,
-        "pr_auc": 0.7830159743743096
+        "recall": 0.6821608040201005,
+        "missed_share": 0.14261555806087936,
+        "flagged_legit": 154,
+        "pr_auc": 0.7777437045448304
       },
       {
         "segment": "mobile",
         "rows": 7721,
         "fraud_rate": 0.12058023572076156,
         "fraud_share": 0.30197859228024654,
-        "recall": 0.6100966702470462,
-        "missed_share": 0.20450704225352112,
-        "flagged_legit": 187,
-        "pr_auc": 0.7237841672951564
+        "recall": 0.5853920515574651,
+        "missed_share": 0.21758737316798196,
+        "flagged_legit": 174,
+        "pr_auc": 0.7281576715333163
       }
     ],
     "card network": [
@@ -147,30 +147,30 @@
         "rows": 56942,
         "fraud_rate": 0.03593129851427768,
         "fraud_share": 0.6636393123580928,
-        "recall": 0.40762463343108507,
-        "missed_share": 0.6828169014084507,
-        "flagged_legit": 308,
-        "pr_auc": 0.5529050820718882
+        "recall": 0.4095796676441838,
+        "missed_share": 0.6809470124013529,
+        "flagged_legit": 250,
+        "pr_auc": 0.5724637848977016
       },
       {
         "segment": "mastercard",
         "rows": 29134,
         "fraud_rate": 0.03164687306926615,
         "fraud_share": 0.2990593577684074,
-        "recall": 0.4642082429501085,
-        "missed_share": 0.27830985915492956,
-        "flagged_legit": 171,
-        "pr_auc": 0.5935114199162289
+        "recall": 0.4598698481561822,
+        "missed_share": 0.2807215332581736,
+        "flagged_legit": 156,
+        "pr_auc": 0.6075014021953203
       },
       {
         "segment": "discover",
         "rows": 925,
         "fraud_rate": 0.08540540540540541,
         "fraud_share": 0.025624391826143365,
-        "recall": 0.34177215189873417,
-        "missed_share": 0.029295774647887324,
-        "flagged_legit": 12,
-        "pr_auc": 0.47739820827394536
+        "recall": 0.35443037974683544,
+        "missed_share": 0.02874859075535513,
+        "flagged_legit": 14,
+        "pr_auc": 0.4879532173189984
       },
       {
         "segment": "american express",
@@ -178,9 +178,9 @@
         "fraud_rate": 0.025119617224880382,
         "fraud_share": 0.006811547194291274,
         "recall": 0.42857142857142855,
-        "missed_share": 0.0067605633802816905,
-        "flagged_legit": 3,
-        "pr_auc": 0.5429155967077754
+        "missed_share": 0.006764374295377677,
+        "flagged_legit": 9,
+        "pr_auc": 0.5089393484276458
       },
       {
         "segment": "missing/rare",
@@ -188,9 +188,9 @@
         "fraud_rate": 0.020161290322580645,
         "fraud_share": 0.004865390853065196,
         "recall": 0.6666666666666666,
-        "missed_share": 0.0028169014084507044,
-        "flagged_legit": 7,
-        "pr_auc": 0.575783193311395
+        "missed_share": 0.002818489289740699,
+        "flagged_legit": 6,
+        "pr_auc": 0.5773622860920997
       }
     ]
   }

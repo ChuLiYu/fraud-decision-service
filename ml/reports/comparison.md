@@ -17,3 +17,6 @@ validation columns; test columns report the final result of each run.
 | m4-repro | baseline | 0.4292 | 0.8573 | 0.230 | 0.3870 | 0.8572 | 0.208 | `2a8f675` |
 | m4-repro | lightgbm | 0.6556 | 0.9327 | 0.275 | 0.5618 | 0.9086 | 0.255 | `2a8f675` |
 | m4-repro | mlp | 0.4743 | 0.8744 | 0.244 | 0.4308 | 0.8723 | 0.217 | `2a8f675` |
+| m5-client | baseline | 0.4043 | 0.8399 | 0.232 | 0.3628 | 0.8411 | 0.204 | `47642fa` |
+| m5-client | lightgbm | 0.6765 | 0.9325 | 0.280 | 0.5796 | 0.9091 | 0.256 | `47642fa` |
+| m5-client | mlp | 0.4678 | 0.8701 | 0.245 | 0.4321 | 0.8762 | 0.218 | `47642fa` |
