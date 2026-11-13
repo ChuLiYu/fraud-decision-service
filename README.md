@@ -4,7 +4,7 @@ A fraud decision service that takes an ML model to production: versioned scoring
 
 Reading version (zh-TW): [README.zh-TW.md](README.zh-TW.md)
 
-> **Status: planning.** No runnable code yet. This README describes intended scope, not delivered features. Results appear below only after they are measured.
+> **Status:** phase 1 (model and evaluation, the AI course project) is runnable; the services in the architecture below (phases 2–5) are planned and start after the course submission ([ADR-004](docs/decisions/ADR-004-course-first-priority.md)).
 
 ## Why this project
 
@@ -15,7 +15,30 @@ Training a fraud model is one part of the problem. This project focuses on the s
 - A failing or slow model never silently approves a transaction.
 - New model versions are evaluated in shadow and canary modes before promotion, and can be rolled back.
 
-## Planned architecture
+## Run phase 1
+
+Requirements: [uv](https://docs.astral.sh/uv/) (it installs the pinned Python 3.14 and libraries from `ml/uv.lock`), about 16 GB RAM, and the IEEE-CIS data. The data is not in this repository: accept the competition rules on Kaggle, then either run `make fetch` with your own Kaggle API token or place `train_transaction.csv` and `train_identity.csv` in `data/raw/`.
+
+From `ml/`:
+
+| Command | Stage | Writes |
+|---|---|---|
+| `make setup` | Create the environment from the lock file | `ml/.venv` |
+| `make check` | Lint and unit tests (synthetic data only) | — |
+| `make prepare` | Validate, add time-safe features, split by time, fit preprocessing on train | `data/processed/` + manifest |
+| `make train` | Logistic regression, LightGBM, MLP | `data/models/` + manifest (local only) |
+| `make evaluate RUN=<name>` | Validation and test metrics | `ml/reports/runs/<name>/` |
+| `make compare` | Table of all runs | `ml/reports/comparison.md` |
+| `make tune` | Validation-only grid and seed-noise study | `ml/reports/tuning/` |
+| `make fuse` | Offline fusion ablation | `ml/reports/fusion/` |
+| `make decide` | Approve / review / decline policies and their cost | `ml/reports/decision/` |
+| `make errors` | Error analysis by segment | `ml/reports/errors/` |
+| `make figures` | Presentation figures from the reports | `ml/reports/figures/` |
+| `make all` | Everything above except `tune`, from download to figures | all of the above |
+
+Every stage refuses inputs whose manifest does not match the current `ml/params.yaml`. What each parameter does: [tuning guide](docs/ml/tuning-guide.md).
+
+## Planned architecture (phases 2–5)
 
 ```text
 Transaction request
@@ -41,9 +64,14 @@ Uses the IEEE-CIS Fraud Detection dataset from Kaggle, replayed as simulated tra
 - Fraud scoring, not AML or KYC compliance.
 - Performance figures, when published, are lab measurements on stated hardware.
 
-## Results
+## Results (phase 1)
 
-None yet. Each result will link to its report with hardware, data volume, and settings.
+Test range, 88,581 transactions after the training and validation periods; hardware, versions, and settings are in each report.
+
+- LightGBM test PR-AUC 0.562, against 0.387 for logistic regression and 0.431 for an MLP ([comparison](ml/reports/comparison.md)).
+- Turning scores into decisions: a policy using calibrated probability × amount costs $2,073 per 1,000 transactions at a 2% review capacity, against $5,301 for approving everything and $2,787 for LightGBM score thresholds, under assumed costs; it is cheapest in all three cost scenarios tested ([decision report](ml/reports/decision/decision.md)).
+- Negative results are reported too: fusing LightGBM with the MLP did not pass the rule fixed before the run ([fusion report](ml/reports/fusion/fusion.md)).
+- Limits, drift, and intended use: [model card](docs/ml/model-card.md).
 
 ## Documentation
 
