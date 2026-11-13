@@ -104,14 +104,22 @@ These change how results are summarized, not the models.
 
 ## decision
 
-Read only by `make decide`. Costs and capacities are scenario assumptions, not measured figures (dataset card); rerun with other values to see whether conclusions hold. Thresholds are fitted on the validation range per model and capacity, then applied unchanged to the test range.
+Read only by `make decide`. Costs are scenario assumptions, not measured figures (dataset card), so the stage reports every policy under each named scenario and shows which one is cheapest in each; a conclusion that holds only in one scenario is weak. Every policy is fitted on the validation range and applied unchanged to the test range.
+
+Each entry under `scenarios` (one must be named `base`):
 
 | Parameter | Effect |
 |---|---|
-| `review_cost_cents` | Cost of one manual review. Higher values make the policy review less and decline more |
+| `review_cost_cents` | Cost of one manual review. Higher values make policies review less |
 | `fraud_loss_rate` | Share of an approved fraud's amount that is lost. Higher values push toward more review and decline |
-| `false_decline_rate` | Share of a declined legitimate amount that is lost (margin, customer friction). Higher values make declines rarer |
+| `false_decline_rate` | Share of a declined legitimate amount that is lost (margin) |
+| `false_decline_fixed_cents` | Fixed cost per false decline (customer friction, churn). Without it, declining small legitimate transactions looks almost free and policies decline far too much |
+
+Shared settings:
+
+| Parameter | Effect |
+|---|---|
 | `review_capacities` | Most transactions the review team can handle, as a share; one policy is fitted per value |
-| `max_decline_rate` | Upper bound of the decline search; if a fitted policy declines this share, raise it |
+| `max_decline_rate` | Upper bound of the threshold policies' decline search; the report lists any policy that stopped at it |
 | `threshold_grid` | Candidate cut points per threshold; more points find slightly better thresholds, slower |
 | `bootstrap` | Resamples for the 95% intervals on test cost differences; more resamples give steadier intervals |

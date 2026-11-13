@@ -2,7 +2,7 @@
 
 英文權威來源：[tuning-guide.md](tuning-guide.md)
 類型：完整翻譯
-來源版本：與英文同一次提交（M4a），docs/ml/tuning-guide.md
+來源版本：與英文同一次提交（M4a 情境版），docs/ml/tuning-guide.md
 同步狀態：已核對
 
 說明 [`ml/params.yaml`](../../ml/params.yaml) 每個參數的作用、調整後的變化與要觀察的指標。數值只存在 `params.yaml`；本指南負責解釋，並隨里程碑擴充。
@@ -107,14 +107,22 @@
 
 ## decision
 
-只有 `make decide` 會讀取。成本與審查容量是情境假設，不是實測數字（dataset card）；可換其他值重跑，看結論是否仍成立。門檻依每個模型與容量在 validation 段擬合，再原封不動套用到 test 段。
+只有 `make decide` 會讀取。成本是情境假設，不是實測數字（dataset card），所以每個政策都在每個具名情境下報告，並標出各情境最便宜者；只在單一情境成立的結論很薄弱。所有政策都在 validation 段擬合，再原封不動套用到 test 段。
+
+`scenarios` 下的每個情境（必須有一個叫 `base`）：
 
 | 參數 | 作用 |
 |---|---|
-| `review_cost_cents` | 每次人工審查的成本。調高會讓政策少審查、多拒絕 |
+| `review_cost_cents` | 每次人工審查的成本。調高會讓政策少審查 |
 | `fraud_loss_rate` | 核准的詐欺交易損失金額的比例。調高會推向更多審查與拒絕 |
-| `false_decline_rate` | 拒絕正常交易時損失金額的比例（利潤、顧客摩擦）。調高會讓拒絕更少 |
+| `false_decline_rate` | 拒絕正常交易時損失金額的比例（利潤） |
+| `false_decline_fixed_cents` | 每次誤拒的固定成本（顧客摩擦、流失）。少了它，拒絕小額正常交易看起來幾乎免費，政策會拒絕過多 |
+
+共用設定：
+
+| 參數 | 作用 |
+|---|---|
 | `review_capacities` | 審查團隊最多能處理的交易比例；每個值各擬合一套政策 |
-| `max_decline_rate` | 拒絕比例的搜尋上限；擬合結果剛好拒絕到這個比例時應調高 |
+| `max_decline_rate` | 門檻政策搜尋拒絕比例的上限；報告會列出停在上限的政策 |
 | `threshold_grid` | 每個門檻的候選切點數；越多越可能找到稍好的門檻，但較慢 |
 | `bootstrap` | test 成本差異 95% 區間的重抽次數；越多區間越穩定 |

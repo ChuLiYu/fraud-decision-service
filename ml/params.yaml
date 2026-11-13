@@ -79,12 +79,26 @@ fusion:
 
 decision:
   # make decide: approve / review / decline policies. Costs are scenario
-  # assumptions, not measured figures (dataset card); change them to test
-  # how sensitive the conclusions are.
-  review_cost_cents: 500            # one manual review costs $5
-  fraud_loss_rate: 1.0              # approved fraud loses its full amount (chargeback)
-  false_decline_rate: 0.1           # a declined legitimate transaction loses 10% of its amount
+  # assumptions, not measured figures (dataset card); conclusions are checked
+  # under every scenario. A false decline costs a share of the amount (lost
+  # margin) plus a fixed amount (customer friction and churn).
+  scenarios:
+    base:
+      review_cost_cents: 500        # one manual review
+      fraud_loss_rate: 1.0          # approved fraud loses its full amount (chargeback)
+      false_decline_rate: 0.1       # lost margin on a declined legitimate transaction
+      false_decline_fixed_cents: 2000  # customer friction per false decline
+    fraud_heavy:                    # losses dominate: fees on top of chargebacks, cheap friction
+      review_cost_cents: 500
+      fraud_loss_rate: 1.2
+      false_decline_rate: 0.05
+      false_decline_fixed_cents: 500
+    customer_heavy:                 # customer experience dominates: costly reviews and declines
+      review_cost_cents: 1000
+      fraud_loss_rate: 1.0
+      false_decline_rate: 0.2
+      false_decline_fixed_cents: 5000
   review_capacities: [0.005, 0.01, 0.02, 0.05]  # most transactions the review team can handle
-  max_decline_rate: 0.05            # declines searched up to this share of transactions
+  max_decline_rate: 0.2             # threshold policies search declines up to this share
   threshold_grid: 200               # candidate cut points per threshold
   bootstrap: 500                    # resamples for test-range confidence intervals

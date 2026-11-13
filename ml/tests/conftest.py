@@ -88,9 +88,20 @@ def workspace(tmp_path: Path, raw_tables) -> Path:
         "tuning": {"grid": {"num_leaves": [3, 7]}, "seeds": [1, 2]},
         "fusion": {"blend_weights": [0.0, 0.5, 1.0], "min_gain": 0.005},
         "decision": {
-            "review_cost_cents": 500,
-            "fraud_loss_rate": 1.0,
-            "false_decline_rate": 0.1,
+            "scenarios": {
+                "base": {
+                    "review_cost_cents": 500,
+                    "fraud_loss_rate": 1.0,
+                    "false_decline_rate": 0.1,
+                    "false_decline_fixed_cents": 0,
+                },
+                "costly_declines": {
+                    "review_cost_cents": 500,
+                    "fraud_loss_rate": 1.0,
+                    "false_decline_rate": 0.2,
+                    "false_decline_fixed_cents": 5000,
+                },
+            },
             "review_capacities": [0.05, 0.2],
             "max_decline_rate": 0.1,
             "threshold_grid": 20,

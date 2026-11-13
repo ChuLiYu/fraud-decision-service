@@ -150,21 +150,42 @@ class FusionParams:
 
 
 @dataclass(frozen=True)
-class DecisionParams:
-    """Decision-level evaluation scenario (see fraud_ml.decide); assumptions, not measurements."""
+class CostScenario:
+    """Costs of each decision outcome; assumptions, not measurements (dataset card)."""
 
     review_cost_cents: int
     fraud_loss_rate: float
     false_decline_rate: float
+    false_decline_fixed_cents: int
+
+    def __post_init__(self) -> None:
+        """Reject negative costs."""
+        if (
+            min(
+                self.review_cost_cents,
+                self.fraud_loss_rate,
+                self.false_decline_rate,
+                self.false_decline_fixed_cents,
+            )
+            < 0
+        ):
+            raise ValueError("decision costs must not be negative")
+
+
+@dataclass(frozen=True)
+class DecisionParams:
+    """Decision-level evaluation settings (see fraud_ml.decide)."""
+
+    scenarios: dict[str, CostScenario]
     review_capacities: list[float]
     max_decline_rate: float
     threshold_grid: int
     bootstrap: int
 
     def __post_init__(self) -> None:
-        """Reject negative costs, shares outside (0, 1), and tiny grids."""
-        if self.review_cost_cents < 0 or self.fraud_loss_rate < 0 or self.false_decline_rate < 0:
-            raise ValueError("decision costs must not be negative")
+        """Require a base scenario; reject shares outside (0, 1) and tiny grids."""
+        if "base" not in self.scenarios:
+            raise ValueError("decision.scenarios must include 'base'")
         if not self.review_capacities or not all(0 < c < 1 for c in self.review_capacities):
             raise ValueError("review_capacities must be a non-empty list of shares in (0, 1)")
         if not 0 <= self.max_decline_rate < 1:
@@ -231,5 +252,13 @@ def load_params(path: Path) -> Params:
         evaluation=EvaluationParams(**raw["evaluation"]),
         tuning=TuningParams(**raw["tuning"]),
         fusion=FusionParams(**raw["fusion"]),
-        decision=DecisionParams(**raw["decision"]),
+        decision=DecisionParams(
+            **{
+                **raw["decision"],
+                "scenarios": {
+                    name: CostScenario(**costs)
+                    for name, costs in raw["decision"]["scenarios"].items()
+                },
+            }
+        ),
     )
