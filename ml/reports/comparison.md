@@ -11,3 +11,6 @@ validation columns; test columns report the final result of each run.
 | m3a-features | lightgbm | 0.6410 | 0.9279 | 0.274 | 0.5571 | 0.9047 | 0.256 | `1a4f9be` |
 | m3b-tuned | baseline | 0.4292 | 0.8573 | 0.230 | 0.3870 | 0.8572 | 0.208 | `08e99ec` |
 | m3b-tuned | lightgbm | 0.6556 | 0.9327 | 0.275 | 0.5618 | 0.9086 | 0.255 | `08e99ec` |
+| m3c-mlp | baseline | 0.4292 | 0.8573 | 0.230 | 0.3870 | 0.8572 | 0.208 | `957d7ce` |
+| m3c-mlp | lightgbm | 0.6556 | 0.9327 | 0.275 | 0.5618 | 0.9086 | 0.255 | `957d7ce` |
+| m3c-mlp | mlp | 0.4743 | 0.8744 | 0.244 | 0.4308 | 0.8723 | 0.217 | `957d7ce` |
