@@ -150,6 +150,30 @@ class FusionParams:
 
 
 @dataclass(frozen=True)
+class DecisionParams:
+    """Decision-level evaluation scenario (see fraud_ml.decide); assumptions, not measurements."""
+
+    review_cost_cents: int
+    fraud_loss_rate: float
+    false_decline_rate: float
+    review_capacities: list[float]
+    max_decline_rate: float
+    threshold_grid: int
+    bootstrap: int
+
+    def __post_init__(self) -> None:
+        """Reject negative costs, shares outside (0, 1), and tiny grids."""
+        if self.review_cost_cents < 0 or self.fraud_loss_rate < 0 or self.false_decline_rate < 0:
+            raise ValueError("decision costs must not be negative")
+        if not self.review_capacities or not all(0 < c < 1 for c in self.review_capacities):
+            raise ValueError("review_capacities must be a non-empty list of shares in (0, 1)")
+        if not 0 <= self.max_decline_rate < 1:
+            raise ValueError("max_decline_rate must be in [0, 1)")
+        if self.threshold_grid < 2 or self.bootstrap < 1:
+            raise ValueError("threshold_grid must be >= 2 and bootstrap >= 1")
+
+
+@dataclass(frozen=True)
 class Params:
     """All pipeline parameters."""
 
@@ -164,6 +188,7 @@ class Params:
     evaluation: EvaluationParams
     tuning: TuningParams
     fusion: FusionParams
+    decision: DecisionParams
 
     def stage_hash(self, *sections: str) -> str:
         """Return a stable SHA-256 of the named sections.
@@ -206,4 +231,5 @@ def load_params(path: Path) -> Params:
         evaluation=EvaluationParams(**raw["evaluation"]),
         tuning=TuningParams(**raw["tuning"]),
         fusion=FusionParams(**raw["fusion"]),
+        decision=DecisionParams(**raw["decision"]),
     )

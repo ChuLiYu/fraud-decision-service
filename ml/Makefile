@@ -1,5 +1,5 @@
 # Entry points for the ml/ component. Run from this directory.
-.PHONY: setup lint test check fetch prepare data train evaluate compare tune fuse all
+.PHONY: setup lint test check fetch prepare data train evaluate compare tune fuse decide all
 
 setup:  ## Create the virtual environment from uv.lock
 	uv sync --locked
@@ -32,10 +32,13 @@ evaluate:  ## Score validation and test ranges into reports/runs/$(RUN); e.g. ma
 compare:  ## Tabulate all runs into reports/comparison.md
 	uv run python -m fraud_ml.compare
 
-all: data train evaluate compare fuse  ## Reproduce everything from download to report
+all: data train evaluate compare fuse decide  ## Reproduce everything from download to report
 
 tune:  ## Validation-only LightGBM grid and seed-noise study into reports/tuning
 	uv run python -m fraud_ml.tune
 
 fuse:  ## Offline fusion ablation (fit on early validation, choose on late validation, report on test)
 	uv run python -m fraud_ml.fusion
+
+decide:  ## Decision-level evaluation: thresholds fitted on validation, costs reported on test
+	uv run python -m fraud_ml.decide

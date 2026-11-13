@@ -87,6 +87,15 @@ def workspace(tmp_path: Path, raw_tables) -> Path:
         "evaluation": {"review_rates": [0.05, 0.1], "calibration_bins": 5, "time_slices": 2},
         "tuning": {"grid": {"num_leaves": [3, 7]}, "seeds": [1, 2]},
         "fusion": {"blend_weights": [0.0, 0.5, 1.0], "min_gain": 0.005},
+        "decision": {
+            "review_cost_cents": 500,
+            "fraud_loss_rate": 1.0,
+            "false_decline_rate": 0.1,
+            "review_capacities": [0.05, 0.2],
+            "max_decline_rate": 0.1,
+            "threshold_grid": 20,
+            "bootstrap": 20,
+        },
     }
     (tmp_path / "params.yaml").write_text(yaml.safe_dump(params))
     return tmp_path

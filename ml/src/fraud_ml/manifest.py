@@ -44,7 +44,11 @@ def code_version() -> dict[str, Any]:
         result = subprocess.run(["git", *args], capture_output=True, text=True, check=False)
         return result.stdout.strip() if result.returncode == 0 else ""
 
-    return {"commit": git("rev-parse", "HEAD") or None, "dirty": bool(git("status", "--porcelain"))}
+    # Generated reports are excluded: a stage that runs after another in the
+    # same make call would otherwise see the earlier stage's new report and
+    # mark a clean run as dirty.
+    status = git("status", "--porcelain", "--", ":(top)", ":(top,exclude)ml/reports")
+    return {"commit": git("rev-parse", "HEAD") or None, "dirty": bool(status)}
 
 
 def write(

@@ -76,3 +76,15 @@ fusion:
   # range, choose on the second half, report on test. Decided before running:
   blend_weights: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]  # LightGBM share
   min_gain: 0.005                   # test PR-AUC gain over LightGBM alone needed to adopt fusion
+
+decision:
+  # make decide: approve / review / decline policies. Costs are scenario
+  # assumptions, not measured figures (dataset card); change them to test
+  # how sensitive the conclusions are.
+  review_cost_cents: 500            # one manual review costs $5
+  fraud_loss_rate: 1.0              # approved fraud loses its full amount (chargeback)
+  false_decline_rate: 0.1           # a declined legitimate transaction loses 10% of its amount
+  review_capacities: [0.005, 0.01, 0.02, 0.05]  # most transactions the review team can handle
+  max_decline_rate: 0.05            # declines searched up to this share of transactions
+  threshold_grid: 200               # candidate cut points per threshold
+  bootstrap: 500                    # resamples for test-range confidence intervals

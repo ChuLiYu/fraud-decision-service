@@ -102,6 +102,16 @@ These change how results are summarized, not the models.
 | `calibration_bins` | Number of equal-count bins in the reliability table. More bins show more detail but each is noisier |
 | `time_slices` | Number of equal-row slices of each range in time order. More slices reveal drift in more detail, with fewer frauds per slice |
 
-## Planned
+## decision
 
-Decision thresholds and costs (M4) are added here when that stage exists.
+Read only by `make decide`. Costs and capacities are scenario assumptions, not measured figures (dataset card); rerun with other values to see whether conclusions hold. Thresholds are fitted on the validation range per model and capacity, then applied unchanged to the test range.
+
+| Parameter | Effect |
+|---|---|
+| `review_cost_cents` | Cost of one manual review. Higher values make the policy review less and decline more |
+| `fraud_loss_rate` | Share of an approved fraud's amount that is lost. Higher values push toward more review and decline |
+| `false_decline_rate` | Share of a declined legitimate amount that is lost (margin, customer friction). Higher values make declines rarer |
+| `review_capacities` | Most transactions the review team can handle, as a share; one policy is fitted per value |
+| `max_decline_rate` | Upper bound of the decline search; if a fitted policy declines this share, raise it |
+| `threshold_grid` | Candidate cut points per threshold; more points find slightly better thresholds, slower |
+| `bootstrap` | Resamples for the 95% intervals on test cost differences; more resamples give steadier intervals |
