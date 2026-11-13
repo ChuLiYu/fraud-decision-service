@@ -83,3 +83,66 @@ def test_disabled_only_sorts(raw_tables):
 def test_unknown_group_key_fails(raw_tables):
     with pytest.raises(KeyError):
         add_features(raw_tables[0], FeatureParams(enabled=True, group_keys=[["nope"]]))
+
+
+CLIENT = FeatureParams(
+    enabled=True,
+    group_keys=[["card4", "fe_D1_start"]],
+    day_offsets=["D1"],
+    client_key=["card4", "fe_D1_start"],
+    client_means=["C1"],
+    client_nunique=["ProductCD"],
+)
+
+
+def with_client_columns(df: pd.DataFrame, seed: int = 3) -> pd.DataFrame:
+    rng = np.random.default_rng(seed)
+    day = df["TransactionDT"] // 86400
+    start = rng.integers(0, 3, size=len(df))  # three possible card start days
+    c1 = rng.integers(1, 5, size=len(df)).astype(float)
+    c1[::7] = np.nan
+    return df.assign(D1=day - start, C1=c1)
+
+
+def test_day_offset_and_client_features_known_values():
+    df = pd.DataFrame(
+        {
+            "TransactionID": [1, 2, 3, 4],
+            "TransactionDT": [86_400, 2 * 86_400, 3 * 86_400, 3 * 86_400 + 5],
+            "isFraud": [0, 0, 0, 0],
+            "TransactionAmt": [10.0, 20.0, 30.0, 40.0],
+            "card4": ["visa"] * 4,
+            "ProductCD": ["W", "C", "W", "R"],
+            "D1": [0, 1, 2, 0],  # rows 1-3 share start day 1; row 4 starts on day 3
+            "C1": [2.0, np.nan, 4.0, 9.0],
+        }
+    )
+    out = add_features(df, CLIENT).set_index("TransactionID")
+    assert out["fe_D1_start"].tolist() == [1, 1, 1, 3]
+    assert out["fe_card4_fe_D1_start_prior_count"].tolist() == [0, 1, 2, 0]
+    means = out["fe_client_C1_prior_mean"]
+    assert np.isnan(means[1]) and means[2] == 2.0 and means[3] == 2.0 and np.isnan(means[4])
+    assert out["fe_client_ProductCD_prior_nunique"].tolist() == [0, 1, 2, 0]
+
+
+def test_client_features_never_depend_on_later_rows(raw_tables):
+    df = with_client_columns(raw_tables[0])
+    cols = lambda o: o[[c for c in o.columns if c.startswith("fe_")]]  # noqa: E731
+    full = cols(add_features(df, CLIENT))
+    cut = df["TransactionDT"].quantile(0.6)
+    later = df["TransactionDT"] > cut
+    past_only = cols(add_features(df[~later], CLIENT))
+    altered = cols(
+        add_features(
+            df.assign(
+                C1=np.where(later, 99.0, df["C1"]), ProductCD=np.where(later, "Z", df["ProductCD"])
+            ),
+            CLIENT,
+        )
+    )
+    n = len(past_only)
+    pd.testing.assert_frame_equal(full.iloc[:n], past_only)
+    pd.testing.assert_frame_equal(altered.iloc[:n], past_only)
+    pd.testing.assert_frame_equal(
+        cols(add_features(df.assign(isFraud=1 - df["isFraud"]), CLIENT)), full
+    )

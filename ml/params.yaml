@@ -23,6 +23,15 @@ features:
     - [card1]
     - [card1, addr1]
     - [card1, addr1, P_emaildomain]
+    - [card1, addr1, fe_D1_start]   # client key, see below
+  # Days-since columns turned into fixed dates (transaction day - D):
+  # fe_D1_start is the day the card was first seen (IEEE-CIS 1st place).
+  day_offsets: [D1, D4, D10, D15]
+  # Client key: card + address + card start day, a closer account proxy
+  # than card fields alone. Past-only per-key means and distinct counts.
+  client_key: [card1, addr1, fe_D1_start]
+  client_means: [C1, C13, C14, dist1, fe_D4_start, fe_D10_start, fe_D15_start]
+  client_nunique: [P_emaildomain, R_emaildomain, DeviceInfo, id_19, id_20, id_31]
 
 preprocess:
   # A category value seen fewer times than this in the training range is

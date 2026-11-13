@@ -20,6 +20,19 @@ Feature groups:
   transactions the group has, the mean earlier amount, this amount relative
   to that mean, and seconds since the group's previous transaction.
 
+* **Day offsets** (``day_offsets``): masked ``D`` columns count days since
+  some earlier event, so the same event drifts by one each day. Subtracting
+  them from the transaction day gives a fixed date (``fe_<D>_start``), for
+  example the day the card was first seen for ``D1``. This and the client key
+  below follow the IEEE-CIS 1st-place solution (Deotte and Yakovlev, 2019).
+* **Client key** (``client_key``, for example ``card1``, ``addr1``,
+  ``fe_D1_start``): a closer proxy for one account than card fields alone.
+  For each transaction, the mean of ``client_means`` columns over the
+  key's earlier transactions, and how many distinct values of each
+  ``client_nunique`` column the key has shown before. The 1st-place solution
+  aggregated over all rows, including later ones, and averaged predictions
+  per key afterwards; both look ahead and are not used here.
+
 Group keys are combinations of masked card and address fields. They are
 not verified customer identity (dataset card): a group is "transactions
 sharing these field values", nothing more.
@@ -71,14 +84,20 @@ def add_features(df: pd.DataFrame, params: FeatureParams) -> pd.DataFrame:
         "fe_missing_count": ordered[raw_columns].isna().sum(axis=1),
     }
 
+    day = ordered[TIME] // 86400
+    for column in params.day_offsets:
+        new[f"fe_{column}_start"] = day - ordered[column]
+    # Engineered columns may serve as group keys, so expose them for grouping.
+    keyed = ordered.assign(**{k: v for k, v in new.items() if k.endswith("_start")})
+
     for keys in params.group_keys:
-        missing = [k for k in keys if k not in ordered.columns]
+        missing = [k for k in keys if k not in keyed.columns]
         if missing:
             raise KeyError(f"group key columns not found: {missing}")
         name = _group_name(keys)
         # Rows with any missing key value belong to no group: features stay NaN.
-        has_key = ordered[keys].notna().all(axis=1)
-        frame = ordered.loc[has_key, [*keys, TIME]].assign(_amount=amount[has_key])
+        has_key = keyed[keys].notna().all(axis=1)
+        frame = keyed.loc[has_key, [*keys, TIME]].assign(_amount=amount[has_key])
         grouped = frame.groupby(keys, sort=False)
 
         prior_count = grouped.cumcount()  # earlier rows in the group, in time order
@@ -91,4 +110,33 @@ def add_features(df: pd.DataFrame, params: FeatureParams) -> pd.DataFrame:
         new[f"fe_{name}_amount_ratio"] = (amount / prior_mean).reindex(ordered.index)
         new[f"fe_{name}_seconds_since_previous"] = since_previous.reindex(ordered.index)
 
+    if params.client_key:
+        new.update(_client_features(keyed, params))
+
     return pd.concat([ordered, pd.DataFrame(new, index=ordered.index).astype("float64")], axis=1)
+
+
+def _client_features(keyed: pd.DataFrame, params: FeatureParams) -> dict[str, pd.Series]:
+    """Past-only means and distinct counts per client key (see module docstring)."""
+    keys = params.client_key
+    wanted = [*keys, *params.client_means, *params.client_nunique]
+    missing = [c for c in wanted if c not in keyed.columns]
+    if missing:
+        raise KeyError(f"client feature columns not found: {missing}")
+    has_key = keyed[keys].notna().all(axis=1)
+    frame = keyed.loc[has_key]
+    by_key = [frame[k] for k in keys]
+    out: dict[str, pd.Series] = {}
+    for column in params.client_means:
+        value = frame[column].astype("float64")
+        present = value.notna().astype("float64")
+        filled = value.fillna(0.0)
+        prior_sum = filled.groupby(by_key, sort=False).cumsum() - filled
+        prior_n = present.groupby(by_key, sort=False).cumsum() - present
+        out[f"fe_client_{column}_prior_mean"] = (prior_sum / prior_n).where(prior_n > 0)
+    for column in params.client_nunique:
+        # A value counts once per key, from its first appearance on; missing is not a value.
+        first_seen = (~frame.duplicated([*keys, column]) & frame[column].notna()).astype("int64")
+        seen = first_seen.groupby(by_key, sort=False).cumsum() - first_seen
+        out[f"fe_client_{column}_prior_nunique"] = seen
+    return {name: series.reindex(keyed.index) for name, series in out.items()}

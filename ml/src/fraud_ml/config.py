@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 import yaml
@@ -58,6 +58,10 @@ class FeatureParams:
 
     enabled: bool
     group_keys: list[list[str]]
+    day_offsets: list[str] = field(default_factory=list)
+    client_key: list[str] = field(default_factory=list)
+    client_means: list[str] = field(default_factory=list)
+    client_nunique: list[str] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
