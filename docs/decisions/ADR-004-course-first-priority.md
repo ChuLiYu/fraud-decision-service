@@ -1,6 +1,6 @@
 # ADR-004: Course project first, job portfolio second
 
-- Status: Accepted
+- Status: Accepted; timing of later phases changed by [ADR-005](ADR-005-portfolio-mvp-python-service.md)
 - Date: 2026-11-05
 - Decider: project owner
 

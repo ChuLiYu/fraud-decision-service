@@ -87,6 +87,8 @@ Cut order if time is short: fusion first; keep feature engineering, tuning, and 
 
 ### Phase 2 — Synchronous decision service (S-2 to S-5, S-10)
 
+The portfolio MVP ([ADR-005](../decisions/ADR-005-portfolio-mvp-python-service.md), [plan](../plans/mvp.md)) delivers S-2, S-3 (in Python), and S-4 first as one service; the Java decision service and S-5 follow later.
+
 Starts after the course submission. Within the phase, S-5 may be deferred if time is short.
 
 - OpenAPI contracts for scoring and decision APIs exist before implementation.

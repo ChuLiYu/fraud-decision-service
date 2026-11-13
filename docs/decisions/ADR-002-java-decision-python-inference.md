@@ -1,6 +1,6 @@
 # ADR-002: Java decision service, Python inference service
 
-- Status: Accepted
+- Status: Accepted; deferred for the MVP by [ADR-005](ADR-005-portfolio-mvp-python-service.md)
 - Date: 2026-11-05
 - Decider: project owner
 

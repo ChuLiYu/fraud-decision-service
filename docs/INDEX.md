@@ -32,6 +32,7 @@ Pick the document for your task; do not load everything.
 - [ADR-002](decisions/ADR-002-java-decision-python-inference.md) — Java decision service, Python inference service
 - [ADR-003](decisions/ADR-003-failure-routes-to-review.md) — Model failure routes to review, never approval
 - [ADR-004](decisions/ADR-004-course-first-priority.md) — Course project first, job portfolio second
+- [ADR-005](decisions/ADR-005-portfolio-mvp-python-service.md) — Portfolio MVP as one Python decision service ([plan](plans/mvp.md))
 
 ## Language
 
