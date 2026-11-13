@@ -2,7 +2,7 @@
 
 英文權威來源：[tuning-guide.md](tuning-guide.md)
 類型：完整翻譯
-來源版本：與英文同一次提交（M3a），docs/ml/tuning-guide.md
+來源版本：與英文同一次提交（M3b），docs/ml/tuning-guide.md
 同步狀態：已核對
 
 說明 [`ml/params.yaml`](../../ml/params.yaml) 每個參數的作用、調整後的變化與要觀察的指標。數值只存在 `params.yaml`；本指南負責解釋，並隨里程碑擴充。
@@ -37,7 +37,7 @@
 
 ## seed
 
-固定 LightGBM（列與特徵抽樣）與 baseline 的隨機性。換 seed 後指標變化很大，表示該結果在雜訊範圍內。
+固定 LightGBM（列與特徵抽樣）與 baseline 的隨機性。換 seed 後指標變化很大，表示該結果在雜訊範圍內。`make tune` 會直接量測這個雜訊（見下方 `tuning.seeds`）；兩個設定的差距要先和不同 seed 的標準差比較，再判斷是否真的進步。
 
 ## baseline（logistic regression）
 
@@ -62,6 +62,17 @@
 | `early_stopping_rounds` | validation PR-AUC 連續幾輪未改善就停止 | 容忍停滯期，較慢 | 較早停止，可能停太早 | `best_iteration` |
 
 這些參數只能對照 **validation** 段調整。test 段每種設定只用來產生一次最終結果。
+
+## tuning
+
+只有 `make tune` 會讀取：對每種設定在 train 段訓練 LightGBM、對 validation 段評分，並寫出 [`ml/reports/tuning/tuning.md`](../../ml/reports/tuning/tuning.md)。它不讀 test 段，也不修改 `params.yaml`：由擁有者把選定的值抄進 `lightgbm` 段，該次 commit 就是決策紀錄。
+
+| 參數 | 作用 | 觀察 |
+|---|---|---|
+| `grid` | 要嘗試的 LightGBM 參數與值；每種組合訓練一次（成本按組合數相乘） | 最佳值落在 grid 邊界時，最佳點可能在範圍之外 |
+| `seeds` | 用來重訓「目前設定」與「grid 最佳設定」的 seed | 不同 seed 的標準差：差距小於約兩個標準差，不算可靠的進步 |
+
+分數有兩個限制：早停也使用 validation 段，而且在同一段挑出多個設定中的最佳者會帶來選擇偏差，所以 validation 分數偏樂觀。它只用來排序設定；不偏的結果看下一次評估執行的 test 段。
 
 ## evaluation
 

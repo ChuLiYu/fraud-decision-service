@@ -8,7 +8,7 @@ Pick the document for your task; do not load everything.
 | Why a decision was made | [decisions/](decisions/) (ADRs) |
 | Dataset terms, time semantics, splits, leakage rules | [data/dataset-card.md](data/dataset-card.md) |
 | What each pipeline parameter does and how to tune it | [ml/tuning-guide.md](ml/tuning-guide.md) |
-| Latest model evaluation (generated; do not edit) | [../ml/reports/evaluation.md](../ml/reports/evaluation.md) |
+| Model results across runs (generated; do not edit) | [../ml/reports/comparison.md](../ml/reports/comparison.md); per-run reports in [../ml/reports/runs/](../ml/reports/runs/); tuning in [../ml/reports/tuning/tuning.md](../ml/reports/tuning/tuning.md) |
 
 ## Planned documents (not yet written)
 

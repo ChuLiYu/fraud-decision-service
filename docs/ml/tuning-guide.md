@@ -34,7 +34,7 @@ Groups are shared field values, not verified customers (dataset card).
 
 ## seed
 
-Fixes randomness in LightGBM (row and feature sampling) and the baseline. Changing it and seeing a large metric change means a result is within noise.
+Fixes randomness in LightGBM (row and feature sampling) and the baseline. Changing it and seeing a large metric change means a result is within noise. `make tune` measures this noise directly (see `tuning.seeds` below); compare a difference between settings with the standard deviation across seeds before calling it an improvement.
 
 ## baseline (logistic regression)
 
@@ -59,6 +59,17 @@ Numeric features are mapped to normal quantiles learned on the training range, s
 | `early_stopping_rounds` | Rounds without validation PR-AUC improvement before stopping | Tolerates plateaus; slower | Stops sooner; may stop too early | `best_iteration` |
 
 Tune these against the **validation** range only. The test range is for one final result per configuration.
+
+## tuning
+
+Read only by `make tune`, which trains LightGBM on the train range for each setting, scores the validation range, and writes [`ml/reports/tuning/tuning.md`](../../ml/reports/tuning/tuning.md). It never reads the test range and never edits `params.yaml`: the owner copies the chosen values into the `lightgbm` section, and that commit records the decision.
+
+| Parameter | Effect | Watch |
+|---|---|---|
+| `grid` | LightGBM parameters and the values to try; every combination is trained once (cost grows multiplicatively) | If the best value sits at the edge of the grid, the optimum may lie beyond it |
+| `seeds` | Seeds used to retrain the current and the best grid setting | Standard deviation across seeds: a gap smaller than about two standard deviations is not a reliable improvement |
+
+Two limits apply to the scores. Early stopping also uses the validation range, and picking the best of several settings on the same range adds selection bias, so validation scores are optimistic. Use them to rank settings; the test range of the next evaluation run gives the unbiased result.
 
 ## evaluation
 
