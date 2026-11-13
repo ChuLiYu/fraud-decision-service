@@ -68,8 +68,8 @@ Uses the IEEE-CIS Fraud Detection dataset from Kaggle, replayed as simulated tra
 
 Test range, 88,581 transactions after the training and validation periods; hardware, versions, and settings are in each report.
 
-- LightGBM test PR-AUC 0.562, against 0.387 for logistic regression and 0.431 for an MLP ([comparison](ml/reports/comparison.md)).
-- Turning scores into decisions: a policy using calibrated probability × amount costs $2,073 per 1,000 transactions at a 2% review capacity, against $5,301 for approving everything and $2,787 for LightGBM score thresholds, under assumed costs; it is cheapest in all three cost scenarios tested ([decision report](ml/reports/decision/decision.md)).
+- LightGBM test PR-AUC 0.580, against 0.363 for logistic regression and 0.432 for an MLP ([comparison](ml/reports/comparison.md)).
+- Turning scores into decisions: a policy using calibrated probability × amount costs $2,083 per 1,000 transactions at a 2% review capacity, against $5,301 for approving everything and $2,744 for LightGBM score thresholds, under assumed costs; it is cheapest in all three cost scenarios tested ([decision report](ml/reports/decision/decision.md)).
 - Negative results are reported too: fusing LightGBM with the MLP did not pass the rule fixed before the run ([fusion report](ml/reports/fusion/fusion.md)).
 - Limits, drift, and intended use: [model card](docs/ml/model-card.md).
 

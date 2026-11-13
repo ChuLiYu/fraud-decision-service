@@ -21,8 +21,9 @@ Rubric mapping (ADR-004): creativity (slides 7–10), presentation (one message 
 ## 3. Feature engineering (time-safe)
 
 - Per-card history features use only earlier transactions: prior count, prior mean amount, amount ratio, time since previous.
+- Client key after the IEEE-CIS 1st place (card + address + card start day from `D1`), past-only means and distinct counts; the winners' look-ahead aggregation is not used.
 - Figure: `progress.png`.
-- Notes: the gain is small (test PR-AUC +0.009) and within seed noise; say so.
+- Notes: per-card history added test PR-AUC +0.009 (within seed noise); the client key added +0.018 (0.562 → 0.580, run `m5-client`), mostly fewer false alarms and better ranking on product W.
 
 ## 4. Tuning, and how big noise is
 
@@ -40,7 +41,7 @@ Rubric mapping (ADR-004): creativity (slides 7–10), presentation (one message 
 
 - Fit on early validation, choose on late validation, report on test; adoption rule fixed before the run.
 - Figure: `fusion_diversity.png`.
-- Notes: the models disagree (rank correlation 0.60) but the MLP adds few unique catches, so fusion lost on test ([fusion report](../../ml/reports/fusion/fusion.md)).
+- Notes: the models disagree (rank correlation 0.56 on test) but the MLP adds few unique catches, so fusion lost on test ([fusion report](../../ml/reports/fusion/fusion.md)).
 
 ## 7. From score to decision
 
@@ -51,7 +52,7 @@ Rubric mapping (ADR-004): creativity (slides 7–10), presentation (one message 
 ## 8. Decision cost
 
 - Figure: `decision_cost.png`.
-- Notes: same LightGBM model, different decision rule: the expected-cost policy saves a further $589–$714 per 1,000 transactions (bootstrap 95% intervals above zero) ([decision report](../../ml/reports/decision/decision.md)).
+- Notes: same LightGBM model, different decision rule: the expected-cost policy saves a further $502–$661 per 1,000 transactions across capacities (bootstrap 95% intervals above zero) ([decision report](../../ml/reports/decision/decision.md)).
 
 ## 9. Does it depend on the cost assumptions?
 
@@ -66,7 +67,7 @@ Rubric mapping (ADR-004): creativity (slides 7–10), presentation (one message 
 ## 11. Engineering quality
 
 - One command per stage; manifests with hashes, params, and commit; reports generated, never hand-edited.
-- Tests: leakage (test labels flipped → nothing learned changes), saturation regression, manifest refusal; 58 tests.
+- Tests: leakage (test labels flipped → nothing learned changes), saturation regression, manifest refusal; 64 tests.
 - Notes: link the repository if publishing is allowed (scope open question).
 
 ## 12. Limitations and next steps

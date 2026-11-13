@@ -1,6 +1,6 @@
 # Model card: LightGBM fraud score
 
-Status: current as of code `957d7ce` (models) and `c57cbe6` (decision evaluation). Numbers below are copied from the linked generated reports for reading convenience; the reports are authoritative, and this card must be updated when they are regenerated. Structure follows Mitchell et al., "Model Cards for Model Reporting" (2019).
+Status: current as of code `47642fa` (models, run `m5-client`) and the decision, fusion, and error reports regenerated from those models. Numbers below are copied from the linked generated reports for reading convenience; the reports are authoritative, and this card must be updated when they are regenerated. Structure follows Mitchell et al., "Model Cards for Model Reporting" (2019).
 
 ## Model details
 
@@ -8,11 +8,11 @@ Status: current as of code `957d7ce` (models) and `c57cbe6` (decision evaluation
 |---|---|
 | Purpose | Score card-not-present transactions for fraud risk, as input to an approve / review / decline policy |
 | Type | Gradient-boosted decision trees (LightGBM 4.7.0), binary objective |
-| Main settings | 127 leaves, at least 50 rows per leaf, learning rate 0.05, 2,775 trees chosen by early stopping on validation PR-AUC; full list in [`ml/params.yaml`](../../ml/params.yaml) |
-| Inputs | 417 numeric and 31 categorical columns after preprocessing: raw transaction and identity fields plus time-safe per-card history features ([features](../../ml/src/fraud_ml/features.py)) |
+| Main settings | 127 leaves, at least 50 rows per leaf, learning rate 0.05, 3,037 trees chosen by early stopping on validation PR-AUC; full list in [`ml/params.yaml`](../../ml/params.yaml) |
+| Inputs | 438 numeric and 31 categorical columns after preprocessing: raw transaction and identity fields plus time-safe history features per card and per client key (card, address, and card start day, after the IEEE-CIS 1st-place solution) ([features](../../ml/src/fraud_ml/features.py)) |
 | Output | A score in [0, 1]. Not a calibrated probability as is; the expected-cost policy recalibrates it on validation (isotonic regression) |
 | Compared with | Logistic regression (baseline) and an MLP; both weaker on every reported metric ([comparison](../../ml/reports/comparison.md)) |
-| Version identity | Models manifest params hash `bef09cde7b25` with input file hashes and commit ([manifest](../../ml/src/fraud_ml/manifest.py)) |
+| Version identity | Models manifest params hash `28d4a5d7e8a0` with input file hashes and commit ([manifest](../../ml/src/fraud_ml/manifest.py)) |
 | Owner and context | Course project (AI course, primary) and job portfolio ([ADR-004](../decisions/ADR-004-course-first-priority.md)) |
 
 ## Intended use
@@ -43,24 +43,24 @@ Status: current as of code `957d7ce` (models) and `c57cbe6` (decision evaluation
 
 ## Results on the test range
 
-Single seed (42), run `m3c-mlp` ([evaluation](../../ml/reports/runs/m3c-mlp/evaluation.md)):
+Single seed (42), run `m5-client` ([evaluation](../../ml/reports/runs/m5-client/evaluation.md)):
 
 | Metric | LightGBM | Logistic regression | MLP |
 |---|---|---|---|
-| PR-AUC | 0.562 | 0.387 | 0.431 |
-| ROC-AUC | 0.909 | 0.857 | 0.872 |
-| Recall when reviewing 1% (precision) | 0.255 (0.887) | 0.208 (0.723) | 0.217 (0.755) |
-| Recall when reviewing 5% (precision) | 0.610 (0.425) | 0.472 (0.328) | 0.507 (0.353) |
+| PR-AUC | 0.580 | 0.363 | 0.432 |
+| ROC-AUC | 0.909 | 0.841 | 0.876 |
+| Recall when reviewing 1% (precision) | 0.256 (0.889) | 0.204 (0.711) | 0.218 (0.757) |
+| Recall when reviewing 5% (precision) | 0.635 (0.442) | 0.446 (0.310) | 0.506 (0.352) |
 
-LightGBM calibration on test: ECE 0.019, Brier 0.023.
+LightGBM calibration on test: ECE 0.020, Brier 0.023.
 
 Decision level, base cost scenario, 2% review capacity ([decision report](../../ml/reports/decision/decision.md)):
 
 | Policy | Cost per 1,000 transactions | Saving vs approving everything |
 |---|---|---|
 | Approve everything | $5,301 | — |
-| LightGBM score thresholds | $2,787 | 47% |
-| LightGBM expected cost (calibrated probability × amount) | $2,073 | 61% |
+| LightGBM score thresholds | $2,744 | 48% |
+| LightGBM expected cost (calibrated probability × amount) | $2,083 | 61% |
 
 The expected-cost policy is the cheapest in all three cost scenarios and four review capacities evaluated.
 
@@ -72,7 +72,7 @@ The expected-cost policy is the cheapest in all three cost scenarios and four re
 
 ## Limitations
 
-- **Drift.** PR-AUC falls from 0.80 to 0.53 across the four validation slices after training, and fixed policies send more transactions to review than planned on later test slices (for example 2.44% instead of 2% in the last slice at a 2% capacity; more at smaller capacities) ([figures](../../ml/reports/figures/)). Thresholds and calibration need scheduled refits.
+- **Drift.** PR-AUC falls from 0.81 to 0.56 across the four validation slices after training, and fixed policies send more transactions to review than planned on later test slices (for example up to 2.39% instead of 2% at a 2% capacity) ([figures](../../ml/reports/figures/)). Thresholds and calibration need scheduled refits.
 - **Assumed costs.** Review, chargeback, and false-decline costs are scenario parameters, not measurements. Conclusions were checked under three scenarios only.
 - **Confounded comparison.** The expected-cost policy differs from score thresholds in two ways (calibration and use of the amount); their separate effects were not measured.
 - **Anonymized features.** Most columns are masked, so the model cannot be explained in business terms; no feature meanings are invented.

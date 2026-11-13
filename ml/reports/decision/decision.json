@@ -1,9 +1,9 @@
 {
   "code": {
-    "commit": "2a8f675178e95dacbd49222249934030b5ec76e3",
+    "commit": "5a9f3295142f10981ffe52f444236ab8d0de46a4",
     "dirty": false
   },
-  "models_params_hash": "bef09cde7b2503fe5e5aa99d8cca1a47fe5104922f0c3e13356b8e65970b2c47",
+  "models_params_hash": "28d4a5d7e8a03abfd190b30353af43ee38e4109920459d6728dc82ac9ff4c3a0",
   "settings": {
     "scenarios": {
       "base": {
@@ -75,128 +75,128 @@
       "scenario": "base",
       "capacity": 0.005,
       "model": "baseline",
-      "t_review": 0.12266187224777937,
-      "t_decline": 0.13330380185735716,
-      "fit_cost_cents": 35260381,
+      "t_review": 0.40151813217760535,
+      "t_decline": 0.44707813211904446,
+      "fit_cost_cents": 38641495,
       "decline_at_bound": false,
       "test": {
         "rows": 88581,
-        "approve_share": 0.9355392239870852,
-        "review_share": 0.004493062846434337,
-        "decline_share": 0.0599677131664804,
-        "fraud_stopped_share": 0.5329224781057411,
-        "fraud_amount_stopped_share": 0.45831352072550324,
-        "false_declines": 3716,
-        "cost_cents": 40076544,
-        "cost_per_1000_cents": 452428
+        "approve_share": 0.9414095573542859,
+        "review_share": 0.0076765897878777615,
+        "decline_share": 0.05091385285783633,
+        "fraud_stopped_share": 0.47810574116120663,
+        "fraud_amount_stopped_share": 0.3745878640410974,
+        "false_declines": 3118,
+        "cost_cents": 40906754,
+        "cost_per_1000_cents": 461801
       }
     },
     {
       "scenario": "base",
       "capacity": 0.005,
       "model": "lightgbm",
-      "t_review": 0.012745423499200338,
-      "t_decline": 0.017939633705741788,
-      "fit_cost_cents": 23381846,
+      "t_review": 0.012026853483073785,
+      "t_decline": 0.01968510298251243,
+      "fit_cost_cents": 21595330,
       "decline_at_bound": false,
       "test": {
         "rows": 88581,
-        "approve_share": 0.9547871439699258,
-        "review_share": 0.0053736128515144334,
-        "decline_share": 0.03983924317855973,
-        "fraud_stopped_share": 0.5867661368796626,
-        "fraud_amount_stopped_share": 0.5400160874471618,
-        "false_declines": 1802,
-        "cost_cents": 28832187,
-        "cost_per_1000_cents": 325490
-      },
-      "test_slices": [
-        {
-          "slice": 1,
-          "review_share": 0.004967036936692856,
-          "decline_share": 0.03747855143140973,
-          "cost_per_1000_cents": 301786
-        },
-        {
-          "slice": 2,
-          "review_share": 0.005373673515466245,
-          "decline_share": 0.03743508692707157,
-          "cost_per_1000_cents": 271735
-        },
-        {
-          "slice": 3,
-          "review_share": 0.005870399638744638,
-          "decline_share": 0.04100248363061639,
-          "cost_per_1000_cents": 364965
-        },
-        {
-          "slice": 4,
-          "review_share": 0.005283359674870174,
-          "decline_share": 0.04344095732671032,
-          "cost_per_1000_cents": 363473
-        }
-      ]
-    },
-    {
-      "scenario": "base",
-      "capacity": 0.005,
-      "model": "mlp",
-      "t_review": 0.18167097504131144,
-      "t_decline": 0.20527017727956276,
-      "fit_cost_cents": 32585947,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9529131529334733,
-        "review_share": 0.0053736128515144334,
-        "decline_share": 0.041713234215012246,
-        "fraud_stopped_share": 0.49724294518326306,
-        "fraud_amount_stopped_share": 0.447566715057342,
-        "false_declines": 2236,
-        "cost_cents": 35219581,
-        "cost_per_1000_cents": 397597
-      }
-    },
-    {
-      "scenario": "base",
-      "capacity": 0.005,
-      "model": "lightgbm_expected_cost",
-      "min_review_gain_cents": 5141.818181818183,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9603188042582496,
-        "review_share": 0.006976665424865377,
-        "decline_share": 0.03270453031688511,
-        "fraud_stopped_share": 0.5274083684722672,
-        "fraud_amount_stopped_share": 0.6301231677339318,
-        "false_declines": 1375,
-        "cost_cents": 23161845,
-        "cost_per_1000_cents": 261476
+        "approve_share": 0.9605558754134634,
+        "review_share": 0.005994513496122194,
+        "decline_share": 0.03344961109041442,
+        "fraud_stopped_share": 0.5819007460265975,
+        "fraud_amount_stopped_share": 0.5068442986473112,
+        "false_declines": 1287,
+        "cost_cents": 28334887,
+        "cost_per_1000_cents": 319875
       },
       "test_slices": [
         {
           "slice": 1,
           "review_share": 0.006050754086516752,
-          "decline_share": 0.03061500948252506,
-          "cost_per_1000_cents": 248296
+          "decline_share": 0.03156326198862097,
+          "cost_per_1000_cents": 307433
         },
         {
           "slice": 2,
-          "review_share": 0.0061864980808308875,
-          "decline_share": 0.0302551365996839,
-          "cost_per_1000_cents": 226712
+          "review_share": 0.00668322420410928,
+          "decline_share": 0.030209979679385865,
+          "cost_per_1000_cents": 250939
         },
         {
           "slice": 3,
-          "review_share": 0.007857304131858207,
-          "decline_share": 0.032964551817566044,
-          "cost_per_1000_cents": 291869
+          "review_share": 0.0051478889139760665,
+          "decline_share": 0.03431925942650711,
+          "cost_per_1000_cents": 353248
         },
         {
           "slice": 4,
-          "review_share": 0.0078121472115601715,
-          "decline_share": 0.03698351772409122,
-          "cost_per_1000_cents": 279029
+          "review_share": 0.006096184240234816,
+          "decline_share": 0.037706028448859785,
+          "cost_per_1000_cents": 367883
+        }
+      ]
+    },
+    {
+      "scenario": "base",
+      "capacity": 0.005,
+      "model": "mlp",
+      "t_review": 0.5053906300958828,
+      "t_decline": 0.5887724817176737,
+      "fit_cost_cents": 33085725,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9572933247536153,
+        "review_share": 0.008116864790417809,
+        "decline_share": 0.03458981045596685,
+        "fraud_stopped_share": 0.47486214725916315,
+        "fraud_amount_stopped_share": 0.40812753384000516,
+        "false_declines": 1734,
+        "cost_cents": 35042886,
+        "cost_per_1000_cents": 395603
+      }
+    },
+    {
+      "scenario": "base",
+      "capacity": 0.005,
+      "model": "lightgbm_expected_cost",
+      "min_review_gain_cents": 5084.228187919463,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9626443593998713,
+        "review_share": 0.006412210293403778,
+        "decline_share": 0.030943430306724917,
+        "fraud_stopped_share": 0.5306519623743108,
+        "fraud_amount_stopped_share": 0.5958461388614914,
+        "false_declines": 1192,
+        "cost_cents": 23891201,
+        "cost_per_1000_cents": 269710
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.006276528492730064,
+          "decline_share": 0.02962160209518649,
+          "cost_per_1000_cents": 263236
+        },
+        {
+          "slice": 2,
+          "review_share": 0.005238202754572138,
+          "decline_share": 0.027952133664484083,
+          "cost_per_1000_cents": 226469
+        },
+        {
+          "slice": 3,
+          "review_share": 0.006999322646195529,
+          "decline_share": 0.03120343192594265,
+          "cost_per_1000_cents": 287265
+        },
+        {
+          "slice": 4,
+          "review_share": 0.007134793407089637,
+          "decline_share": 0.03499661323097765,
+          "cost_per_1000_cents": 301872
         }
       ]
     },
@@ -204,65 +204,65 @@
       "scenario": "base",
       "capacity": 0.01,
       "model": "baseline",
-      "t_review": 0.1225703758134775,
-      "t_decline": 0.14681913089575804,
-      "fit_cost_cents": 34079363,
+      "t_review": 0.40119041491759827,
+      "t_decline": 0.499663469998031,
+      "fit_cost_cents": 37531526,
       "decline_at_bound": false,
       "test": {
         "rows": 88581,
-        "approve_share": 0.9354263329607929,
-        "review_share": 0.00981023018480261,
-        "decline_share": 0.05476343685440444,
-        "fraud_stopped_share": 0.5338955562763542,
-        "fraud_amount_stopped_share": 0.4614672123184855,
-        "false_declines": 3327,
-        "cost_cents": 38478236,
-        "cost_per_1000_cents": 434385
+        "approve_share": 0.9413305336358813,
+        "review_share": 0.014833880854810851,
+        "decline_share": 0.04383558550930786,
+        "fraud_stopped_share": 0.47810574116120663,
+        "fraud_amount_stopped_share": 0.3745878640410974,
+        "false_declines": 2592,
+        "cost_cents": 39265366,
+        "cost_per_1000_cents": 443271
       }
     },
     {
       "scenario": "base",
       "capacity": 0.01,
       "model": "lightgbm",
-      "t_review": 0.012820301418247412,
-      "t_decline": 0.028118777059717333,
-      "fit_cost_cents": 22155977,
+      "t_review": 0.008786496631761311,
+      "t_decline": 0.021907977452990304,
+      "fit_cost_cents": 20496217,
       "decline_at_bound": false,
       "test": {
         "rows": 88581,
-        "approve_share": 0.954888745893589,
-        "review_share": 0.011311680834490466,
-        "decline_share": 0.03379957327192062,
-        "fraud_stopped_share": 0.5864417774894584,
-        "fraud_amount_stopped_share": 0.5399543338643148,
-        "false_declines": 1359,
-        "cost_cents": 27289812,
-        "cost_per_1000_cents": 308077
+        "approve_share": 0.956107968977546,
+        "review_share": 0.011435860963412018,
+        "decline_share": 0.03245617005904201,
+        "fraud_stopped_share": 0.6065520596821278,
+        "fraud_amount_stopped_share": 0.5404621612587067,
+        "false_declines": 1215,
+        "cost_cents": 26685813,
+        "cost_per_1000_cents": 301259
       },
       "test_slices": [
         {
           "slice": 1,
-          "review_share": 0.010746861735753635,
-          "decline_share": 0.03160841686986363,
-          "cost_per_1000_cents": 286418
+          "review_share": 0.010882326379481623,
+          "decline_share": 0.0305698546012824,
+          "cost_per_1000_cents": 301525
         },
         {
           "slice": 2,
-          "review_share": 0.011831113118085346,
-          "decline_share": 0.030887333483856402,
-          "cost_per_1000_cents": 254237
+          "review_share": 0.012960036125536239,
+          "decline_share": 0.029487468954617294,
+          "cost_per_1000_cents": 233968
         },
         {
           "slice": 3,
-          "review_share": 0.01137954391510499,
-          "decline_share": 0.035403025513659966,
-          "cost_per_1000_cents": 345229
+          "review_share": 0.010521562429442312,
+          "decline_share": 0.033280650259652295,
+          "cost_per_1000_cents": 323016
         },
         {
           "slice": 4,
-          "review_share": 0.011289230074508919,
-          "decline_share": 0.03729961616617747,
-          "cost_per_1000_cents": 346426
+          "review_share": 0.01137954391510499,
+          "decline_share": 0.03648679160081283,
+          "cost_per_1000_cents": 346526
         }
       ]
     },
@@ -270,937 +270,937 @@
       "scenario": "base",
       "capacity": 0.01,
       "model": "mlp",
-      "t_review": 0.18179876771542494,
-      "t_decline": 0.23796020570543402,
-      "fit_cost_cents": 31324392,
+      "t_review": 0.5052953610746246,
+      "t_decline": 0.6790746188635732,
+      "fit_cost_cents": 31952174,
       "decline_at_bound": false,
       "test": {
         "rows": 88581,
-        "approve_share": 0.952992176651878,
-        "review_share": 0.01093914044772581,
-        "decline_share": 0.03606868290039625,
-        "fraud_stopped_share": 0.49724294518326306,
-        "fraud_amount_stopped_share": 0.447566715057342,
-        "false_declines": 1824,
-        "cost_cents": 33747997,
-        "cost_per_1000_cents": 380985
+        "approve_share": 0.9572820356509861,
+        "review_share": 0.014777435341664692,
+        "decline_share": 0.027940529007349207,
+        "fraud_stopped_share": 0.47486214725916315,
+        "fraud_amount_stopped_share": 0.40812753384000516,
+        "false_declines": 1241,
+        "cost_cents": 33388398,
+        "cost_per_1000_cents": 376925
       }
     },
     {
       "scenario": "base",
       "capacity": 0.01,
       "model": "lightgbm_expected_cost",
-      "min_review_gain_cents": 3470.1824817518254,
+      "min_review_gain_cents": 3426.324503311259,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.959855951050451,
+        "review_share": 0.011435860963412018,
+        "decline_share": 0.02870818798613698,
+        "fraud_stopped_share": 0.536490431397989,
+        "fraud_amount_stopped_share": 0.6196807859348676,
+        "false_declines": 1038,
+        "cost_cents": 21966416,
+        "cost_per_1000_cents": 247981
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.010566242210782985,
+          "decline_share": 0.027950871489207982,
+          "cost_per_1000_cents": 242732
+        },
+        {
+          "slice": 2,
+          "review_share": 0.010115150146759991,
+          "decline_share": 0.025649130729284264,
+          "cost_per_1000_cents": 211410
+        },
+        {
+          "slice": 3,
+          "review_share": 0.012869722284940167,
+          "decline_share": 0.02849401670806051,
+          "cost_per_1000_cents": 257103
+        },
+        {
+          "slice": 4,
+          "review_share": 0.012192368480469631,
+          "decline_share": 0.03273876721607586,
+          "cost_per_1000_cents": 280680
+        }
+      ]
+    },
+    {
+      "scenario": "base",
+      "capacity": 0.02,
+      "model": "baseline",
+      "t_review": 0.33358177197473377,
+      "t_decline": 0.499663469998031,
+      "fit_cost_cents": 35436126,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9277045867623983,
+        "review_share": 0.028459827728293877,
+        "decline_share": 0.04383558550930786,
+        "fraud_stopped_share": 0.5202724618877717,
+        "fraud_amount_stopped_share": 0.4198543688679491,
+        "false_declines": 2592,
+        "cost_cents": 37743113,
+        "cost_per_1000_cents": 426086
+      }
+    },
+    {
+      "scenario": "base",
+      "capacity": 0.02,
+      "model": "lightgbm",
+      "t_review": 0.005910445032019171,
+      "t_decline": 0.036525809915866375,
+      "fit_cost_cents": 18607494,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9495490003499621,
+        "review_share": 0.022341134103250133,
+        "decline_share": 0.028109865546787686,
+        "fraud_stopped_share": 0.6373662017515407,
+        "fraud_amount_stopped_share": 0.5786634386720271,
+        "false_declines": 937,
+        "cost_cents": 24305958,
+        "cost_per_1000_cents": 274392
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.02167434299647792,
+          "decline_share": 0.02614467623950149,
+          "cost_per_1000_cents": 278731
+        },
+        {
+          "slice": 2,
+          "review_share": 0.023888010837660872,
+          "decline_share": 0.02524271844660194,
+          "cost_per_1000_cents": 214317
+        },
+        {
+          "slice": 3,
+          "review_share": 0.021268909460374803,
+          "decline_share": 0.029035899751636937,
+          "cost_per_1000_cents": 299214
+        },
+        {
+          "slice": 4,
+          "review_share": 0.0225333032287198,
+          "decline_share": 0.03201625649130729,
+          "cost_per_1000_cents": 305308
+        }
+      ]
+    },
+    {
+      "scenario": "base",
+      "capacity": 0.02,
+      "model": "mlp",
+      "t_review": 0.3531313693308256,
+      "t_decline": 0.5544712114830104,
+      "fit_cost_cents": 29698924,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9355166457818268,
+        "review_share": 0.026698727718133686,
+        "decline_share": 0.03778462650003951,
+        "fraud_stopped_share": 0.5488160882257541,
+        "fraud_amount_stopped_share": 0.513993851642937,
+        "false_declines": 1958,
+        "cost_cents": 31807610,
+        "cost_per_1000_cents": 359079
+      }
+    },
+    {
+      "scenario": "base",
+      "capacity": 0.02,
+      "model": "lightgbm_expected_cost",
+      "min_review_gain_cents": 2065.789473684211,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9536582337070026,
+        "review_share": 0.02159605332972082,
+        "decline_share": 0.02474571296327655,
+        "fraud_stopped_share": 0.5517353227375933,
+        "fraud_amount_stopped_share": 0.6778492751769037,
+        "false_declines": 768,
+        "cost_cents": 18448272,
+        "cost_per_1000_cents": 208264
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.019687528221800775,
+          "decline_share": 0.02442879075228032,
+          "cost_per_1000_cents": 214521
+        },
+        {
+          "slice": 2,
+          "review_share": 0.020185143373221946,
+          "decline_share": 0.021855949424249267,
+          "cost_per_1000_cents": 172019
+        },
+        {
+          "slice": 3,
+          "review_share": 0.022307518627229624,
+          "decline_share": 0.024791149243621587,
+          "cost_per_1000_cents": 214411
+        },
+        {
+          "slice": 4,
+          "review_share": 0.024204109279747123,
+          "decline_share": 0.027906976744186046,
+          "cost_per_1000_cents": 232106
+        }
+      ]
+    },
+    {
+      "scenario": "base",
+      "capacity": 0.05,
+      "model": "baseline",
+      "t_review": 0.25077796967962696,
+      "t_decline": 0.694411541246261,
+      "fit_cost_cents": 30133869,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9033878596990326,
+        "review_share": 0.07083911899843082,
+        "decline_share": 0.025773021302536663,
+        "fraud_stopped_share": 0.5799545896853714,
+        "fraud_amount_stopped_share": 0.5111317434326874,
+        "false_declines": 1267,
+        "cost_cents": 30283574,
+        "cost_per_1000_cents": 341874
+      }
+    },
+    {
+      "scenario": "base",
+      "capacity": 0.05,
+      "model": "lightgbm",
+      "t_review": 0.002131805774931369,
+      "t_decline": 0.1867563052724161,
+      "fit_cost_cents": 14737940,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9251984059787087,
+        "review_share": 0.0565471150698231,
+        "decline_share": 0.01825447895146815,
+        "fraud_stopped_share": 0.7087252675964969,
+        "fraud_amount_stopped_share": 0.6667558402599204,
+        "false_declines": 362,
+        "cost_cents": 19372914,
+        "cost_per_1000_cents": 218703
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.05251512688521629,
+          "decline_share": 0.01742978415966766,
+          "cost_per_1000_cents": 216262
+        },
+        {
+          "slice": 2,
+          "review_share": 0.0597426055543012,
+          "decline_share": 0.015714608263716415,
+          "cost_per_1000_cents": 174468
+        },
+        {
+          "slice": 3,
+          "review_share": 0.05454955972002709,
+          "decline_share": 0.018830435764280878,
+          "cost_per_1000_cents": 240113
+        },
+        {
+          "slice": 4,
+          "review_share": 0.05938135019191691,
+          "decline_share": 0.021043124858884623,
+          "cost_per_1000_cents": 243969
+        }
+      ]
+    },
+    {
+      "scenario": "base",
+      "capacity": 0.05,
+      "model": "mlp",
+      "t_review": 0.26495820726045005,
+      "t_decline": 0.7890032796608968,
+      "fit_cost_cents": 24205858,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.913390004628532,
+        "review_share": 0.06575902281527642,
+        "decline_share": 0.02085097255619151,
+        "fraud_stopped_share": 0.6104443723645799,
+        "fraud_amount_stopped_share": 0.587162562984928,
+        "false_declines": 778,
+        "cost_cents": 25336722,
+        "cost_per_1000_cents": 286029
+      }
+    },
+    {
+      "scenario": "base",
+      "capacity": 0.05,
+      "model": "lightgbm_expected_cost",
+      "min_review_gain_cents": 682.4701195219126,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9281109944570506,
+        "review_share": 0.05568914327000147,
+        "decline_share": 0.016199862272947924,
+        "fraud_stopped_share": 0.6133636068764191,
+        "fraud_amount_stopped_share": 0.765531782035065,
+        "false_declines": 280,
+        "cost_cents": 14234208,
+        "cost_per_1000_cents": 160691
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.05423101237243746,
+          "decline_share": 0.01571389867244649,
+          "cost_per_1000_cents": 162746
+        },
+        {
+          "slice": 2,
+          "review_share": 0.053827048995258524,
+          "decline_share": 0.014134116053285167,
+          "cost_per_1000_cents": 148106
+        },
+        {
+          "slice": 3,
+          "review_share": 0.05269812598780763,
+          "decline_share": 0.01693384511176338,
+          "cost_per_1000_cents": 176303
+        },
+        {
+          "slice": 4,
+          "review_share": 0.06200045156920298,
+          "decline_share": 0.018017611198916234,
+          "cost_per_1000_cents": 155611
+        }
+      ]
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.005,
+      "model": "baseline",
+      "t_review": 0.11252370007433571,
+      "t_decline": 0.11729766350543872,
+      "fit_cost_cents": 33195735,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.8110317110892855,
+        "review_share": 0.005430058364660593,
+        "decline_share": 0.1835382305460539,
+        "fraud_stopped_share": 0.7100227051573142,
+        "fraud_amount_stopped_share": 0.6880840797602462,
+        "false_declines": 14085,
+        "cost_cents": 37541619,
+        "cost_per_1000_cents": 423811
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.005,
+      "model": "lightgbm",
+      "t_review": 0.0016217390364998802,
+      "t_decline": 0.0019163123264517065,
+      "fit_cost_cents": 18742636,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9156591142570077,
+        "review_share": 0.0061638500355606736,
+        "decline_share": 0.07817703570743162,
+        "fraud_stopped_share": 0.727538112228349,
+        "fraud_amount_stopped_share": 0.6859338838885286,
+        "false_declines": 4719,
+        "cost_cents": 24952638,
+        "cost_per_1000_cents": 281693
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.005,
+      "model": "mlp",
+      "t_review": 0.13438661897820353,
+      "t_decline": 0.14004715792742256,
+      "fit_cost_cents": 29058786,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.8442668292297445,
+        "review_share": 0.005520371185694449,
+        "decline_share": 0.15021279958456102,
+        "fraud_stopped_share": 0.7278624716185533,
+        "fraud_amount_stopped_share": 0.7348653360913193,
+        "false_declines": 11087,
+        "cost_cents": 32209126,
+        "cost_per_1000_cents": 363612
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.005,
+      "model": "lightgbm_expected_cost",
+      "min_review_gain_cents": 3196.797736916548,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9247016854630226,
+        "review_share": 0.006615414140729954,
+        "decline_share": 0.0686829003962475,
+        "fraud_stopped_share": 0.6892637041842361,
+        "fraud_amount_stopped_share": 0.7293739945611704,
+        "false_declines": 4012,
+        "cost_cents": 21250121,
+        "cost_per_1000_cents": 239895
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.01,
+      "model": "baseline",
+      "t_review": 0.11249877627176992,
+      "t_decline": 0.12260733159476175,
+      "fit_cost_cents": 32870103,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.8110204219866562,
+        "review_share": 0.011593908400221266,
+        "decline_share": 0.17738566961312247,
+        "fraud_stopped_share": 0.7100227051573142,
+        "fraud_amount_stopped_share": 0.6880840797602462,
+        "false_declines": 13570,
+        "cost_cents": 37135553,
+        "cost_per_1000_cents": 419227
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.01,
+      "model": "lightgbm",
+      "t_review": 0.0016217390364998802,
+      "t_decline": 0.0022699263636691185,
+      "fit_cost_cents": 18410002,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9156591142570077,
+        "review_share": 0.011514884681816643,
+        "decline_share": 0.07282600106117565,
+        "fraud_stopped_share": 0.727538112228349,
+        "fraud_amount_stopped_share": 0.6859338838885286,
+        "false_declines": 4279,
+        "cost_cents": 24561184,
+        "cost_per_1000_cents": 277274
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.01,
+      "model": "mlp",
+      "t_review": 0.13435288680084825,
+      "t_decline": 0.1468264168547011,
+      "fit_cost_cents": 28675087,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.8442216728192276,
+        "review_share": 0.011029453268759667,
+        "decline_share": 0.14474887391201274,
+        "fraud_stopped_share": 0.7278624716185533,
+        "fraud_amount_stopped_share": 0.7348653360913193,
+        "false_declines": 10621,
+        "cost_cents": 31710560,
+        "cost_per_1000_cents": 357984
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.01,
+      "model": "lightgbm_expected_cost",
+      "min_review_gain_cents": 2097.6000000000004,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9222858175003669,
+        "review_share": 0.012022894300132083,
+        "decline_share": 0.06569128819950103,
+        "fraud_stopped_share": 0.6925072980862796,
+        "fraud_amount_stopped_share": 0.7544713107547186,
+        "false_declines": 3799,
+        "cost_cents": 19299948,
+        "cost_per_1000_cents": 217879
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.02,
+      "model": "baseline",
+      "t_review": 0.11045544742218318,
+      "t_decline": 0.1316501389263785,
+      "fit_cost_cents": 32233905,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.8084126392793037,
+        "review_share": 0.02333457513462255,
+        "decline_share": 0.16825278558607376,
+        "fraud_stopped_share": 0.7126175802789491,
+        "fraud_amount_stopped_share": 0.6901589149665515,
+        "false_declines": 12793,
+        "cost_cents": 36528804,
+        "cost_per_1000_cents": 412377
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.02,
+      "model": "lightgbm",
+      "t_review": 0.0013187496823837826,
+      "t_decline": 0.0025725494447381893,
+      "fit_cost_cents": 17681038,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9074293584402976,
+        "review_share": 0.023311996929364084,
+        "decline_share": 0.06925864463033833,
+        "fraud_stopped_share": 0.7398637690561142,
+        "fraud_amount_stopped_share": 0.7051527487648325,
+        "false_declines": 3992,
+        "cost_cents": 23582173,
+        "cost_per_1000_cents": 266222
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.02,
+      "model": "mlp",
+      "t_review": 0.1343392482076761,
+      "t_decline": 0.16357013082054317,
+      "fit_cost_cents": 27805048,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.8442216728192276,
+        "review_share": 0.023357153339881014,
+        "decline_share": 0.1324211738408914,
+        "fraud_stopped_share": 0.7278624716185533,
+        "fraud_amount_stopped_share": 0.7348653360913193,
+        "false_declines": 9595,
+        "cost_cents": 30715613,
+        "cost_per_1000_cents": 346752
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.02,
+      "model": "lightgbm_expected_cost",
+      "min_review_gain_cents": 1241.318982158526,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9175669726013479,
+        "review_share": 0.0223298450006209,
+        "decline_share": 0.06010318239803118,
+        "fraud_stopped_share": 0.6980214077197535,
+        "fraud_amount_stopped_share": 0.7854256348662262,
+        "false_declines": 3374,
+        "cost_cents": 16913757,
+        "cost_per_1000_cents": 190941
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.05,
+      "model": "baseline",
+      "t_review": 0.11051403950498889,
+      "t_decline": 0.1756423614863055,
+      "fit_cost_cents": 30294565,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.8084803738950791,
+        "review_share": 0.05796954200110633,
+        "decline_share": 0.13355008410381458,
+        "fraud_stopped_share": 0.7122932208887447,
+        "fraud_amount_stopped_share": 0.6900332783669662,
+        "false_declines": 9860,
+        "cost_cents": 33839119,
+        "cost_per_1000_cents": 382013
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.05,
+      "model": "lightgbm",
+      "t_review": 0.0013095908879464024,
+      "t_decline": 0.015698860657809177,
+      "fit_cost_cents": 15752683,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9071358417719375,
+        "review_share": 0.056953522764475455,
+        "decline_share": 0.035910635463587,
+        "fraud_stopped_share": 0.7408368472267273,
+        "fraud_amount_stopped_share": 0.7089278943446452,
+        "false_declines": 1462,
+        "cost_cents": 20983839,
+        "cost_per_1000_cents": 236889
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.05,
+      "model": "mlp",
+      "t_review": 0.1343392482076761,
+      "t_decline": 0.23479181163402457,
+      "fit_cost_cents": 25082422,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.8442216728192276,
+        "review_share": 0.05844368431153408,
+        "decline_share": 0.09733464286923832,
+        "fraud_stopped_share": 0.7278624716185533,
+        "fraud_amount_stopped_share": 0.7348653360913193,
+        "false_declines": 6674,
+        "cost_cents": 27746585,
+        "cost_per_1000_cents": 313234
+      }
+    },
+    {
+      "scenario": "fraud_heavy",
+      "capacity": 0.05,
+      "model": "lightgbm_expected_cost",
+      "min_review_gain_cents": 454.4736842105264,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.901852541741457,
+        "review_share": 0.05449249839130287,
+        "decline_share": 0.043654959867240155,
+        "fraud_stopped_share": 0.710671423937723,
+        "fraud_amount_stopped_share": 0.8241917233248691,
+        "false_declines": 2098,
+        "cost_cents": 14237615,
+        "cost_per_1000_cents": 160730
+      }
+    },
+    {
+      "scenario": "customer_heavy",
+      "capacity": 0.005,
+      "model": "baseline",
+      "t_review": 0.6551650291081418,
+      "t_decline": 0.7704316958390564,
+      "fit_cost_cents": 42365248,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9713256793217507,
+        "review_share": 0.009121594924419458,
+        "decline_share": 0.01955272575382983,
+        "fraud_stopped_share": 0.34965942264028543,
+        "fraud_amount_stopped_share": 0.2389662850564975,
+        "false_declines": 845,
+        "cost_cents": 42760157,
+        "cost_per_1000_cents": 482724
+      }
+    },
+    {
+      "scenario": "customer_heavy",
+      "capacity": 0.005,
+      "model": "lightgbm",
+      "t_review": 0.03221316240604247,
+      "t_decline": 0.07414850361597004,
+      "fit_cost_cents": 25841286,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9709305607297276,
+        "review_share": 0.005509082083065217,
+        "decline_share": 0.023560357187207188,
+        "fraud_stopped_share": 0.512163477132663,
+        "fraud_amount_stopped_share": 0.4162651228668449,
+        "false_declines": 646,
+        "cost_cents": 33342185,
+        "cost_per_1000_cents": 376403
+      }
+    },
+    {
+      "scenario": "customer_heavy",
+      "capacity": 0.005,
+      "model": "mlp",
+      "t_review": 0.6376208222761194,
+      "t_decline": 0.7442841153621154,
+      "fit_cost_cents": 37023823,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9691694607195674,
+        "review_share": 0.007078267348528466,
+        "decline_share": 0.023752271931904132,
+        "fraud_stopped_share": 0.41453130068115474,
+        "fraud_amount_stopped_share": 0.32680815874708197,
+        "false_declines": 960,
+        "cost_cents": 40820948,
+        "cost_per_1000_cents": 460832
+      }
+    },
+    {
+      "scenario": "customer_heavy",
+      "capacity": 0.005,
+      "model": "lightgbm_expected_cost",
+      "min_review_gain_cents": 6821.029082774051,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9732561158713494,
+        "review_share": 0.006096115419785281,
+        "decline_share": 0.02064776870886533,
+        "fraud_stopped_share": 0.45053519299383715,
+        "fraud_amount_stopped_share": 0.5216420967615611,
+        "false_declines": 551,
+        "cost_cents": 27540932,
+        "cost_per_1000_cents": 310912
+      }
+    },
+    {
+      "scenario": "customer_heavy",
+      "capacity": 0.01,
+      "model": "baseline",
+      "t_review": 0.5701773572811452,
+      "t_decline": 0.7704316958390564,
+      "fit_cost_cents": 40861901,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9637168241496483,
+        "review_share": 0.016730450096521826,
+        "decline_share": 0.01955272575382983,
+        "fraud_stopped_share": 0.3863120337333766,
+        "fraud_amount_stopped_share": 0.2741333534124753,
+        "false_declines": 845,
+        "cost_cents": 41782682,
+        "cost_per_1000_cents": 471689
+      }
+    },
+    {
+      "scenario": "customer_heavy",
+      "capacity": 0.01,
+      "model": "lightgbm",
+      "t_review": 0.022217824980455898,
+      "t_decline": 0.11339535607926854,
+      "fit_cost_cents": 23854692,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9676567209672503,
+        "review_share": 0.011322969937119698,
+        "decline_share": 0.021020309095629987,
+        "fraud_stopped_share": 0.5381122283490107,
+        "fraud_amount_stopped_share": 0.4469428335158755,
+        "false_declines": 510,
+        "cost_cents": 31130196,
+        "cost_per_1000_cents": 351432
+      }
+    },
+    {
+      "scenario": "customer_heavy",
+      "capacity": 0.01,
+      "model": "mlp",
+      "t_review": 0.5895318987823939,
+      "t_decline": 0.7890032796608968,
+      "fit_cost_cents": 35132552,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9654666350571793,
+        "review_share": 0.013682392386629187,
+        "decline_share": 0.02085097255619151,
+        "fraud_stopped_share": 0.43074927019137205,
+        "fraud_amount_stopped_share": 0.34305691052617077,
+        "false_declines": 778,
+        "cost_cents": 38914655,
+        "cost_per_1000_cents": 439312
+      }
+    },
+    {
+      "scenario": "customer_heavy",
+      "capacity": 0.01,
+      "model": "lightgbm_expected_cost",
+      "min_review_gain_cents": 4270.923418872499,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9702306363667152,
+        "review_share": 0.01116492250031045,
+        "decline_share": 0.01860444113297434,
+        "fraud_stopped_share": 0.4609146934803763,
+        "fraud_amount_stopped_share": 0.5587281044686638,
+        "false_declines": 414,
+        "cost_cents": 24742967,
+        "cost_per_1000_cents": 279326
+      }
+    },
+    {
+      "scenario": "customer_heavy",
+      "capacity": 0.02,
+      "model": "baseline",
+      "t_review": 0.4906823669369501,
+      "t_decline": 0.8862334361718451,
+      "fit_cost_cents": 38159552,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9550016369198813,
+        "review_share": 0.034126957248168346,
+        "decline_share": 0.010871405831950419,
+        "fraud_stopped_share": 0.42296464482646773,
+        "fraud_amount_stopped_share": 0.3113139079843507,
+        "false_declines": 293,
+        "cost_cents": 37367130,
+        "cost_per_1000_cents": 421841
+      }
+    },
+    {
+      "scenario": "customer_heavy",
+      "capacity": 0.02,
+      "model": "lightgbm",
+      "t_review": 0.012022683613326634,
+      "t_decline": 0.3112559087400324,
+      "fit_cost_cents": 20785629,
+      "decline_at_bound": false,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9605558754134634,
+        "review_share": 0.02362809180298258,
+        "decline_share": 0.015816032783554035,
+        "fraud_stopped_share": 0.5819007460265975,
+        "fraud_amount_stopped_share": 0.5068442986473112,
+        "false_declines": 261,
+        "cost_cents": 27141520,
+        "cost_per_1000_cents": 306403
+      }
+    },
+    {
+      "scenario": "customer_heavy",
+      "capacity": 0.02,
+      "model": "mlp",
+      "t_review": 0.5091203066965956,
+      "t_decline": 0.9222839186827748,
+      "fit_cost_cents": 31861652,
+      "decline_at_bound": false,
       "test": {
         "rows": 88581,
         "approve_share": 0.957564263216717,
-        "review_share": 0.012530903918447522,
-        "decline_share": 0.029904832864835574,
-        "fraud_stopped_share": 0.5325981187155369,
-        "fraud_amount_stopped_share": 0.6499780093362048,
-        "false_declines": 1181,
-        "cost_cents": 21192389,
-        "cost_per_1000_cents": 239243
-      },
-      "test_slices": [
-        {
-          "slice": 1,
-          "review_share": 0.010611397092025647,
-          "decline_share": 0.028537884945362593,
-          "cost_per_1000_cents": 231907
-        },
-        {
-          "slice": 2,
-          "review_share": 0.01169564235719124,
-          "decline_share": 0.02768119214269587,
-          "cost_per_1000_cents": 211089
-        },
-        {
-          "slice": 3,
-          "review_share": 0.014269586814179273,
-          "decline_share": 0.029668096635809438,
-          "cost_per_1000_cents": 255811
-        },
-        {
-          "slice": 4,
-          "review_share": 0.013547076089410703,
-          "decline_share": 0.03373221946263265,
-          "cost_per_1000_cents": 258165
-        }
-      ]
-    },
-    {
-      "scenario": "base",
-      "capacity": 0.02,
-      "model": "baseline",
-      "t_review": 0.1225703758134775,
-      "t_decline": 0.18574995887327464,
-      "fit_cost_cents": 31571377,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9354263329607929,
-        "review_share": 0.0212009347376977,
-        "decline_share": 0.043372732301509356,
-        "fraud_stopped_share": 0.5338955562763542,
-        "fraud_amount_stopped_share": 0.4614672123184855,
-        "false_declines": 2467,
-        "cost_cents": 35520814,
-        "cost_per_1000_cents": 400998
-      }
-    },
-    {
-      "scenario": "base",
-      "capacity": 0.02,
-      "model": "lightgbm",
-      "t_review": 0.008589107288499669,
-      "t_decline": 0.0385677945417717,
-      "fit_cost_cents": 19897820,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9467267246926542,
-        "review_share": 0.023131371287296372,
-        "decline_share": 0.030141904020049445,
-        "fraud_stopped_share": 0.6237431073629581,
-        "fraud_amount_stopped_share": 0.5853580807054592,
-        "false_declines": 1117,
-        "cost_cents": 24689132,
-        "cost_per_1000_cents": 278718
-      },
-      "test_slices": [
-        {
-          "slice": 1,
-          "review_share": 0.022035582046419217,
-          "decline_share": 0.027950871489207982,
-          "cost_per_1000_cents": 265807
-        },
-        {
-          "slice": 2,
-          "review_share": 0.023346127794084442,
-          "decline_share": 0.027816662903589976,
-          "cost_per_1000_cents": 229547
-        },
-        {
-          "slice": 3,
-          "review_share": 0.02275908783020998,
-          "decline_share": 0.03160984420862497,
-          "cost_per_1000_cents": 327775
-        },
-        {
-          "slice": 4,
-          "review_share": 0.024384736960939263,
-          "decline_share": 0.03319033641905622,
-          "cost_per_1000_cents": 291745
-        }
-      ]
-    },
-    {
-      "scenario": "base",
-      "capacity": 0.02,
-      "model": "mlp",
-      "t_review": 0.1833067623451664,
-      "t_decline": 0.34940422254959647,
-      "fit_cost_cents": 29052577,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9532969824228672,
-        "review_share": 0.021155778327180772,
-        "decline_share": 0.02554723924995202,
-        "fraud_stopped_share": 0.49594550762244566,
-        "fraud_amount_stopped_share": 0.4448465762046239,
-        "false_declines": 1069,
-        "cost_cents": 31114082,
-        "cost_per_1000_cents": 351250
-      }
-    },
-    {
-      "scenario": "base",
-      "capacity": 0.02,
-      "model": "lightgbm_expected_cost",
-      "min_review_gain_cents": 2204.491725768322,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9521454939546855,
-        "review_share": 0.02265722897686863,
-        "decline_share": 0.02519727706844583,
-        "fraud_stopped_share": 0.5442750567628933,
-        "fraud_amount_stopped_share": 0.6867748612152108,
-        "false_declines": 848,
-        "cost_cents": 18363709,
-        "cost_per_1000_cents": 207310
-      },
-      "test_slices": [
-        {
-          "slice": 1,
-          "review_share": 0.020951864896595323,
-          "decline_share": 0.024067551702339023,
-          "cost_per_1000_cents": 200265
-        },
-        {
-          "slice": 2,
-          "review_share": 0.02149469406186498,
-          "decline_share": 0.023120343192594265,
-          "cost_per_1000_cents": 178723
-        },
-        {
-          "slice": 3,
-          "review_share": 0.023888010837660872,
-          "decline_share": 0.0250620907654098,
-          "cost_per_1000_cents": 218014
-        },
-        {
-          "slice": 4,
-          "review_share": 0.024294423120343193,
-          "decline_share": 0.028539173628358547,
-          "cost_per_1000_cents": 232237
-        }
-      ]
-    },
-    {
-      "scenario": "base",
-      "capacity": 0.05,
-      "model": "baseline",
-      "t_review": 0.1183259870018054,
-      "t_decline": 0.7116874921557416,
-      "fit_cost_cents": 26043732,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9332814034612389,
-        "review_share": 0.05677289712240774,
-        "decline_share": 0.009945699416353393,
-        "fraud_stopped_share": 0.5397340253000324,
-        "fraud_amount_stopped_share": 0.47287957254936547,
-        "false_declines": 244,
-        "cost_cents": 27927092,
-        "cost_per_1000_cents": 315272
-      }
-    },
-    {
-      "scenario": "base",
-      "capacity": 0.05,
-      "model": "lightgbm",
-      "t_review": 0.0033992221655605474,
-      "t_decline": 0.09931924716633922,
-      "fit_cost_cents": 15733643,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9184249444011695,
-        "review_share": 0.05915489777717569,
-        "decline_share": 0.022420157821654758,
-        "fraud_stopped_share": 0.69477781381771,
-        "fraud_amount_stopped_share": 0.6846091843591037,
-        "false_declines": 614,
-        "cost_cents": 19624381,
-        "cost_per_1000_cents": 221542
-      },
-      "test_slices": [
-        {
-          "slice": 1,
-          "review_share": 0.05581143321593064,
-          "decline_share": 0.020635780727896687,
-          "cost_per_1000_cents": 218332
-        },
-        {
-          "slice": 2,
-          "review_share": 0.061323097764732444,
-          "decline_share": 0.01973357417024159,
-          "cost_per_1000_cents": 187620
-        },
-        {
-          "slice": 3,
-          "review_share": 0.058523368706254235,
-          "decline_share": 0.023888010837660872,
-          "cost_per_1000_cents": 249601
-        },
-        {
-          "slice": 4,
-          "review_share": 0.06096184240234816,
-          "decline_share": 0.025423346127794084,
-          "cost_per_1000_cents": 230614
-        }
-      ]
-    },
-    {
-      "scenario": "base",
-      "capacity": 0.05,
-      "model": "mlp",
-      "t_review": 0.11537119142599699,
-      "t_decline": 0.38599453234114234,
-      "fit_cost_cents": 24164929,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9252548514918549,
-        "review_share": 0.051376706065634846,
-        "decline_share": 0.023368442442510243,
-        "fraud_stopped_share": 0.5812520272461887,
-        "fraud_amount_stopped_share": 0.5793767990256051,
-        "false_declines": 932,
-        "cost_cents": 25507419,
-        "cost_per_1000_cents": 287956
-      }
-    },
-    {
-      "scenario": "base",
-      "capacity": 0.05,
-      "model": "lightgbm_expected_cost",
-      "min_review_gain_cents": 732.7613941018768,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9267901694494305,
-        "review_share": 0.05785665097481401,
-        "decline_share": 0.015353179575755523,
-        "fraud_stopped_share": 0.6033084657800843,
-        "fraud_amount_stopped_share": 0.7618551440670629,
-        "false_declines": 254,
-        "cost_cents": 14410398,
-        "cost_per_1000_cents": 162680
-      },
-      "test_slices": [
-        {
-          "slice": 1,
-          "review_share": 0.056579066197055904,
-          "decline_share": 0.014675336403865258,
-          "cost_per_1000_cents": 162393
-        },
-        {
-          "slice": 2,
-          "review_share": 0.055588168886881915,
-          "decline_share": 0.013998645292391058,
-          "cost_per_1000_cents": 141390
-        },
-        {
-          "slice": 3,
-          "review_share": 0.05743960261910138,
-          "decline_share": 0.01594039286520659,
-          "cost_per_1000_cents": 161736
-        },
-        {
-          "slice": 4,
-          "review_share": 0.061819823888010834,
-          "decline_share": 0.01679837435086927,
-          "cost_per_1000_cents": 185202
-        }
-      ]
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.005,
-      "model": "baseline",
-      "t_review": 0.07007340982401769,
-      "t_decline": 0.07355121036788716,
-      "fit_cost_cents": 30310575,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.8922793827118682,
-        "review_share": 0.004775290412165137,
-        "decline_share": 0.10294532687596664,
-        "fraud_stopped_share": 0.6247161855335712,
-        "fraud_amount_stopped_share": 0.5890963870789528,
-        "false_declines": 7217,
-        "cost_cents": 34002270,
-        "cost_per_1000_cents": 383855
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.005,
-      "model": "lightgbm",
-      "t_review": 0.0026122269992653897,
-      "t_decline": 0.0029674726245776314,
-      "fit_cost_cents": 19230713,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9075761167744776,
-        "review_share": 0.005260721825222113,
-        "decline_share": 0.0871631614003003,
-        "fraud_stopped_share": 0.7213752838144665,
-        "fraud_amount_stopped_share": 0.711503316870112,
-        "false_declines": 5531,
-        "cost_cents": 24547534,
-        "cost_per_1000_cents": 277120
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.005,
-      "model": "mlp",
-      "t_review": 0.07870367469821724,
-      "t_decline": 0.08222314268425582,
-      "fit_cost_cents": 27586323,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.8867590115261738,
-        "review_share": 0.005226854517334417,
-        "decline_share": 0.1080141339564918,
-        "fraud_stopped_share": 0.6646123905287058,
-        "fraud_amount_stopped_share": 0.6801494470775841,
-        "false_declines": 7555,
-        "cost_cents": 30183315,
-        "cost_per_1000_cents": 340743
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.005,
-      "model": "lightgbm_expected_cost",
-      "min_review_gain_cents": 3254.1785714285716,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9192603379957327,
-        "review_share": 0.006479944909179169,
-        "decline_share": 0.0742597170950881,
-        "fraud_stopped_share": 0.6850470321115796,
-        "fraud_amount_stopped_share": 0.7522769504240959,
-        "false_declines": 4529,
-        "cost_cents": 20882563,
-        "cost_per_1000_cents": 235745
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.01,
-      "model": "baseline",
-      "t_review": 0.07007340982401769,
-      "t_decline": 0.07763460629470792,
-      "fit_cost_cents": 29968081,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.8922793827118682,
-        "review_share": 0.01026179428997189,
-        "decline_share": 0.09745882299815987,
-        "fraud_stopped_share": 0.6247161855335712,
-        "fraud_amount_stopped_share": 0.5890963870789528,
-        "false_declines": 6763,
-        "cost_cents": 33537296,
-        "cost_per_1000_cents": 378606
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.01,
-      "model": "lightgbm",
-      "t_review": 0.0026122269992653897,
-      "t_decline": 0.0033682152839820843,
-      "fit_cost_cents": 18887633,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9075761167744776,
-        "review_share": 0.010464998137298067,
-        "decline_share": 0.08195888508822434,
-        "fraud_stopped_share": 0.7213752838144665,
-        "fraud_amount_stopped_share": 0.711503316870112,
-        "false_declines": 5117,
-        "cost_cents": 24163230,
-        "cost_per_1000_cents": 272781
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.01,
-      "model": "mlp",
-      "t_review": 0.07878744363630354,
-      "t_decline": 0.0855945546822328,
-      "fit_cost_cents": 27203331,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.8869057698603539,
-        "review_share": 0.00958444813221797,
-        "decline_share": 0.10350978200742823,
-        "fraud_stopped_share": 0.6646123905287058,
-        "fraud_amount_stopped_share": 0.6801494470775841,
-        "false_declines": 7180,
-        "cost_cents": 29783619,
-        "cost_per_1000_cents": 336230
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.01,
-      "model": "lightgbm_expected_cost",
-      "min_review_gain_cents": 2208.3809523809527,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9169122046488525,
-        "review_share": 0.011955159684356691,
-        "decline_share": 0.07113263566679084,
-        "fraud_stopped_share": 0.6869931884528057,
-        "fraud_amount_stopped_share": 0.762344594446973,
-        "false_declines": 4288,
-        "cost_cents": 19688703,
-        "cost_per_1000_cents": 222268
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.02,
-      "model": "baseline",
-      "t_review": 0.07004571202904032,
-      "t_decline": 0.08844883883476554,
-      "fit_cost_cents": 29266966,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.8922455154039806,
-        "review_share": 0.020873550761449974,
-        "decline_share": 0.08688093383456949,
-        "fraud_stopped_share": 0.6247161855335712,
-        "fraud_amount_stopped_share": 0.5890963870789528,
-        "false_declines": 5874,
-        "cost_cents": 32770783,
-        "cost_per_1000_cents": 369953
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.02,
-      "model": "lightgbm",
-      "t_review": 0.0017077397262128795,
-      "t_decline": 0.0026586567551283957,
-      "fit_cost_cents": 18214216,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.8859800634447568,
-        "review_share": 0.022262110384845508,
-        "decline_share": 0.09175782617039771,
-        "fraud_stopped_share": 0.7577035355173533,
-        "fraud_amount_stopped_share": 0.7512555887524835,
-        "false_declines": 5908,
-        "cost_cents": 23629067,
-        "cost_per_1000_cents": 266751
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.02,
-      "model": "mlp",
-      "t_review": 0.07780944105643799,
-      "t_decline": 0.0921427229964649,
-      "fit_cost_cents": 26375234,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.8854268974159244,
-        "review_share": 0.018988270622368228,
-        "decline_share": 0.09558483196170736,
-        "fraud_stopped_share": 0.6659098280895231,
-        "fraud_amount_stopped_share": 0.6806754172487297,
-        "false_declines": 6519,
-        "cost_cents": 29199878,
-        "cost_per_1000_cents": 329640
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.02,
-      "model": "lightgbm_expected_cost",
-      "min_review_gain_cents": 1268.2427107959024,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9126675020602613,
-        "review_share": 0.023470044366173334,
-        "decline_share": 0.06386245357356543,
-        "fraud_stopped_share": 0.6899124229646448,
-        "fraud_amount_stopped_share": 0.7770443747192075,
-        "false_declines": 3734,
-        "cost_cents": 17918320,
-        "cost_per_1000_cents": 202282
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.05,
-      "model": "baseline",
-      "t_review": 0.07007091345329083,
-      "t_decline": 0.1441950115225187,
-      "fit_cost_cents": 27163096,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.892268093609239,
-        "review_share": 0.05197502850498414,
-        "decline_share": 0.05575687788577686,
-        "fraud_stopped_share": 0.6247161855335712,
-        "fraud_amount_stopped_share": 0.5890963870789528,
-        "false_declines": 3398,
-        "cost_cents": 30324887,
-        "cost_per_1000_cents": 342341
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.05,
-      "model": "lightgbm",
-      "t_review": 0.001708329454970612,
-      "t_decline": 0.007294210557809575,
-      "fit_cost_cents": 16216869,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.8860026416500152,
-        "review_share": 0.05671645160926158,
-        "decline_share": 0.05728090674072318,
-        "fraud_stopped_share": 0.7577035355173533,
-        "fraud_amount_stopped_share": 0.7512555887524835,
-        "false_declines": 3110,
-        "cost_cents": 21048213,
-        "cost_per_1000_cents": 237615
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.05,
-      "model": "mlp",
-      "t_review": 0.07769172089123835,
-      "t_decline": 0.13200540789571202,
-      "fit_cost_cents": 23947634,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.8852575608764859,
-        "review_share": 0.049931700929093145,
-        "decline_share": 0.06481073819442093,
-        "fraud_stopped_share": 0.6662341874797275,
-        "fraud_amount_stopped_share": 0.680839383658358,
-        "false_declines": 4034,
-        "cost_cents": 26595217,
-        "cost_per_1000_cents": 300236
-      }
-    },
-    {
-      "scenario": "fraud_heavy",
-      "capacity": 0.05,
-      "model": "lightgbm_expected_cost",
-      "min_review_gain_cents": 486.76056338028167,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.898736749415789,
-        "review_share": 0.054029645183504366,
-        "decline_share": 0.047233605400706695,
-        "fraud_stopped_share": 0.7019137204022057,
-        "fraud_amount_stopped_share": 0.8194761984443293,
-        "false_declines": 2444,
-        "cost_cents": 14821533,
-        "cost_per_1000_cents": 167322
-      }
-    },
-    {
-      "scenario": "customer_heavy",
-      "capacity": 0.005,
-      "model": "baseline",
-      "t_review": 0.3354234003929595,
-      "t_decline": 0.43911565089625776,
-      "fit_cost_cents": 41034549,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9763719081970175,
-        "review_share": 0.0056671295198744654,
-        "decline_share": 0.017960962283108117,
-        "fraud_stopped_share": 0.3470645475186507,
-        "fraud_amount_stopped_share": 0.234301461996909,
-        "false_declines": 659,
-        "cost_cents": 41328854,
-        "cost_per_1000_cents": 466566
-      }
-    },
-    {
-      "scenario": "customer_heavy",
-      "capacity": 0.005,
-      "model": "lightgbm",
-      "t_review": 0.04012862526785054,
-      "t_decline": 0.08231513611886634,
-      "fit_cost_cents": 27797738,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9702757927772322,
-        "review_share": 0.005971935290863729,
-        "decline_share": 0.023752271931904132,
-        "fraud_stopped_share": 0.5008108984755109,
-        "fraud_amount_stopped_share": 0.4150784958309304,
-        "false_declines": 692,
-        "cost_cents": 33747194,
-        "cost_per_1000_cents": 380976
-      }
-    },
-    {
-      "scenario": "customer_heavy",
-      "capacity": 0.005,
-      "model": "mlp",
-      "t_review": 0.3516731589038937,
-      "t_decline": 0.4593777247987716,
-      "fit_cost_cents": 37333360,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9745656517763402,
-        "review_share": 0.005430058364660593,
-        "decline_share": 0.02000428985899911,
-        "fraud_stopped_share": 0.38696075251378526,
-        "fraud_amount_stopped_share": 0.2997739307803664,
-        "false_declines": 722,
-        "cost_cents": 39178324,
-        "cost_per_1000_cents": 442288
-      }
-    },
-    {
-      "scenario": "customer_heavy",
-      "capacity": 0.005,
-      "model": "lightgbm_expected_cost",
-      "min_review_gain_cents": 7487.94326241135,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9745204953658234,
-        "review_share": 0.006344475677628385,
-        "decline_share": 0.019135028956548245,
-        "fraud_stopped_share": 0.43496594226402857,
-        "fraud_amount_stopped_share": 0.538218461944823,
-        "false_declines": 478,
-        "cost_cents": 26394663,
-        "cost_per_1000_cents": 297972
-      }
-    },
-    {
-      "scenario": "customer_heavy",
-      "capacity": 0.01,
-      "model": "baseline",
-      "t_review": 0.2651909831721892,
-      "t_decline": 0.4144275989580498,
-      "fit_cost_cents": 39161770,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9702419254693444,
-        "review_share": 0.010498865445185763,
-        "decline_share": 0.019259209085469797,
-        "fraud_stopped_share": 0.3827440804411288,
-        "fraud_amount_stopped_share": 0.2707940390671904,
-        "false_declines": 735,
-        "cost_cents": 40729434,
-        "cost_per_1000_cents": 459799
-      }
-    },
-    {
-      "scenario": "customer_heavy",
-      "capacity": 0.01,
-      "model": "lightgbm",
-      "t_review": 0.021587385786143477,
-      "t_decline": 0.07045249168324261,
-      "fit_cost_cents": 25791451,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9630394779918944,
-        "review_share": 0.01218094173694133,
-        "decline_share": 0.024779580271164246,
-        "fraud_stopped_share": 0.545896853713915,
-        "fraud_amount_stopped_share": 0.47929885748631657,
-        "false_declines": 757,
-        "cost_cents": 31812699,
-        "cost_per_1000_cents": 359137
-      }
-    },
-    {
-      "scenario": "customer_heavy",
-      "capacity": 0.01,
-      "model": "mlp",
-      "t_review": 0.2979131001758793,
-      "t_decline": 0.4903963547539581,
-      "fit_cost_cents": 35494690,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9705241530350752,
-        "review_share": 0.010442419932039601,
-        "decline_share": 0.019033427032885155,
-        "fraud_stopped_share": 0.4106389879987026,
-        "fraud_amount_stopped_share": 0.3295388595919008,
-        "false_declines": 665,
-        "cost_cents": 37698311,
-        "cost_per_1000_cents": 425580
-      }
-    },
-    {
-      "scenario": "customer_heavy",
-      "capacity": 0.01,
-      "model": "lightgbm_expected_cost",
-      "min_review_gain_cents": 4497.058823529413,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9702080581614567,
-        "review_share": 0.012372856481638274,
-        "decline_share": 0.01741908535690498,
-        "fraud_stopped_share": 0.45021083360363284,
-        "fraud_amount_stopped_share": 0.5855182993114391,
-        "false_declines": 372,
-        "cost_cents": 23380390,
-        "cost_per_1000_cents": 263944
-      }
-    },
-    {
-      "scenario": "customer_heavy",
-      "capacity": 0.02,
-      "model": "baseline",
-      "t_review": 0.2149143380598379,
-      "t_decline": 0.549469875851416,
-      "fit_cost_cents": 35745766,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9631523690181868,
-        "review_share": 0.02265722897686863,
-        "decline_share": 0.014190402004944628,
-        "fraud_stopped_share": 0.4151800194615634,
-        "fraud_amount_stopped_share": 0.3042642893212425,
-        "false_declines": 430,
-        "cost_cents": 37690959,
-        "cost_per_1000_cents": 425497
-      }
-    },
-    {
-      "scenario": "customer_heavy",
-      "capacity": 0.02,
-      "model": "lightgbm",
-      "t_review": 0.021634185971298295,
-      "t_decline": 0.5440773620225348,
-      "fit_cost_cents": 22728003,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9630733452997822,
-        "review_share": 0.02386516295819645,
-        "decline_share": 0.013061491742021427,
-        "fraud_stopped_share": 0.5452481349335063,
-        "fraud_amount_stopped_share": 0.4766285473866544,
-        "false_declines": 181,
-        "cost_cents": 27978653,
-        "cost_per_1000_cents": 315854
-      }
-    },
-    {
-      "scenario": "customer_heavy",
-      "capacity": 0.02,
-      "model": "mlp",
-      "t_review": 0.2468771850871597,
-      "t_decline": 0.7048034209352348,
-      "fit_cost_cents": 31961924,
-      "decline_at_bound": false,
-      "test": {
-        "rows": 88581,
-        "approve_share": 0.9651505401835608,
-        "review_share": 0.020963863582483828,
-        "decline_share": 0.013885596233955362,
-        "fraud_stopped_share": 0.4388582549464807,
-        "fraud_amount_stopped_share": 0.3739697745598151,
-        "false_declines": 384,
-        "cost_cents": 33985936,
-        "cost_per_1000_cents": 383671
+        "review_share": 0.029611316196475543,
+        "decline_share": 0.012824420586807555,
+        "fraud_stopped_share": 0.47324035030814143,
+        "fraud_amount_stopped_share": 0.40332218943793124,
+        "false_declines": 322,
+        "cost_cents": 33150986,
+        "cost_per_1000_cents": 374245
       }
     },
     {
       "scenario": "customer_heavy",
       "capacity": 0.02,
       "model": "lightgbm_expected_cost",
-      "min_review_gain_cents": 2362.749090909091,
+      "min_review_gain_cents": 2205.7892022008264,
       "test": {
         "rows": 88581,
-        "approve_share": 0.9618879895237128,
-        "review_share": 0.023323286031993316,
-        "decline_share": 0.014788724444293922,
-        "fraud_stopped_share": 0.47843010055141094,
-        "fraud_amount_stopped_share": 0.6458662641411979,
-        "false_declines": 228,
-        "cost_cents": 20186946,
-        "cost_per_1000_cents": 227893
+        "approve_share": 0.9618767004210835,
+        "review_share": 0.0223298450006209,
+        "decline_share": 0.01579345457829557,
+        "fraud_stopped_share": 0.49108011676938046,
+        "fraud_amount_stopped_share": 0.625244315273931,
+        "false_declines": 265,
+        "cost_cents": 21355259,
+        "cost_per_1000_cents": 241082
       }
     },
     {
       "scenario": "customer_heavy",
       "capacity": 0.05,
       "model": "baseline",
-      "t_review": 0.12286163516992668,
-      "t_decline": 0.8315738990726937,
-      "fit_cost_cents": 28810351,
+      "t_review": 0.2944905674892735,
+      "t_decline": 0.9493708108232655,
+      "fit_cost_cents": 33123072,
       "decline_at_bound": false,
       "test": {
         "rows": 88581,
-        "approve_share": 0.9356182477054898,
-        "review_share": 0.05774375994852169,
-        "decline_share": 0.006637992345988417,
-        "fraud_stopped_share": 0.5322737593253325,
-        "fraud_amount_stopped_share": 0.45564321062584107,
-        "false_declines": 133,
-        "cost_cents": 31476839,
-        "cost_per_1000_cents": 355345
+        "approve_share": 0.9176572854223818,
+        "review_share": 0.07537733825538208,
+        "decline_share": 0.0069653763222361454,
+        "fraud_stopped_share": 0.5478430100551411,
+        "fraud_amount_stopped_share": 0.46227935711027984,
+        "false_declines": 149,
+        "cost_cents": 32840485,
+        "cost_per_1000_cents": 370740
       }
     },
     {
       "scenario": "customer_heavy",
       "capacity": 0.05,
       "model": "lightgbm",
-      "t_review": 0.00468203961257042,
-      "t_decline": 0.6351193080183547,
-      "fit_cost_cents": 18768468,
+      "t_review": 0.0032925709791120266,
+      "t_decline": 0.8512088918768074,
+      "fit_cost_cents": 17441855,
       "decline_at_bound": false,
       "test": {
         "rows": 88581,
-        "approve_share": 0.9295221322857046,
-        "review_share": 0.0582404804642079,
-        "decline_share": 0.012237387250087491,
-        "fraud_stopped_share": 0.6727213752838145,
-        "fraud_amount_stopped_share": 0.6559120388780115,
-        "false_declines": 156,
-        "cost_cents": 22351232,
-        "cost_per_1000_cents": 252325
+        "approve_share": 0.9368487598920762,
+        "review_share": 0.05339745543626737,
+        "decline_share": 0.00975378467165645,
+        "fraud_stopped_share": 0.676938047356471,
+        "fraud_amount_stopped_share": 0.6322111202530074,
+        "false_declines": 93,
+        "cost_cents": 22622496,
+        "cost_per_1000_cents": 255388
       }
     },
     {
       "scenario": "customer_heavy",
       "capacity": 0.05,
       "model": "mlp",
-      "t_review": 0.13426488812517248,
-      "t_decline": 0.795137521582695,
-      "fit_cost_cents": 27097780,
+      "t_review": 0.2960955238858099,
+      "t_decline": 0.9593186495611429,
+      "fit_cost_cents": 27046311,
       "decline_at_bound": false,
       "test": {
         "rows": 88581,
-        "approve_share": 0.9361714137343222,
-        "review_share": 0.05186213747869182,
-        "decline_share": 0.011966448786985922,
-        "fraud_stopped_share": 0.5494648070061628,
-        "fraud_amount_stopped_share": 0.5384450975938717,
-        "false_declines": 297,
-        "cost_cents": 28167520,
-        "cost_per_1000_cents": 317986
+        "approve_share": 0.9220148790372653,
+        "review_share": 0.06797168693060589,
+        "decline_share": 0.010013434032128786,
+        "fraud_stopped_share": 0.5900097307817062,
+        "fraud_amount_stopped_share": 0.5585851342772035,
+        "false_declines": 215,
+        "cost_cents": 28344830,
+        "cost_per_1000_cents": 319988
       }
     },
     {
       "scenario": "customer_heavy",
       "capacity": 0.05,
       "model": "lightgbm_expected_cost",
-      "min_review_gain_cents": 358.8199513381997,
+      "min_review_gain_cents": 309.37500000000006,
       "test": {
         "rows": 88581,
-        "approve_share": 0.9312719431932356,
-        "review_share": 0.05717930481706009,
-        "decline_share": 0.011548751989704339,
-        "fraud_stopped_share": 0.5828738241972105,
-        "fraud_amount_stopped_share": 0.7447905848698867,
-        "false_declines": 129,
-        "cost_cents": 17827837,
-        "cost_per_1000_cents": 201260
+        "approve_share": 0.9335410528217112,
+        "review_share": 0.05537304839638297,
+        "decline_share": 0.011085898781905827,
+        "fraud_stopped_share": 0.5926046059033409,
+        "fraud_amount_stopped_share": 0.7577459541927254,
+        "false_declines": 127,
+        "cost_cents": 17091899,
+        "cost_per_1000_cents": 192952
       }
     }
   ],
@@ -1209,97 +1209,97 @@
       "capacity": 0.005,
       "better": "lightgbm_expected_cost",
       "than": "lightgbm",
-      "mean_cents_per_1000": 64013.072780844646,
-      "low_cents_per_1000": 48464.434528849306,
-      "high_cents_per_1000": 81176.28921552024
+      "mean_cents_per_1000": 50165.22730608144,
+      "low_cents_per_1000": 36719.865998351794,
+      "high_cents_per_1000": 64952.480498075194
     },
     {
       "capacity": 0.005,
       "better": "lightgbm",
       "than": "baseline",
-      "mean_cents_per_1000": 126938.70017272327,
-      "low_cents_per_1000": 106612.57352028087,
-      "high_cents_per_1000": 143478.2298122622
+      "mean_cents_per_1000": 141925.09680405504,
+      "low_cents_per_1000": 120738.20514557297,
+      "high_cents_per_1000": 164477.41445682483
     },
     {
       "capacity": 0.005,
       "better": "lightgbm",
       "than": "mlp",
-      "mean_cents_per_1000": 72107.94639934071,
-      "low_cents_per_1000": 54484.54070285952,
-      "high_cents_per_1000": 89450.31411928064
+      "mean_cents_per_1000": 75727.28914778565,
+      "low_cents_per_1000": 57969.588286427104,
+      "high_cents_per_1000": 94296.07252119528
     },
     {
       "capacity": 0.01,
       "better": "lightgbm_expected_cost",
       "than": "lightgbm",
-      "mean_cents_per_1000": 68834.43402083968,
-      "low_cents_per_1000": 52850.459748704576,
-      "high_cents_per_1000": 86386.74010227926
+      "mean_cents_per_1000": 53277.75708108962,
+      "low_cents_per_1000": 38845.71014100089,
+      "high_cents_per_1000": 68328.9621927953
     },
     {
       "capacity": 0.01,
       "better": "lightgbm",
       "than": "baseline",
-      "mean_cents_per_1000": 126307.26679536243,
-      "low_cents_per_1000": 105258.1244849347,
-      "high_cents_per_1000": 143929.66409275125
+      "mean_cents_per_1000": 142011.86484686332,
+      "low_cents_per_1000": 120648.80476625913,
+      "high_cents_per_1000": 161674.76970230637
     },
     {
       "capacity": 0.01,
       "better": "lightgbm",
       "than": "mlp",
-      "mean_cents_per_1000": 72907.11326356667,
-      "low_cents_per_1000": 56145.48097221751,
-      "high_cents_per_1000": 91026.46306770074
+      "mean_cents_per_1000": 75666.16994615099,
+      "low_cents_per_1000": 57189.131134216135,
+      "high_cents_per_1000": 93956.98964789289
     },
     {
       "capacity": 0.02,
       "better": "lightgbm_expected_cost",
       "than": "lightgbm",
-      "mean_cents_per_1000": 71408.34942030458,
-      "low_cents_per_1000": 54868.0326480848,
-      "high_cents_per_1000": 89018.00922319684
+      "mean_cents_per_1000": 66128.01842381549,
+      "low_cents_per_1000": 49666.120274099405,
+      "high_cents_per_1000": 83672.57397184498
     },
     {
       "capacity": 0.02,
       "better": "lightgbm",
       "than": "baseline",
-      "mean_cents_per_1000": 122279.96974520494,
-      "low_cents_per_1000": 103205.47126358925,
-      "high_cents_per_1000": 140286.16435804518
+      "mean_cents_per_1000": 151693.42183989796,
+      "low_cents_per_1000": 131117.7509849742,
+      "high_cents_per_1000": 172699.93536988745
     },
     {
       "capacity": 0.02,
       "better": "lightgbm",
       "than": "mlp",
-      "mean_cents_per_1000": 72531.91993768416,
-      "low_cents_per_1000": 56729.201521771036,
-      "high_cents_per_1000": 91564.40828168568
+      "mean_cents_per_1000": 84686.9193167835,
+      "low_cents_per_1000": 68120.92858513676,
+      "high_cents_per_1000": 102174.41155552541
     },
     {
       "capacity": 0.05,
       "better": "lightgbm_expected_cost",
       "than": "lightgbm",
-      "mean_cents_per_1000": 58861.18919407096,
-      "low_cents_per_1000": 42186.35514387961,
-      "high_cents_per_1000": 77242.36574434699
+      "mean_cents_per_1000": 58011.37941545026,
+      "low_cents_per_1000": 40774.826147819505,
+      "high_cents_per_1000": 75981.23045574107
     },
     {
       "capacity": 0.05,
       "better": "lightgbm",
       "than": "baseline",
-      "mean_cents_per_1000": 93730.15657985347,
-      "low_cents_per_1000": 73396.18230771837,
-      "high_cents_per_1000": 115237.0005983224
+      "mean_cents_per_1000": 123171.56049265644,
+      "low_cents_per_1000": 103776.99421997946,
+      "high_cents_per_1000": 143622.12184328467
     },
     {
       "capacity": 0.05,
       "better": "lightgbm",
       "than": "mlp",
-      "mean_cents_per_1000": 66414.21975367177,
-      "low_cents_per_1000": 50182.28372901638,
-      "high_cents_per_1000": 84759.7772095596
+      "mean_cents_per_1000": 67326.04057303484,
+      "low_cents_per_1000": 50673.531852203065,
+      "high_cents_per_1000": 85945.81089624186
     }
   ]
 }
