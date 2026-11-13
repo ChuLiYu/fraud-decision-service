@@ -1,5 +1,5 @@
 # Entry points for the ml/ component. Run from this directory.
-.PHONY: setup lint test check fetch prepare data train evaluate compare tune fuse decide errors figures all
+.PHONY: setup lint test check fetch prepare data train evaluate compare tune fuse decide errors figures all serve-model demo-model
 
 setup:  ## Create the virtual environment from uv.lock
 	uv sync --locked
@@ -49,3 +49,9 @@ figures:  ## Presentation figures from committed reports into reports/figures (n
 
 errors:  ## Error analysis: LightGBM misses and false alarms by segment on test
 	uv run python -m fraud_ml.errors
+
+serve-model:  ## Serving bundle from the real data, history features off (local only; never commit)
+	uv run python -m fraud_ml.bundle --out ../data/serving
+
+demo-model:  ## Serving bundle trained on synthetic rows, so the service runs without the dataset
+	uv run python -m fraud_ml.bundle --demo --out ../data/demo
