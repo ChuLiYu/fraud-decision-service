@@ -1,0 +1,50 @@
+{
+ "code": {
+  "commit": "aa4f0249fe3233c8f6efd3e46316dbe8ca38470f",
+  "dirty": true
+ },
+ "environment": {
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "cpu_count": 8,
+  "memory_gb": 16.0,
+  "python": "3.14.7",
+  "libraries": {
+   "lightgbm": "4.7.0",
+   "scikit-learn": "1.9.1",
+   "pandas": "3.1.1"
+  }
+ },
+ "model_version": "real-6591f2492691",
+ "policy_version": "thresholds-base-review0.02-cd1ef7d1",
+ "best_iteration": 2946,
+ "rows": {
+  "train": 413378,
+  "valid": 88581,
+  "test": 88581
+ },
+ "test": {
+  "roc_auc": 0.9038127665182139,
+  "pr_auc": 0.5827525617969408
+ },
+ "policy": {
+  "name": "thresholds-base-review0.02",
+  "t_review": 0.009972181145149465,
+  "t_decline": 0.08124143173110951,
+  "review_capacity": 0.02,
+  "scenario": "base"
+ },
+ "features": {
+  "enabled": true,
+  "group_keys": [],
+  "day_offsets": [
+   "D1",
+   "D4",
+   "D10",
+   "D15"
+  ],
+  "client_key": [],
+  "client_means": [],
+  "client_nunique": []
+ }
+}
