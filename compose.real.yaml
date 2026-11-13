@@ -1,0 +1,7 @@
+# Real serving bundle from the local IEEE-CIS download (never committed or published).
+services:
+  decision:
+    environment:
+      BUNDLE_DIR: /app/bundles/real
+    volumes:
+      - ./data/serving:/app/bundles/real:ro

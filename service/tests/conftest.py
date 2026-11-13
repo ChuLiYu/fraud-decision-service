@@ -1,11 +1,10 @@
 """A demo bundle built once from synthetic rows (no Competition Data)."""
 
-import dataclasses
 from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
-from fraud_ml.bundle import build, synthetic_transactions
+from fraud_ml.bundle import build, demo_params, synthetic_transactions
 from fraud_ml.config import load_params
 
 from fraud_service.app import create_app
@@ -16,9 +15,7 @@ ML_PARAMS = Path(__file__).resolve().parents[2] / "ml" / "params.yaml"
 @pytest.fixture(scope="session")
 def bundle_dir(tmp_path_factory) -> Path:
     params = load_params(ML_PARAMS)
-    params = dataclasses.replace(
-        params, features=dataclasses.replace(params.features, day_offsets=["D1"])
-    )
+    params = demo_params(params)
     out = tmp_path_factory.mktemp("bundle")
     build(synthetic_transactions(n=5_000), params, out, "demo")
     return out

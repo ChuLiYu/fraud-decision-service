@@ -74,7 +74,8 @@ class Bundle:
             if column not in self.preprocessor.categorical and column != TIME:
                 frame[column] = pd.to_numeric(frame[column], errors="raise").astype("float64")
         features = self.preprocessor.transform(add_features(frame, self.features))
-        score = float(self.booster.predict(features[self.preprocessor.feature_names])[0])
+        # Columns by the model's own names: LightGBM reads features by position.
+        score = float(self.booster.predict(features[self.booster.feature_name()])[0])
         if not math.isfinite(score) or not 0.0 <= score <= 1.0:
             raise ValueError(f"invalid model score: {score}")
         return score
@@ -86,13 +87,17 @@ def load(directory: Path) -> Bundle:
     if info.get("format_version") != SUPPORTED_FORMAT:
         raise ValueError(f"unsupported bundle format: {info.get('format_version')}")
     policy = json.loads((directory / POLICY_FILE).read_text())
+    preprocessor = Preprocessor.load(directory / PREPROCESSOR_FILE)
+    booster = lgb.Booster(model_file=str(directory / MODEL_FILE))
+    if sorted(booster.feature_name()) != sorted(preprocessor.feature_names):
+        raise ValueError("model and preprocessor feature names differ")
     return Bundle(
         kind=info["kind"],
         model_version=info["model_version"],
         raw_fields=info["raw_fields"],
         features=FeatureParams(**info["features"]),
-        preprocessor=Preprocessor.load(directory / PREPROCESSOR_FILE),
-        booster=lgb.Booster(model_file=str(directory / MODEL_FILE)),
+        preprocessor=preprocessor,
+        booster=booster,
         policy=Policy(
             name=policy["name"],
             version=info["policy_version"],

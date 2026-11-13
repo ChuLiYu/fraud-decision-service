@@ -91,7 +91,8 @@ class Preprocessor:
             "numeric": self.numeric,
             "categorical": self.categorical,
         }
-        path.write_text(json.dumps(state, indent=1, sort_keys=True))
+        # No sort_keys: categorical order is feature order, which models depend on.
+        path.write_text(json.dumps(state, indent=1))
 
     @classmethod
     def load(cls, path: Path) -> Preprocessor:

@@ -1,9 +1,8 @@
-import dataclasses
 import json
 
 import lightgbm as lgb
 
-from fraud_ml.bundle import build, serving_params, synthetic_transactions
+from fraud_ml.bundle import build, demo_params, serving_params, synthetic_transactions
 from fraud_ml.config import load_params
 from fraud_ml.preprocess import Preprocessor
 
@@ -16,9 +15,7 @@ def test_serving_params_drop_history_features(workspace):
 
 def test_demo_bundle_loads_and_scores(workspace, tmp_path):
     params = load_params(workspace / "params.yaml")
-    params = dataclasses.replace(
-        params, features=dataclasses.replace(params.features, day_offsets=["D1"])
-    )
+    params = demo_params(params)
     out = tmp_path / "bundle"
     build(synthetic_transactions(n=3_000), params, out, "demo")
 
@@ -31,3 +28,17 @@ def test_demo_bundle_loads_and_scores(workspace, tmp_path):
     booster = lgb.Booster(model_file=str(out / "lightgbm.txt"))
     assert booster.num_feature() == len(pre.feature_names)
     assert not any(name.startswith("fe_card") for name in pre.feature_names)
+
+
+def test_saved_preprocessor_keeps_feature_order(workspace, tmp_path):
+    """Regression: sorted JSON keys reordered categorical columns after loading."""
+    out = tmp_path / "bundle"
+    build(
+        synthetic_transactions(n=3_000),
+        demo_params(load_params(workspace / "params.yaml")),
+        out,
+        "demo",
+    )
+    pre = Preprocessor.load(out / "preprocessor.json")
+    booster = lgb.Booster(model_file=str(out / "lightgbm.txt"))
+    assert booster.feature_name() == pre.feature_names

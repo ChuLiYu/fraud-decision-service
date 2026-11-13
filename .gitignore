@@ -31,3 +31,8 @@ kaggle.json
 .DS_Store
 .idea/
 .vscode/
+
+# Decision logs
+*.db
+*.db-wal
+*.db-shm

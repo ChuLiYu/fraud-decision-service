@@ -1,0 +1,46 @@
+# Lint and tests for ml/ and service/, then build the image and run the demo.
+# Synthetic data only: CI never downloads Competition Data.
+# Action versions checked 2026-11-12 (latest releases).
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  ml:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ml
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.12.24"
+      - run: uv sync --locked
+      - run: make check
+  service:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: service
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.12.24"
+      - run: uv sync --locked
+      - run: uv run ruff check . && uv run ruff format --check .
+      - run: uv run pytest
+  image:
+    runs-on: ubuntu-latest
+    needs: [ml, service]
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker compose up --build -d --wait
+      - run: scripts/demo.sh | tee demo.txt
+      - run: grep -q '"outcome":"approve"' demo.txt && grep -q 'HTTP 409' demo.txt
+      - if: failure()
+        run: docker compose logs

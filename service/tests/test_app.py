@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 from fraud_service.app import create_app
 from fraud_service.model import Policy
 
+COMMON = {"card4": "visa", "card6": "debit", "P_emaildomain": "gmail.com", "C1": 2}
 LOW = {
     "transaction_id": 1,
     "timestamp_seconds": 90_000,
@@ -102,3 +103,14 @@ def test_concurrent_duplicates_store_one_decision(bundle_dir, tmp_path):
     from fraud_service.store import Store
 
     assert Store(db).count() == 1
+
+
+def test_scores_follow_the_synthetic_risk_pattern(bundle_dir):
+    """Regression: a column-order mismatch once made desktop look riskiest."""
+    from fraud_service import model
+
+    b = model.load(bundle_dir)
+    fields = {"ProductCD": "W", "D1": 300, **COMMON}
+    desktop = b.score(1, 90_000, 12.5, {**fields, "DeviceType": "desktop"})
+    mobile = b.score(1, 90_000, 12.5, {**fields, "DeviceType": "mobile"})
+    assert mobile > desktop

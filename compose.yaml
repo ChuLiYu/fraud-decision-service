@@ -1,0 +1,12 @@
+# One command: docker compose up --build
+# Serves the demo model (synthetic data). For the real model, build it with
+# `make -C ml serve-model` and add -f compose.real.yaml.
+services:
+  decision:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - decisions:/data
+volumes:
+  decisions:
