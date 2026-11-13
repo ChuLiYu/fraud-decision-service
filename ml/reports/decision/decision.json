@@ -1,0 +1,628 @@
+{
+  "code": {
+    "commit": "853ee8720fcbe49cef1e68ce3265a8d6eb6bf925",
+    "dirty": false
+  },
+  "models_params_hash": "bef09cde7b2503fe5e5aa99d8cca1a47fe5104922f0c3e13356b8e65970b2c47",
+  "settings": {
+    "review_cost_cents": 500,
+    "fraud_loss_rate": 1.0,
+    "false_decline_rate": 0.1,
+    "review_capacities": [
+      0.005,
+      0.01,
+      0.02,
+      0.05
+    ],
+    "max_decline_rate": 0.05,
+    "threshold_grid": 200,
+    "bootstrap": 500
+  },
+  "approve_all": {
+    "rows": 88581,
+    "approve_share": 1.0,
+    "review_share": 0.0,
+    "decline_share": 0.0,
+    "fraud_stopped_share": 0.0,
+    "fraud_amount_stopped_share": 0.0,
+    "false_declines": 0,
+    "cost_cents": 46960838,
+    "cost_per_1000_cents": 530146
+  },
+  "policies": [
+    {
+      "model": "baseline",
+      "capacity": 0.005,
+      "t_review": 0.1274196963935251,
+      "t_decline": 0.13909989862926542,
+      "fit_cost_cents": 29597964,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9377744663076732,
+        "review_share": 0.004594664770097425,
+        "decline_share": 0.05763086892222937,
+        "fraud_stopped_share": 0.5235160557898151,
+        "fraud_amount_stopped_share": 0.4444445390859507,
+        "false_declines": 3538,
+        "cost_cents": 32953291,
+        "cost_per_1000_cents": 372013
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.004244558836810259,
+          "decline_share": 0.05147656461663506,
+          "cost_per_1000_cents": 360623
+        },
+        {
+          "slice": 2,
+          "review_share": 0.005193045834274102,
+          "decline_share": 0.057891171822081734,
+          "cost_per_1000_cents": 278726
+        },
+        {
+          "slice": 3,
+          "review_share": 0.0046060058703996385,
+          "decline_share": 0.06814179272973583,
+          "cost_per_1000_cents": 388687
+        },
+        {
+          "slice": 4,
+          "review_share": 0.004335064348611425,
+          "decline_share": 0.05301422442989388,
+          "cost_per_1000_cents": 460017
+        }
+      ]
+    },
+    {
+      "model": "lightgbm",
+      "capacity": 0.005,
+      "t_review": 0.006267168915568756,
+      "t_decline": 0.007742868301304,
+      "fit_cost_cents": 19639209,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9382373195154717,
+        "review_share": 0.005926778880346801,
+        "decline_share": 0.05583590160418148,
+        "fraud_stopped_share": 0.6493674991891015,
+        "fraud_amount_stopped_share": 0.6299027074431679,
+        "false_declines": 2994,
+        "cost_cents": 23324496,
+        "cost_per_1000_cents": 263313
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.004696107649236883,
+          "decline_share": 0.053192450103856224,
+          "cost_per_1000_cents": 254092
+        },
+        {
+          "slice": 2,
+          "review_share": 0.006863851885301422,
+          "decline_share": 0.05324000903138406,
+          "cost_per_1000_cents": 225506
+        },
+        {
+          "slice": 3,
+          "review_share": 0.006276811921426958,
+          "decline_share": 0.05676224881463084,
+          "cost_per_1000_cents": 297934
+        },
+        {
+          "slice": 4,
+          "review_share": 0.005870399638744638,
+          "decline_share": 0.060149017836983516,
+          "cost_per_1000_cents": 275720
+        }
+      ]
+    },
+    {
+      "model": "mlp",
+      "capacity": 0.005,
+      "t_review": 0.14661140438610912,
+      "t_decline": 0.15974225350555865,
+      "fit_cost_cents": 28348625,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9418836996647136,
+        "review_share": 0.004707555796389745,
+        "decline_share": 0.0534087445388966,
+        "fraud_stopped_share": 0.5345442750567629,
+        "fraud_amount_stopped_share": 0.5107965918325392,
+        "false_declines": 3132,
+        "cost_cents": 29943026,
+        "cost_per_1000_cents": 338030
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.00406393931183961,
+          "decline_share": 0.04813510340467805,
+          "cost_per_1000_cents": 353908
+        },
+        {
+          "slice": 2,
+          "review_share": 0.006096184240234816,
+          "decline_share": 0.057710544140889594,
+          "cost_per_1000_cents": 252296
+        },
+        {
+          "slice": 3,
+          "review_share": 0.0039738089862271396,
+          "decline_share": 0.05080153533529013,
+          "cost_per_1000_cents": 339626
+        },
+        {
+          "slice": 4,
+          "review_share": 0.00469631971099571,
+          "decline_share": 0.05698803341612102,
+          "cost_per_1000_cents": 406289
+        }
+      ]
+    },
+    {
+      "model": "baseline",
+      "capacity": 0.01,
+      "t_review": 0.11785046664220421,
+      "t_decline": 0.1410352745838466,
+      "fit_cost_cents": 28563668,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9329878867928788,
+        "review_share": 0.01009245775053341,
+        "decline_share": 0.05691965545658775,
+        "fraud_stopped_share": 0.5407071034706454,
+        "fraud_amount_stopped_share": 0.473358695174903,
+        "false_declines": 3482,
+        "cost_cents": 31675279,
+        "cost_per_1000_cents": 357585
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.009572834823444414,
+          "decline_share": 0.050708931635509796,
+          "cost_per_1000_cents": 354095
+        },
+        {
+          "slice": 2,
+          "review_share": 0.011650485436893204,
+          "decline_share": 0.057258974937909234,
+          "cost_per_1000_cents": 274917
+        },
+        {
+          "slice": 3,
+          "review_share": 0.010521562429442312,
+          "decline_share": 0.06732896816437119,
+          "cost_per_1000_cents": 360397
+        },
+        {
+          "slice": 4,
+          "review_share": 0.008624971776924813,
+          "decline_share": 0.05238202754572138,
+          "cost_per_1000_cents": 440933
+        }
+      ]
+    },
+    {
+      "model": "lightgbm",
+      "capacity": 0.01,
+      "t_review": 0.005944310349787008,
+      "t_decline": 0.009172873492576887,
+      "fit_cost_cents": 19035813,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9368826271999638,
+        "review_share": 0.011379415450265858,
+        "decline_share": 0.05173795734977027,
+        "fraud_stopped_share": 0.654557249432371,
+        "fraud_amount_stopped_share": 0.6350558309883653,
+        "false_declines": 2677,
+        "cost_cents": 22788351,
+        "cost_per_1000_cents": 257260
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.010295312923327011,
+          "decline_share": 0.04867696197958999,
+          "cost_per_1000_cents": 248577
+        },
+        {
+          "slice": 2,
+          "review_share": 0.012372996161661775,
+          "decline_share": 0.049401670806051026,
+          "cost_per_1000_cents": 217577
+        },
+        {
+          "slice": 3,
+          "review_share": 0.011560171596297132,
+          "decline_share": 0.05310453827048995,
+          "cost_per_1000_cents": 290781
+        },
+        {
+          "slice": 4,
+          "review_share": 0.011289230074508919,
+          "decline_share": 0.055768796568074055,
+          "cost_per_1000_cents": 272106
+        }
+      ]
+    },
+    {
+      "model": "mlp",
+      "capacity": 0.01,
+      "t_review": 0.1352293898930859,
+      "t_decline": 0.15974225350555865,
+      "fit_cost_cents": 27725828,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9366342669421208,
+        "review_share": 0.009956988518982626,
+        "decline_share": 0.0534087445388966,
+        "fraud_stopped_share": 0.5478430100551411,
+        "fraud_amount_stopped_share": 0.5370077936002761,
+        "false_declines": 3132,
+        "cost_cents": 28944626,
+        "cost_per_1000_cents": 326759
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.00871489207983383,
+          "decline_share": 0.04813510340467805,
+          "cost_per_1000_cents": 349588
+        },
+        {
+          "slice": 2,
+          "review_share": 0.01241815308195981,
+          "decline_share": 0.057710544140889594,
+          "cost_per_1000_cents": 243669
+        },
+        {
+          "slice": 3,
+          "review_share": 0.009166854820501242,
+          "decline_share": 0.05080153533529013,
+          "cost_per_1000_cents": 333292
+        },
+        {
+          "slice": 4,
+          "review_share": 0.009528110182885527,
+          "decline_share": 0.05698803341612102,
+          "cost_per_1000_cents": 380485
+        }
+      ]
+    },
+    {
+      "model": "baseline",
+      "capacity": 0.02,
+      "t_review": 0.09919649264198653,
+      "t_decline": 0.13909989862926542,
+      "fit_cost_cents": 27331329,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9212359309558483,
+        "review_share": 0.021133200121922307,
+        "decline_share": 0.05763086892222937,
+        "fraud_stopped_share": 0.570223807979241,
+        "fraud_amount_stopped_share": 0.5225107354344912,
+        "false_declines": 3538,
+        "cost_cents": 30019737,
+        "cost_per_1000_cents": 338896
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.01937144405310214,
+          "decline_share": 0.05147656461663506,
+          "cost_per_1000_cents": 348996
+        },
+        {
+          "slice": 2,
+          "review_share": 0.023842853917362836,
+          "decline_share": 0.057891171822081734,
+          "cost_per_1000_cents": 264608
+        },
+        {
+          "slice": 3,
+          "review_share": 0.022352675547527658,
+          "decline_share": 0.06814179272973583,
+          "cost_per_1000_cents": 355961
+        },
+        {
+          "slice": 4,
+          "review_share": 0.018965906525174984,
+          "decline_share": 0.05301422442989388,
+          "cost_per_1000_cents": 386018
+        }
+      ]
+    },
+    {
+      "model": "lightgbm",
+      "capacity": 0.02,
+      "t_review": 0.0036856564530822855,
+      "t_decline": 0.007984970951921409,
+      "fit_cost_cents": 17861425,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9214052674952868,
+        "review_share": 0.023526489879319493,
+        "decline_share": 0.055068242625393705,
+        "fraud_stopped_share": 0.6889393447940317,
+        "fraud_amount_stopped_share": 0.6764123757757474,
+        "false_declines": 2937,
+        "cost_cents": 21840361,
+        "cost_per_1000_cents": 246558
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.021584033233992595,
+          "decline_share": 0.05219904271651766,
+          "cost_per_1000_cents": 243430
+        },
+        {
+          "slice": 2,
+          "review_share": 0.025378189207496047,
+          "decline_share": 0.05256265522691352,
+          "cost_per_1000_cents": 206536
+        },
+        {
+          "slice": 3,
+          "review_share": 0.022984872431700158,
+          "decline_share": 0.05613005193045834,
+          "cost_per_1000_cents": 279114
+        },
+        {
+          "slice": 4,
+          "review_share": 0.024158952359449086,
+          "decline_share": 0.05938135019191691,
+          "cost_per_1000_cents": 257153
+        }
+      ]
+    },
+    {
+      "model": "mlp",
+      "capacity": 0.02,
+      "t_review": 0.11644183629147022,
+      "t_decline": 0.15768539392297723,
+      "fit_cost_cents": 26108315,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9259321976496089,
+        "review_share": 0.02000428985899911,
+        "decline_share": 0.05406351249139206,
+        "fraud_stopped_share": 0.578657152124554,
+        "fraud_amount_stopped_share": 0.5758857838099056,
+        "false_declines": 3180,
+        "cost_cents": 27664525,
+        "cost_per_1000_cents": 312308
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.01882958547819019,
+          "decline_share": 0.04867696197958999,
+          "cost_per_1000_cents": 341202
+        },
+        {
+          "slice": 2,
+          "review_share": 0.02244298938812373,
+          "decline_share": 0.0586136825468503,
+          "cost_per_1000_cents": 242713
+        },
+        {
+          "slice": 3,
+          "review_share": 0.01846918040189659,
+          "decline_share": 0.05134341837886656,
+          "cost_per_1000_cents": 317403
+        },
+        {
+          "slice": 4,
+          "review_share": 0.02027545721381802,
+          "decline_share": 0.05762023030029352,
+          "cost_per_1000_cents": 347911
+        }
+      ]
+    },
+    {
+      "model": "baseline",
+      "capacity": 0.05,
+      "t_review": 0.08967448479021627,
+      "t_decline": 0.2503003997202341,
+      "fit_cost_cents": 24145117,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9141802418125783,
+        "review_share": 0.054413474672898254,
+        "decline_share": 0.03140628351452343,
+        "fraud_stopped_share": 0.5887122932208887,
+        "fraud_amount_stopped_share": 0.5530459443675174,
+        "false_declines": 1577,
+        "cost_cents": 26041453,
+        "cost_per_1000_cents": 293985
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.04881242662331798,
+          "decline_share": 0.02903458863903188,
+          "cost_per_1000_cents": 304600
+        },
+        {
+          "slice": 2,
+          "review_share": 0.056897719575524947,
+          "decline_share": 0.03228719801309551,
+          "cost_per_1000_cents": 214363
+        },
+        {
+          "slice": 3,
+          "review_share": 0.06267780537367351,
+          "decline_share": 0.034725671709189436,
+          "cost_per_1000_cents": 312919
+        },
+        {
+          "slice": 4,
+          "review_share": 0.04926620004515692,
+          "decline_share": 0.029577782795213368,
+          "cost_per_1000_cents": 344056
+        }
+      ]
+    },
+    {
+      "model": "lightgbm",
+      "capacity": 0.05,
+      "t_review": 0.0026116806423323795,
+      "t_decline": 0.025605781292015087,
+      "fit_cost_cents": 14645244,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9075761167744776,
+        "review_share": 0.05752926699856628,
+        "decline_share": 0.03489461622695612,
+        "fraud_stopped_share": 0.7213752838144665,
+        "fraud_amount_stopped_share": 0.711503316870112,
+        "false_declines": 1443,
+        "cost_cents": 18712552,
+        "cost_per_1000_cents": 211248
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.05364399891628285,
+          "decline_share": 0.032646979138444866,
+          "cost_per_1000_cents": 208919
+        },
+        {
+          "slice": 2,
+          "review_share": 0.06096184240234816,
+          "decline_share": 0.03224204109279747,
+          "cost_per_1000_cents": 173027
+        },
+        {
+          "slice": 3,
+          "review_share": 0.055904267328968166,
+          "decline_share": 0.03621585007902461,
+          "cost_per_1000_cents": 240692
+        },
+        {
+          "slice": 4,
+          "review_share": 0.05960713479340709,
+          "decline_share": 0.038473696093926396,
+          "cost_per_1000_cents": 222353
+        }
+      ]
+    },
+    {
+      "model": "mlp",
+      "capacity": 0.05,
+      "t_review": 0.10856817123460921,
+      "t_decline": 0.3055666196711344,
+      "fit_cost_cents": 22678479,
+      "test": {
+        "rows": 88581,
+        "approve_share": 0.9204344046691728,
+        "review_share": 0.05073322721576862,
+        "decline_share": 0.028832368115058533,
+        "fraud_stopped_share": 0.5926046059033409,
+        "fraud_amount_stopped_share": 0.5911915796732589,
+        "false_declines": 1298,
+        "cost_cents": 23956403,
+        "cost_per_1000_cents": 270446
+      },
+      "test_slices": [
+        {
+          "slice": 1,
+          "review_share": 0.047502935067280774,
+          "decline_share": 0.025106113970920257,
+          "cost_per_1000_cents": 292042
+        },
+        {
+          "slice": 2,
+          "review_share": 0.05450440279972906,
+          "decline_share": 0.032332354933393544,
+          "cost_per_1000_cents": 200267
+        },
+        {
+          "slice": 3,
+          "review_share": 0.048272747798600135,
+          "decline_share": 0.02704899525852337,
+          "cost_per_1000_cents": 281391
+        },
+        {
+          "slice": 4,
+          "review_share": 0.052652969067509596,
+          "decline_share": 0.030842176563558366,
+          "cost_per_1000_cents": 308084
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "capacity": 0.005,
+      "better": "lightgbm",
+      "than": "baseline",
+      "mean_cents_per_1000": 108700.45495083595,
+      "low_cents_per_1000": 89506.40600128696,
+      "high_cents_per_1000": 126617.74138923697
+    },
+    {
+      "capacity": 0.005,
+      "better": "lightgbm",
+      "than": "mlp",
+      "mean_cents_per_1000": 74717.26442465089,
+      "low_cents_per_1000": 59078.63085763313,
+      "high_cents_per_1000": 92757.79089195198
+    },
+    {
+      "capacity": 0.01,
+      "better": "lightgbm",
+      "than": "baseline",
+      "mean_cents_per_1000": 100325.4422505955,
+      "low_cents_per_1000": 81470.37626579063,
+      "high_cents_per_1000": 119721.78260575066
+    },
+    {
+      "capacity": 0.01,
+      "better": "lightgbm",
+      "than": "mlp",
+      "mean_cents_per_1000": 69498.82028877524,
+      "low_cents_per_1000": 53292.906210135356,
+      "high_cents_per_1000": 85553.2233210282
+    },
+    {
+      "capacity": 0.02,
+      "better": "lightgbm",
+      "than": "baseline",
+      "mean_cents_per_1000": 92337.81510707714,
+      "low_cents_per_1000": 73612.00624287376,
+      "high_cents_per_1000": 112439.70800736047
+    },
+    {
+      "capacity": 0.02,
+      "better": "lightgbm",
+      "than": "mlp",
+      "mean_cents_per_1000": 65749.58512547838,
+      "low_cents_per_1000": 48864.80650478093,
+      "high_cents_per_1000": 84299.55887831475
+    },
+    {
+      "capacity": 0.05,
+      "better": "lightgbm",
+      "than": "baseline",
+      "mean_cents_per_1000": 82736.71554848105,
+      "low_cents_per_1000": 62780.63043993633,
+      "high_cents_per_1000": 102035.21494451405
+    },
+    {
+      "capacity": 0.05,
+      "better": "lightgbm",
+      "than": "mlp",
+      "mean_cents_per_1000": 59198.372111400866,
+      "low_cents_per_1000": 42599.050022013755,
+      "high_cents_per_1000": 78213.69706822005
+    }
+  ]
+}
