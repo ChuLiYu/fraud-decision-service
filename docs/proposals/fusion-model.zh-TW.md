@@ -7,6 +7,8 @@
 
 狀態：**部分接受。** 離線 fusion ablation 已列入 [scope](../product/scope.zh-TW.md) 的 S-18（[ADR-004](../decisions/ADR-004-course-first-priority.md)）。在服務路徑中使用 fusion 仍是待擁有者審查的草稿，須另寫 ADR。
 
+離線結果（M3c）：以 MLP 為第二個模型時，沒有任何 fusion 方法通過執行前訂好的規則，因此維持單獨使用 LightGBM（[fusion 報告](../../ml/reports/fusion/fusion.md)）。除非換一個第二模型並通過同一規則，否則不在服務路徑採用 fusion。
+
 ## 想法
 
 在 LightGBM 之外再訓練一個模型，把兩者分數合併（平均、加權混合，或用 meta-model 做 stacking）成單一詐欺分數。

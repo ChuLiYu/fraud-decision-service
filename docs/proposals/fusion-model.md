@@ -2,6 +2,8 @@
 
 Status: **partly accepted.** The offline fusion ablation is in [scope](../product/scope.md) as S-18 ([ADR-004](../decisions/ADR-004-course-first-priority.md)). Fusion in the serving path remains a draft pending owner review and needs its own ADR.
 
+Offline result (M3c): with an MLP as the second model, no fusion method met the rule fixed before the run, so LightGBM alone is kept ([fusion report](../../ml/reports/fusion/fusion.md)). Serving fusion is not pursued unless a different second model passes the same rule.
+
 Reading version (zh-TW): [fusion-model.zh-TW.md](fusion-model.zh-TW.md)
 
 ## Idea
