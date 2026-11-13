@@ -19,9 +19,12 @@ dependencies = [
 # Only needed to download data; kept separate because it pulls many packages.
 # kaggle 2.2.5 imports `six` without declaring it, so it is listed here.
 fetch = ["kaggle>=2.2.5,<3", "six>=1.17.0,<2"]
+# Only needed to draw presentation figures from committed reports (make figures).
+figures = ["matplotlib>=3.11.2,<4"]
 
 [dependency-groups]
 dev = [
+    "matplotlib>=3.11.2,<4",
     "pytest>=9.2.0,<10",
     "ruff>=0.17.4,<0.18",
 ]

@@ -1,5 +1,5 @@
 # Entry points for the ml/ component. Run from this directory.
-.PHONY: setup lint test check fetch prepare data train evaluate compare tune fuse decide all
+.PHONY: setup lint test check fetch prepare data train evaluate compare tune fuse decide figures all
 
 setup:  ## Create the virtual environment from uv.lock
 	uv sync --locked
@@ -42,3 +42,7 @@ fuse:  ## Offline fusion ablation (fit on early validation, choose on late valid
 
 decide:  ## Decision-level evaluation: thresholds fitted on validation, costs reported on test
 	uv run python -m fraud_ml.decide
+
+figures:  ## Presentation figures from committed reports into reports/figures (no data needed)
+	uv sync --locked --extra figures
+	uv run python -m fraud_ml.figures
