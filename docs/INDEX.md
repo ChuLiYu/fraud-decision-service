@@ -7,6 +7,7 @@ Pick the document for your task; do not load everything.
 | What the project does and does not do; priorities; phase milestones and acceptance | [product/scope.md](product/scope.md) |
 | Why a decision was made | [decisions/](decisions/) (ADRs) |
 | Dataset terms, time semantics, splits, leakage rules | [data/dataset-card.md](data/dataset-card.md) |
+| Course presentation: slide outline and figure list (draft) | [presentation/outline.md](presentation/outline.md) |
 | What each pipeline parameter does and how to tune it | [ml/tuning-guide.md](ml/tuning-guide.md) |
 | Model results across runs (generated; do not edit) | [../ml/reports/comparison.md](../ml/reports/comparison.md); per-run reports in [../ml/reports/runs/](../ml/reports/runs/); tuning in [../ml/reports/tuning/tuning.md](../ml/reports/tuning/tuning.md) |
 
