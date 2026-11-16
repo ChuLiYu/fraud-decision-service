@@ -1,6 +1,6 @@
 # Plan: decision events (phase 3, S-6)
 
-Status: slices 7–10 implemented; kill test passed locally ([reliability report](../operations/reliability-report.md)); CI not yet run on GitHub.
+Status: slices 7–10 implemented; kill test passed locally ([reliability report](../operations/reliability-report.md)) and in GitHub CI (run 43806359049, commit 18fb056).
 
 Implements [ADR-006](../decisions/ADR-006-outbox-cdc-postgres.md). Continues the numbering of the [MVP plan](mvp.md).
 
