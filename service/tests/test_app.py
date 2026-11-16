@@ -1,7 +1,18 @@
+import json
 import time
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
+
+import jsonschema
 
 from fraud_service.model import Policy
+
+SCHEMA_PATH = (
+    Path(__file__).resolve().parents[2] / "docs/contracts/events/decision-made.v1.schema.json"
+)
+EVENT_VALIDATOR = jsonschema.Draft202012Validator(
+    json.loads(SCHEMA_PATH.read_text()), format_checker=jsonschema.FormatChecker()
+)
 
 COMMON = {"card4": "visa", "card6": "debit", "P_emaildomain": "gmail.com", "C1": 2}
 LOW = {
@@ -49,6 +60,39 @@ def test_invalid_requests_are_rejected(client):
     ):
         assert client.post("/v1/decisions", json=bad).status_code == 422, bad
     assert client.post("/v1/decisions", json={**LOW, "amount": "0"}).status_code == 422
+
+
+def test_non_finite_numbers_are_rejected_without_storing_a_decision_or_event(client):
+    for payload in (
+        '{"transaction_id": 1, "timestamp_seconds": 90000, "amount": "12.50", '
+        '"fields": {"D1": NaN}}',
+        '{"transaction_id": 1, "timestamp_seconds": 90000, "amount": "12.50", '
+        '"fields": {"D1": Infinity}}',
+        '{"transaction_id": 1, "timestamp_seconds": 90000, "amount": "12.50", '
+        '"fields": {"D1": 1e400}}',
+        '{"transaction_id": NaN, "timestamp_seconds": 90000, "amount": "12.50", '
+        '"fields": {"D1": 1}}',
+        '{"transaction_id": 1, "timestamp_seconds": Infinity, "amount": "12.50", '
+        '"fields": {"D1": 1}}',
+    ):
+        response = client.post(
+            "/v1/decisions", content=payload, headers={"Content-Type": "application/json"}
+        )
+
+        assert response.status_code == 422, payload
+        if '"D1": NaN' in payload:
+            detail = response.json()["detail"]
+            assert detail[0]["loc"] == ["body", "fields"]
+            assert detail[0]["msg"] == "Value error, fields must not contain non-finite numbers"
+        assert client.app.state.store.count("decisions") == 0
+        assert client.app.state.store.count("outbox") == 0
+
+
+def test_normal_request_writes_a_contract_valid_outbox_event(client):
+    assert client.post("/v1/decisions", json=LOW).status_code == 200
+
+    (event,) = client.app.state.store.outbox_payloads()
+    EVENT_VALIDATOR.validate(event)
 
 
 def test_model_error_routes_to_review_never_approve(make_client):

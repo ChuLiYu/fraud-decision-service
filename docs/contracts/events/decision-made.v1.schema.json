@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:fraud-decision-service:events:decision-made:v1",
   "title": "DecisionMade v1",
-  "description": "Published once per stored decision through the outbox (ADR-006). Kafka topic fraud.decision-events, key = decision_id. Consumers must deduplicate by event_id: delivery is at least once.",
+  "description": "Published once per stored decision through the outbox (ADR-006). Kafka topic fraud.decision-events, key = decision_id. Consumers must deduplicate by event_id: delivery is at least once. Consumers must ignore unknown properties. v1 may gain optional properties; removing or changing a property requires v2.",
   "type": "object",
   "additionalProperties": false,
   "required": [
