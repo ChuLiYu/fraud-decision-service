@@ -53,7 +53,6 @@ _REQUIRED_FIELDS = {
     "policy_version",
     "latency_ms",
 }
-_ALLOWED_FIELDS = _REQUIRED_FIELDS | {"request"}
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS shadow_scores (
@@ -115,14 +114,11 @@ def _validate_amount(value: object, name: str) -> Decimal:
 
 
 def _event(record: Record) -> dict:
-    """Parse and validate the full v1 payload needed for shadow scoring."""
+    """Parse and validate v1 payload fields needed for shadow scoring."""
     event = parse(record.value)
     missing = _REQUIRED_FIELDS - event.keys()
     if missing:
         _invalid(f"missing fields: {sorted(missing)}")
-    unknown = event.keys() - _ALLOWED_FIELDS
-    if unknown:
-        _invalid(f"unknown fields: {sorted(unknown)}")
     _validate_uuid(event, "event_id")
     _validate_uuid(event, "decision_id")
     if not isinstance(event["transaction_id"], int) or isinstance(event["transaction_id"], bool):
@@ -252,7 +248,11 @@ def _record(message: Message) -> Record:
 
 
 def run(database_url: str, bootstrap: str, bundle_dir: Path, topic: str, group: str) -> None:
-    """Consume shadow events until SIGTERM/SIGINT, committing offsets after PostgreSQL."""
+    """Consume shadow events until SIGTERM/SIGINT, committing offsets after PostgreSQL.
+
+    An invalid event stops the consumer without committing its offset. Fix the
+    event producer or contract, then restart; invalid events are not skipped.
+    """
     stopping = False
 
     def stop(*_: object) -> None:

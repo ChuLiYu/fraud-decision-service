@@ -27,12 +27,19 @@ def summary(conn: Connection) -> dict:
             (active_model, shadow_model),
         ):
             status_counts[status] = count
+        (active_failures,) = conn.execute(
+            "SELECT COUNT(*) FROM shadow_scores "
+            "WHERE active_model_version = %s AND shadow_model_version = %s "
+            "AND active_score IS NULL",
+            (active_model, shadow_model),
+        ).fetchone()
         matrix: dict[str, dict[str, int]] = {}
         matching = 0
         outcomes = conn.execute(
             "SELECT active_outcome, shadow_outcome, COUNT(*) FROM shadow_scores "
             "WHERE active_model_version = %s AND shadow_model_version = %s "
-            "AND active_outcome IS NOT NULL AND shadow_outcome IS NOT NULL "
+            "AND active_score IS NOT NULL AND active_outcome IS NOT NULL "
+            "AND shadow_outcome IS NOT NULL "
             "GROUP BY active_outcome, shadow_outcome ORDER BY active_outcome, shadow_outcome",
             (active_model, shadow_model),
         ).fetchall()
@@ -54,6 +61,7 @@ def summary(conn: Connection) -> dict:
                 "active_model_version": active_model,
                 "shadow_model_version": shadow_model,
                 "status_counts": status_counts,
+                "active_failures": active_failures,
                 "outcome_agreement": {
                     "matching": matching,
                     "rows": outcome_rows,
@@ -90,6 +98,7 @@ def markdown(report: dict) -> str:
             [
                 "",
                 f"Outcome agreement: {agreement['matching']} / {agreement['rows']} ({rate})",
+                f"Active failures excluded from agreement: {pair['active_failures']}",
                 "",
             ]
         )

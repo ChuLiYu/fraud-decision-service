@@ -10,7 +10,7 @@ import pytest
 from fraud_service.consumer import InvalidEvent, Record
 from fraud_service.model import load
 from fraud_service.shadow import SCHEMA, apply
-from fraud_service.shadow_report import summary
+from fraud_service.shadow_report import markdown, summary
 from fraud_service.store import create_schema
 
 
@@ -134,6 +134,14 @@ def test_event_without_request_is_recorded_for_comparison_completeness(conn, sha
     assert row(conn)[3:] == (None, "no_request", None)
 
 
+def test_event_with_unknown_top_level_properties_is_scored(conn, shadow_bundle):
+    payload = event(compatible_addition="ignored by the shadow consumer")
+
+    assert apply(conn, shadow_bundle, record(payload)) is True
+
+    assert row(conn)[4:] == ("scored", None)
+
+
 def test_invalid_event_raises_without_a_shadow_row(conn, shadow_bundle):
     payload = event()
     payload.pop("decision_id")
@@ -144,13 +152,54 @@ def test_invalid_event_raises_without_a_shadow_row(conn, shadow_bundle):
     assert conn.execute("SELECT COUNT(*) FROM shadow_scores").fetchone()[0] == 0
 
 
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda payload: payload["request"].pop("fields"),
+        lambda payload: payload["request"].update(fields={"D1": []}),
+        lambda payload: payload["request"].update(timestamp_seconds=-1),
+    ],
+    ids=["missing-key", "unsupported-field-value", "negative-timestamp"],
+)
+def test_invalid_request_subobjects_raise_without_a_shadow_row(conn, shadow_bundle, mutate):
+    payload = event()
+    mutate(payload)
+
+    with pytest.raises(InvalidEvent):
+        apply(conn, shadow_bundle, record(payload))
+
+    assert conn.execute("SELECT COUNT(*) FROM shadow_scores").fetchone()[0] == 0
+
+
+def test_api_outbox_event_is_stored_with_the_shadow_bundle_version(conn, client, shadow_bundle):
+    response = client.post(
+        "/v1/decisions",
+        json={
+            "transaction_id": 42,
+            "timestamp_seconds": 90_000,
+            "amount": "12.50",
+            "fields": {"ProductCD": "W", "D1": 300, "DeviceType": "desktop"},
+        },
+    )
+    assert response.status_code == 200
+    (payload,) = client.app.state.store.outbox_payloads()
+
+    assert apply(conn, shadow_bundle, record(payload)) is True
+
+    assert conn.execute(
+        "SELECT status, shadow_model_version FROM shadow_scores WHERE event_id = %s",
+        (payload["event_id"],),
+    ).fetchone() == ("scored", shadow_bundle.model_version)
+
+
 def test_summary_counts_agreement_confusion_and_score_difference(conn):
     rows = [
         event(event_id=str(uuid.uuid4()), outcome="approve", score=0.1),
         event(event_id=str(uuid.uuid4()), outcome="review", score=0.4),
         event(event_id=str(uuid.uuid4()), outcome="decline", score=0.9),
+        event(event_id=str(uuid.uuid4()), outcome="review", score=None),
     ]
-    scores = iter([0.2, 0.4, 0.7])
+    scores = iter([0.2, 0.4, 0.7, 0.1])
     bundle = fake_bundle(lambda *args, **kwargs: next(scores))
     for payload in rows:
         assert apply(conn, bundle, record(payload)) is True
@@ -162,11 +211,12 @@ def test_summary_counts_agreement_confusion_and_score_difference(conn):
             "active_model_version": "active-1",
             "shadow_model_version": "shadow-1",
             "status_counts": {
-                "scored": 3,
+                "scored": 4,
                 "shadow_error": 0,
                 "invalid_score": 0,
                 "no_request": 0,
             },
+            "active_failures": 1,
             "outcome_agreement": {
                 "matching": 2,
                 "rows": 3,
@@ -184,3 +234,4 @@ def test_summary_counts_agreement_confusion_and_score_difference(conn):
             },
         }
     ]
+    assert "Active failures excluded from agreement: 1" in markdown(report)

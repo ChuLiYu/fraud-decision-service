@@ -19,18 +19,20 @@ import asyncio
 import hashlib
 import json
 import logging
+import math
 import os
 import time
 import uuid
 from collections.abc import AsyncIterator, Callable
 from contextlib import asynccontextmanager
 from decimal import Decimal
+from numbers import Real
 from pathlib import Path
 from typing import Annotated
 
 from fastapi import FastAPI, Header, HTTPException
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from fraud_service import model
 from fraud_service.store import Decision, IdempotencyConflict, Store
@@ -52,6 +54,25 @@ class DecisionRequest(BaseModel):
         pattern=r"^\d{1,9}(\.\d{1,3})?$", description="Decimal string, e.g. '49.99'"
     )
     fields: dict[str, str | int | float | None] = Field(default_factory=dict)
+
+    @field_validator("transaction_id", "timestamp_seconds", mode="before")
+    @classmethod
+    def finite_top_level_numbers(cls, value: object) -> object:
+        """Reject JSON non-finite number extensions before integer parsing."""
+        if isinstance(value, Real) and not isinstance(value, bool) and not math.isfinite(value):
+            raise ValueError("must be finite")
+        return value
+
+    @field_validator("fields")
+    @classmethod
+    def finite_field_numbers(cls, fields: dict[str, str | int | float | None]) -> dict:
+        """Keep JSONB events valid by rejecting NaN and infinities at the API boundary."""
+        if any(
+            isinstance(value, Real) and not isinstance(value, bool) and not math.isfinite(value)
+            for value in fields.values()
+        ):
+            raise ValueError("fields must not contain non-finite numbers")
+        return fields
 
 
 class DecisionResponse(BaseModel):
