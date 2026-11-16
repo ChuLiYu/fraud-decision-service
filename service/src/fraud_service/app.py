@@ -163,7 +163,14 @@ def create_app(
             request_hash=request_hash,
         )
         try:
-            saved = store.save(decision, idempotency_key, body.amount, latency_ms)
+            saved = store.save(
+                decision,
+                idempotency_key,
+                body.timestamp_seconds,
+                body.amount,
+                body.fields,
+                latency_ms,
+            )
         except IdempotencyConflict:
             raise HTTPException(409, detail=CONFLICT) from None
         return _respond(saved, replayed=saved.decision_id != decision.decision_id)

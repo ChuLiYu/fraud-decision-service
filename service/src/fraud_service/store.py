@@ -83,7 +83,13 @@ def _iso_utc(moment: datetime) -> str:
 
 
 def event_payload(
-    event_id: str, decision: Decision, amount: str, latency_ms: float, occurred_at: datetime
+    event_id: str,
+    decision: Decision,
+    timestamp_seconds: int,
+    amount: str,
+    fields: dict[str, str | int | float | None],
+    latency_ms: float,
+    occurred_at: datetime,
 ) -> dict:
     """The ``decision.made`` v1 payload (docs/contracts/events/decision-made.v1.schema.json)."""
     return {
@@ -94,6 +100,11 @@ def event_payload(
         "decision_id": decision.decision_id,
         "transaction_id": decision.transaction_id,
         "amount": amount,
+        "request": {
+            "timestamp_seconds": timestamp_seconds,
+            "amount": amount,
+            "fields": fields,
+        },
         "outcome": decision.outcome,
         "reason": decision.reason,
         "score": decision.score,
@@ -142,7 +153,15 @@ class Store:
             raise IdempotencyConflict(key)
         return decision
 
-    def save(self, decision: Decision, key: str | None, amount: str, latency_ms: float) -> Decision:
+    def save(
+        self,
+        decision: Decision,
+        key: str | None,
+        timestamp_seconds: int,
+        amount: str,
+        fields: dict[str, str | int | float | None],
+        latency_ms: float,
+    ) -> Decision:
         """Record ``decision`` and its event; if ``key`` won a race elsewhere, return that one.
 
         Raises:
@@ -170,7 +189,15 @@ class Store:
             ).fetchone()
             if row is not None:
                 event_id = str(uuid.uuid4())
-                payload = event_payload(event_id, decision, amount, latency_ms, row[0])
+                payload = event_payload(
+                    event_id,
+                    decision,
+                    timestamp_seconds,
+                    amount,
+                    fields,
+                    latency_ms,
+                    row[0],
+                )
                 conn.execute(
                     "INSERT INTO outbox (id, aggregatetype, aggregateid, type, payload) "
                     "VALUES (%s, %s, %s, %s, %s)",
