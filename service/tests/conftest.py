@@ -17,7 +17,7 @@ from fraud_service.app import create_app
 
 ML_PARAMS = Path(__file__).resolve().parents[2] / "ml" / "params.yaml"
 POSTGRES_IMAGE = "postgres:18.7-alpine"  # same as compose.yaml
-TABLES = ("decisions", "outbox", "consumed_events", "outcome_counts")
+TABLES = ("decisions", "outbox", "consumed_events", "outcome_counts", "shadow_scores")
 
 
 @pytest.fixture(scope="session")
@@ -26,6 +26,15 @@ def bundle_dir(tmp_path_factory) -> Path:
     params = demo_params(params)
     out = tmp_path_factory.mktemp("bundle")
     build(synthetic_transactions(n=5_000), params, out, "demo")
+    return out
+
+
+@pytest.fixture(scope="session")
+def shadow_bundle_dir(tmp_path_factory) -> Path:
+    """A different demo model for active-versus-shadow comparisons."""
+    params = demo_params(load_params(ML_PARAMS))
+    out = tmp_path_factory.mktemp("shadow-bundle")
+    build(synthetic_transactions(n=5_000, seed=1), params, out, "demo")
     return out
 
 
