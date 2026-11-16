@@ -30,7 +30,8 @@ from numbers import Real
 from pathlib import Path
 from typing import Annotated
 
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI, Header, HTTPException, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -115,6 +116,15 @@ def create_app(
 
     app = FastAPI(title="Fraud decision service", version="0.2.0", lifespan=lifespan)
     app.state.store = store
+
+    @app.exception_handler(RequestValidationError)
+    async def request_validation_error(_: Request, exc: RequestValidationError) -> JSONResponse:
+        """Return validation errors without non-JSON request values."""
+        detail = [
+            {"type": error["type"], "loc": error["loc"], "msg": error["msg"]}
+            for error in exc.errors()
+        ]
+        return JSONResponse(status_code=422, content={"detail": detail})
 
     @app.get("/health")
     def health() -> dict:

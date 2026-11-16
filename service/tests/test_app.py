@@ -80,6 +80,10 @@ def test_non_finite_numbers_are_rejected_without_storing_a_decision_or_event(cli
         )
 
         assert response.status_code == 422, payload
+        if '"D1": NaN' in payload:
+            detail = response.json()["detail"]
+            assert detail[0]["loc"] == ["body", "fields"]
+            assert detail[0]["msg"] == "Value error, fields must not contain non-finite numbers"
         assert client.app.state.store.count("decisions") == 0
         assert client.app.state.store.count("outbox") == 0
 
