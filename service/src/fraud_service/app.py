@@ -6,8 +6,11 @@ never ``approve``. The failure is logged, and the decision records a null
 score so it is visible in the decision log.
 
 Run: ``uvicorn fraud_service.app:create_app --factory``. Settings come from
-environment variables: ``BUNDLE_DIR`` (required), ``DB_PATH``
-(default ``decisions.db``), ``SCORE_TIMEOUT_MS`` (default 500).
+environment variables: ``BUNDLE_DIR`` (required), ``DATABASE_URL``
+(required, PostgreSQL), ``SCORE_TIMEOUT_MS`` (default 500).
+
+Each new decision is written together with its ``decision.made`` event in
+one database transaction (outbox, ADR-006); Debezium publishes it to Kafka.
 """
 
 from __future__ import annotations
@@ -19,7 +22,8 @@ import logging
 import os
 import time
 import uuid
-from collections.abc import Callable
+from collections.abc import AsyncIterator, Callable
+from contextlib import asynccontextmanager
 from decimal import Decimal
 from pathlib import Path
 from typing import Annotated
@@ -69,21 +73,27 @@ def _hash(body: DecisionRequest) -> str:
 
 def create_app(
     bundle_dir: Path | None = None,
-    db_path: Path | None = None,
+    database_url: str | None = None,
     timeout_ms: float | None = None,
     scorer: Scorer | None = None,
 ) -> FastAPI:
     """Build the app; arguments override environment variables (tests use them)."""
     bundle_dir = bundle_dir or Path(os.environ["BUNDLE_DIR"])
-    db_path = db_path or Path(os.environ.get("DB_PATH", "decisions.db"))
+    database_url = database_url or os.environ["DATABASE_URL"]
     timeout_s = (timeout_ms or float(os.environ.get("SCORE_TIMEOUT_MS", "500"))) / 1000
 
     bundle = model.load(bundle_dir)
-    store = Store(db_path)
+    store = Store(database_url)
     score_fn: Scorer = scorer or bundle.score
     allowed = set(bundle.request_fields)
 
-    app = FastAPI(title="Fraud decision service", version="0.1.0")
+    @asynccontextmanager
+    async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+        yield
+        store.close()
+
+    app = FastAPI(title="Fraud decision service", version="0.2.0", lifespan=lifespan)
+    app.state.store = store
 
     @app.get("/health")
     def health() -> dict:

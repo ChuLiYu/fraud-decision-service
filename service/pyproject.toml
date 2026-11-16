@@ -1,6 +1,9 @@
 # Decision service for the portfolio MVP (ADR-005).
 # Versions checked on 2026-11-12 against PyPI: fastapi 0.162.5, uvicorn 0.54.0,
 # httpx 0.28.1. Exact versions are pinned in uv.lock.
+# Events (ADR-006), checked on 2026-11-15 against PyPI: psycopg 3.3.9,
+# psycopg-pool 3.3.3, confluent-kafka 2.16.1 (cp314 wheels), testcontainers 4.15.0,
+# jsonschema 4.26.0.
 [project]
 name = "fraud-service"
 version = "0.1.0"
@@ -10,6 +13,9 @@ dependencies = [
     "fraud-ml",
     "fastapi>=0.162.5,<0.163",
     "uvicorn>=0.54.0,<0.55",
+    "psycopg[binary]>=3.3.9,<3.4",
+    "psycopg-pool>=3.3.3,<3.4",
+    "confluent-kafka>=2.16.1,<2.17",
 ]
 
 [tool.uv.sources]
@@ -19,6 +25,8 @@ fraud-ml = { path = "../ml", editable = true }
 [dependency-groups]
 dev = [
     "httpx>=0.28.1,<0.29",
+    "jsonschema>=4.26.0,<5",
+    "testcontainers>=4.15.0,<5",
     "pytest>=9.2.0,<10",
     "ruff>=0.17.4,<0.18",
 ]

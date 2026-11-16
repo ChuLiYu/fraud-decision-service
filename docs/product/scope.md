@@ -101,6 +101,8 @@ Starts after the course submission. Within the phase, S-5 may be deferred if tim
 
 ### Phase 3 — Events and shadow scoring (S-6, S-7, S-13)
 
+S-6 is implemented ahead of the remaining phase 2 items ([ADR-006](../decisions/ADR-006-outbox-cdc-postgres.md), [plan](../plans/events.md)); S-7 and S-13 are open.
+
 - Killing the decision service between database commit and event publication loses no event and creates no phantom event.
 - Consumers tolerate duplicate delivery and restart without double-processing.
 - Shadow model scores do not change request latency beyond a stated tolerance; comparison results are stored.

@@ -20,9 +20,10 @@ RUN cd service && uv sync --locked --no-dev
 ENV PATH="/app/service/.venv/bin:$PATH"
 RUN cd ml && python -m fraud_ml.bundle --demo --out /app/bundles/demo
 
-RUN useradd --create-home app && mkdir /data && chown app /data
+RUN useradd --create-home app
 USER app
-ENV BUNDLE_DIR=/app/bundles/demo DB_PATH=/data/decisions.db
+# DATABASE_URL (PostgreSQL) is set by compose; the service refuses to start without it.
+ENV BUNDLE_DIR=/app/bundles/demo
 EXPOSE 8000
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"

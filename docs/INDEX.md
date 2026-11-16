@@ -10,16 +10,17 @@ Pick the document for your task; do not load everything.
 | Course presentation: slide outline and figure list (draft) | [presentation/outline.md](presentation/outline.md) |
 | Model purpose, limits, results summary | [ml/model-card.md](ml/model-card.md) |
 | What each pipeline parameter does and how to tune it | [ml/tuning-guide.md](ml/tuning-guide.md) |
+| Decision event format (Kafka) | [contracts/events/](contracts/events/) |
+| Fault-injection evidence | [operations/reliability-report.md](operations/reliability-report.md) |
 | Model results across runs (generated; do not edit) | [../ml/reports/comparison.md](../ml/reports/comparison.md); per-run reports in [../ml/reports/runs/](../ml/reports/runs/); tuning in [../ml/reports/tuning/tuning.md](../ml/reports/tuning/tuning.md) |
 
 ## Planned documents (not yet written)
 
 | Document | Owns | Written when |
 |---|---|---|
-| `contracts/` (OpenAPI, event schemas) | Scoring/decision APIs, decision record and event formats | Before phase 2 code |
+| `contracts/` OpenAPI | Scoring/decision APIs (the MVP serves FastAPI's generated `/openapi.json`) | Before the Java service |
 | `docs/domain/decision-policy.md` | Thresholds, review budget, idempotency rules | Phase 2 |
 | `docs/operations/model-rollout.md` | Model versions, shadow, canary, rollback rules | Before phase 4 code |
-| `docs/operations/reliability-report.md` | Fault-injection and load-test evidence | Phases 3–4 |
 
 ## Proposals (not accepted)
 
@@ -33,6 +34,7 @@ Pick the document for your task; do not load everything.
 - [ADR-003](decisions/ADR-003-failure-routes-to-review.md) — Model failure routes to review, never approval
 - [ADR-004](decisions/ADR-004-course-first-priority.md) — Course project first, job portfolio second
 - [ADR-005](decisions/ADR-005-portfolio-mvp-python-service.md) — Portfolio MVP as one Python decision service ([plan](plans/mvp.md))
+- [ADR-006](decisions/ADR-006-outbox-cdc-postgres.md) — Decision events through a Postgres outbox and Debezium ([plan](plans/events.md))
 
 ## Language
 

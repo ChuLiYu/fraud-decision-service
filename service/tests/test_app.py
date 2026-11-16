@@ -1,7 +1,6 @@
 import time
 from concurrent.futures import ThreadPoolExecutor
 
-from fraud_service.app import create_app
 from fraud_service.model import Policy
 
 COMMON = {"card4": "visa", "card6": "debit", "P_emaildomain": "gmail.com", "C1": 2}
@@ -89,20 +88,16 @@ def test_same_key_different_body_is_a_conflict(client):
     assert client.post("/v1/decisions", json=HIGH, headers=headers).status_code == 409
 
 
-def test_concurrent_duplicates_store_one_decision(bundle_dir, tmp_path):
-    from fastapi.testclient import TestClient
-
-    db = tmp_path / "race.db"
-    clients = [TestClient(create_app(bundle_dir, db)) for _ in range(8)]
+def test_concurrent_duplicates_store_one_decision_and_one_event(make_client):
+    clients = [make_client() for _ in range(8)]
     headers = {"Idempotency-Key": "race"}
     with ThreadPoolExecutor(8) as pool:
         bodies = list(
             pool.map(lambda c: c.post("/v1/decisions", json=LOW, headers=headers).json(), clients)
         )
     assert len({b["decision_id"] for b in bodies}) == 1
-    from fraud_service.store import Store
-
-    assert Store(db).count() == 1
+    store = clients[0].app.state.store
+    assert store.count("decisions") == 1 and store.count("outbox") == 1
 
 
 def test_scores_follow_the_synthetic_risk_pattern(bundle_dir):

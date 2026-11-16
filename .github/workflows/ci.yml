@@ -1,4 +1,5 @@
-# Lint and tests for ml/ and service/, then build the image and run the demo.
+# Lint and tests for ml/ and service/ (service tests start a Postgres container),
+# then build the stack, run the demo, and run the decision-events kill test.
 # Synthetic data only: CI never downloads Competition Data.
 # Action versions checked 2026-11-12 (latest releases).
 name: ci
@@ -42,5 +43,6 @@ jobs:
       - run: docker compose up --build -d --wait
       - run: scripts/demo.sh | tee demo.txt
       - run: grep -q '"outcome":"approve"' demo.txt && grep -q 'HTTP 409' demo.txt
+      - run: scripts/events-e2e.sh 50
       - if: failure()
         run: docker compose logs

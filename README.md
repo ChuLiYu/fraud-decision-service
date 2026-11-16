@@ -4,15 +4,16 @@ A fraud decision service that takes an ML model to production: versioned scoring
 
 Reading version (zh-TW): [README.zh-TW.md](README.zh-TW.md)
 
-> **Status:** runnable MVP. One Python decision service serves a LightGBM model behind an approve / review / decline API ([ADR-005](docs/decisions/ADR-005-portfolio-mvp-python-service.md)); the model work behind it (phase 1) is complete with reports. Events, shadow scoring, and the Java decision service are later phases.
+> **Status:** runnable MVP. One Python decision service serves a LightGBM model behind an approve / review / decline API ([ADR-005](docs/decisions/ADR-005-portfolio-mvp-python-service.md)) and publishes every decision to Kafka through a transactional outbox and Debezium ([ADR-006](docs/decisions/ADR-006-outbox-cdc-postgres.md)); the model work behind it (phase 1) is complete with reports. Shadow scoring, authentication, and the Java decision service are later phases.
 
 ## Quick start (no dataset needed)
 
-Requirements: Docker with Compose.
+Requirements: Docker with Compose, about 1.5 GB of free memory for the containers.
 
 ```bash
-docker compose up --build
+docker compose up --build -d --wait
 scripts/demo.sh
+scripts/events-e2e.sh   # kill test for decision events (about a minute)
 ```
 
 The image trains a small **demo model on synthetic rows** at build time, because the IEEE-CIS data and models trained on it may not be redistributed. `/health` reports `"model_kind": "demo"`. To serve the real model, download the data (below), run `make -C ml serve-model`, then `docker compose -f compose.yaml -f compose.real.yaml up`.
@@ -41,18 +42,24 @@ client ─HTTP─> FastAPI decision service
                  ├ score: fraud_ml features + preprocessing (same code as training) → LightGBM
                  ├ policy: versioned score thresholds fitted on validation (decision evaluation)
                  ├ failure rule: model error, timeout, or invalid score → review, never approve
-                 └ decision log (SQLite): request hash, model and policy versions, outcome, latency
+                 └ one Postgres transaction: decision log row + outbox row
+                      (request hash, model and policy versions, outcome, latency)
+Postgres WAL ─> Debezium outbox router (Kafka Connect) ─> Kafka `fraud.decision-events`
+                                                              └ consumer: outcome counts per model,
+                                                                deduplicated by event_id
 ```
 
 - Failure handling follows [ADR-003](docs/decisions/ADR-003-failure-routes-to-review.md) and is tested for errors, timeouts, and NaN or out-of-range scores.
-- Concurrent requests with one `Idempotency-Key` store exactly one decision (database constraint, tested).
+- Concurrent requests with one `Idempotency-Key` store exactly one decision and one event (database constraint, tested).
+- Events follow a versioned JSON Schema ([decision-made v1](docs/contracts/events/decision-made.v1.schema.json)); the service never calls Kafka, so publishing cannot slow or change a decision. With Kafka Connect stopped and the service killed after 200 commits, all events arrived once restarted, none lost or invented, and replaying the whole topic to the consumer changed no counts ([reliability report](docs/operations/reliability-report.md)).
 - The served model has no per-card history features (no online feature store yet); on the test range it scores PR-AUC 0.583 against 0.580 for the full model, single seed ([serving report](ml/reports/serving/serving.md), [evaluation](ml/reports/runs/m5-client/evaluation.md)).
-- CI ([workflow](.github/workflows/ci.yml)) runs lint and tests for `ml/` and `service/`, builds the image, and runs the demo script.
+- CI ([workflow](.github/workflows/ci.yml)) runs lint and tests for `ml/` and `service/` (with a Postgres container), builds the stack, and runs the demo and kill-test scripts.
 
 | Path | Content |
 |---|---|
 | `ml/` | Pipeline: data checks, time split, features, training, evaluation, decision analysis, serving bundle |
-| `service/` | FastAPI decision service and its tests |
+| `service/` | FastAPI decision service, Kafka consumer, and their tests |
+| `deploy/connect/` | Debezium outbox connector configuration and registration |
 | `docs/` | Scope, decisions (ADRs), dataset card, model card, plans |
 
 ## Run the model pipeline (phase 1)
@@ -86,8 +93,8 @@ Transaction request
   -> Java decision service (Spring Boot; the MVP uses Python, ADR-005)
        -> sync HTTP -> Python inference service (active / canary model)
        -> Redis online features
-       -> PostgreSQL: decision log + outbox (one transaction)
-            -> Debezium CDC -> Kafka `decisions`
+       -> PostgreSQL: decision log + outbox (one transaction)      [done in the MVP]
+            -> Debezium CDC -> Kafka `fraud.decision-events`       [done in the MVP]
                  -> shadow-scoring consumer -> inference service (shadow model)
 Offline training and evaluation (Python, LightGBM) -> MLflow model registry
 OpenTelemetry -> Prometheus / Grafana

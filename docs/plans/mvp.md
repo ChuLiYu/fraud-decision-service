@@ -1,6 +1,6 @@
 # Plan: portfolio MVP
 
-Status: slices 1–6 implemented; CI not yet run on GitHub.
+Status: slices 1–6 implemented; CI not yet run on GitHub. The SQLite store was replaced by PostgreSQL in the [events plan](events.md) ([ADR-006](../decisions/ADR-006-outbox-cdc-postgres.md)).
 
 Implements [ADR-005](../decisions/ADR-005-portfolio-mvp-python-service.md). Each slice ends with a runnable, committed result and its own tests. Fixtures are synthetic only.
 
