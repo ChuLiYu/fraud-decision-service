@@ -167,12 +167,20 @@ def test_summary_counts_agreement_confusion_and_score_difference(conn):
                 "invalid_score": 0,
                 "no_request": 0,
             },
-            "outcome_agreement": {"matching": 2, "rows": 3, "rate": 2 / 3},
+            "outcome_agreement": {
+                "matching": 2,
+                "rows": 3,
+                "rate": pytest.approx(2 / 3),
+            },
             "confusion_matrix": {
                 "approve": {"approve": 1},
                 "review": {"review": 1},
                 "decline": {"review": 1},
             },
-            "score_difference": {"rows": 3, "mean_abs": pytest.approx(0.1), "max_abs": 0.2},
+            "score_difference": {
+                "rows": 3,
+                "mean_abs": pytest.approx(0.1),
+                "max_abs": pytest.approx(0.2),
+            },
         }
     ]
