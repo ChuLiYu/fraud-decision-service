@@ -1,4 +1,5 @@
-# Decision service image (ADR-005). Builds a demo bundle from synthetic rows,
+# Decision service image (ADR-005). Builds demo bundles from synthetic rows
+# (active, and a shadow model from another seed for S-7),
 # so the image runs without the IEEE-CIS dataset. Mount a real bundle at
 # /app/bundles/real and set BUNDLE_DIR to use it (never bake it into an image).
 # Base image checked 2026-11-12: uv 0.12.24 with Python 3.14 on Debian trixie.
@@ -18,7 +19,8 @@ COPY service/src service/src
 RUN cd service && uv sync --locked --no-dev
 
 ENV PATH="/app/service/.venv/bin:$PATH"
-RUN cd ml && python -m fraud_ml.bundle --demo --out /app/bundles/demo
+RUN cd ml && python -m fraud_ml.bundle --demo --out /app/bundles/demo \
+    && python -m fraud_ml.bundle --demo --seed 1 --out /app/bundles/shadow
 
 RUN useradd --create-home app
 USER app

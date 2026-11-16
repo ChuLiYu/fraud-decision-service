@@ -9,6 +9,8 @@
 #  4. Consumer: every event counted exactly once.
 #  5. Rewind the consumer group to the start and restart the consumer: all
 #     events are redelivered, counts must not change (duplicates tolerated).
+#  6. Shadow scoring (S-7): one comparison row per event, also after its
+#     consumer group is rewound and every event is redelivered.
 # Usage: scripts/events-e2e.sh [N]   (default 50)
 set -euo pipefail
 n="${1:-50}"
@@ -41,7 +43,7 @@ echo "== 1. stop Kafka Connect (publication paused)"
 dc stop connect >/dev/null 2>&1
 
 echo "== 2. commit $n decisions, then SIGKILL the decision service"
-run="e2e-$(date +%s)"
+run="e2e-$(uuidgen | tr '[:upper:]' '[:lower:]')"  # unique even for reruns in one second
 for i in $(seq 1 "$n"); do
   amount=$(( (i * 37) % 900 + 5 )).00
   code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST "$url/v1/decisions" \
@@ -86,6 +88,23 @@ recounted=$(sql "SELECT COALESCE(SUM(n), 0) FROM outcome_counts")
 [ "$recounted" -eq "$committed" ] || fail "counts changed after redelivery: $recounted"
 echo "after redelivering $on_topic messages, outcome counts sum: $recounted"
 
+echo "== 6. shadow scoring: one comparison per event, also after redelivery"
+wait_for "shadow consumer to catch up" \
+  '[ "$(sql "SELECT COUNT(*) FROM shadow_scores")" -eq "$committed" ]'
+dc stop shadow >/dev/null 2>&1
+dc exec -T kafka /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 \
+  --group shadow-scoring --topic "$topic" --reset-offsets --to-earliest --execute >/dev/null
+since=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+dc start shadow >/dev/null 2>&1
+wait_for "shadow redelivery of $on_topic messages" \
+  '[ "$(dc logs --since "$since" shadow 2>/dev/null | grep -c "duplicate skipped")" -ge "$on_topic" ]'
+shadow_rows=$(sql "SELECT COUNT(*) FROM shadow_scores")
+[ "$shadow_rows" -eq "$committed" ] || fail "shadow rows $shadow_rows, expected $committed"
+missing=$(sql "SELECT COUNT(*) FROM outbox o LEFT JOIN shadow_scores s ON s.event_id = o.id
+               WHERE s.event_id IS NULL")
+[ "$missing" -eq 0 ] || fail "$missing events have no shadow comparison"
+sql "SELECT status, COUNT(*) FROM shadow_scores GROUP BY status ORDER BY status" | sed 's/^/shadow status /'
+
 dc start decision >/dev/null 2>&1
 echo "PASS: $n decisions committed with the publisher down and the service killed;" \
-  "0 lost, 0 phantom, counted once, redelivery recounted 0"
+  "0 lost, 0 phantom, counted once, redelivery recounted 0, one shadow comparison per event"

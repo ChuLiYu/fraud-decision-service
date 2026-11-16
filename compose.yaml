@@ -5,7 +5,9 @@
 # Decision events (ADR-006): the service writes decisions and outbox rows to
 # Postgres in one transaction; Debezium (Kafka Connect) reads the outbox from
 # the WAL and publishes to Kafka topic fraud.decision-events; the consumer
-# counts outcomes per model, deduplicating by event_id.
+# counts outcomes per model, deduplicating by event_id. The shadow consumer
+# scores each event's request with a second demo model and stores the
+# comparison (S-7); `docker compose exec shadow python -m fraud_service.shadow_report`.
 # Images checked on 2026-11-15: postgres 18.7 (Debezium 3.7 supports 14-18),
 # apache/kafka 4.4.0 (KRaft), debezium/connect 3.7.1.Final.
 # Local demo credentials only; not used anywhere else.
@@ -90,6 +92,20 @@ services:
       <<: *db
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     command: ["python", "-m", "fraud_service.consumer"]
+    healthcheck:
+      disable: true  # the image's HTTP check is for the decision API
+    restart: on-failure
+  shadow:
+    build: .
+    image: fraud-decision-service:local
+    depends_on:
+      kafka: {condition: service_healthy}
+      decision: {condition: service_healthy}
+    environment:
+      <<: *db
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SHADOW_BUNDLE_DIR: /app/bundles/shadow
+    command: ["python", "-m", "fraud_service.shadow"]
     healthcheck:
       disable: true  # the image's HTTP check is for the decision API
     restart: on-failure
