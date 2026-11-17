@@ -98,7 +98,8 @@ def markdown(report: dict) -> str:
             [
                 "",
                 f"Outcome agreement: {agreement['matching']} / {agreement['rows']} ({rate})",
-                f"Active failures excluded from agreement: {pair['active_failures']}",
+                "Rows without an active score (excluded from agreement; may overlap shadow "
+                f"failures): {pair['active_failures']}",
                 "",
             ]
         )

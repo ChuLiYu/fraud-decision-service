@@ -53,6 +53,8 @@ Postgres WAL ─> Debezium outbox router (Kafka Connect) ─> Kafka `fraud.decis
                                                                 second model, stores the comparison
 ```
 
+Validation-error (422) responses carry `detail` entries containing only `type`, `loc`, and `msg`.
+
 - Failure handling follows [ADR-003](docs/decisions/ADR-003-failure-routes-to-review.md) and is tested for errors, timeouts, and NaN or out-of-range scores.
 - Concurrent requests with one `Idempotency-Key` store exactly one decision and one event (database constraint, tested).
 - Events follow a versioned JSON Schema ([decision-made v1](docs/contracts/events/decision-made.v1.schema.json)); the service never calls Kafka, so publishing cannot slow or change a decision. With Kafka Connect stopped and the service killed after 200 commits, all events arrived once restarted, none lost or invented, and replaying the whole topic to the consumer changed no counts ([reliability report](docs/operations/reliability-report.md)).

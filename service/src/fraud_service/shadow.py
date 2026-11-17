@@ -148,8 +148,10 @@ def _event(record: Record) -> dict:
         return event
     if not isinstance(request, dict):
         _invalid("request is not an object")
-    if set(request) != {"timestamp_seconds", "amount", "fields"}:
-        _invalid("request fields are invalid")
+    required_request_fields = {"timestamp_seconds", "amount", "fields"}
+    missing_request_fields = required_request_fields - request.keys()
+    if missing_request_fields:
+        _invalid(f"missing request fields: {sorted(missing_request_fields)}")
     if not isinstance(request["timestamp_seconds"], int) or isinstance(
         request["timestamp_seconds"], bool
     ):
