@@ -142,6 +142,15 @@ def test_event_with_unknown_top_level_properties_is_scored(conn, shadow_bundle):
     assert row(conn)[4:] == ("scored", None)
 
 
+def test_event_with_unknown_request_properties_is_scored(conn, shadow_bundle):
+    payload = event()
+    payload["request"]["currency"] = "USD"
+
+    assert apply(conn, shadow_bundle, record(payload)) is True
+
+    assert row(conn)[4:] == ("scored", None)
+
+
 def test_invalid_event_raises_without_a_shadow_row(conn, shadow_bundle):
     payload = event()
     payload.pop("decision_id")
@@ -153,21 +162,28 @@ def test_invalid_event_raises_without_a_shadow_row(conn, shadow_bundle):
 
 
 @pytest.mark.parametrize(
-    "mutate",
+    ("mutate", "message"),
     [
-        lambda payload: payload["request"].pop("fields"),
-        lambda payload: payload["request"].update(fields={"D1": []}),
-        lambda payload: payload["request"].update(timestamp_seconds=-1),
+        (
+            lambda payload: payload["request"].pop("fields"),
+            "missing request fields: ['fields']",
+        ),
+        (lambda payload: payload["request"].update(fields={"D1": []}), None),
+        (lambda payload: payload["request"].update(timestamp_seconds=-1), None),
     ],
     ids=["missing-key", "unsupported-field-value", "negative-timestamp"],
 )
-def test_invalid_request_subobjects_raise_without_a_shadow_row(conn, shadow_bundle, mutate):
+def test_invalid_request_subobjects_raise_without_a_shadow_row(
+    conn, shadow_bundle, mutate, message
+):
     payload = event()
     mutate(payload)
 
-    with pytest.raises(InvalidEvent):
+    with pytest.raises(InvalidEvent) as error:
         apply(conn, shadow_bundle, record(payload))
 
+    if message is not None:
+        assert str(error.value) == message
     assert conn.execute("SELECT COUNT(*) FROM shadow_scores").fetchone()[0] == 0
 
 
@@ -197,9 +213,9 @@ def test_summary_counts_agreement_confusion_and_score_difference(conn):
         event(event_id=str(uuid.uuid4()), outcome="approve", score=0.1),
         event(event_id=str(uuid.uuid4()), outcome="review", score=0.4),
         event(event_id=str(uuid.uuid4()), outcome="decline", score=0.9),
-        event(event_id=str(uuid.uuid4()), outcome="review", score=None),
+        event(event_id=str(uuid.uuid4()), outcome="review", score=None, request=None),
     ]
-    scores = iter([0.2, 0.4, 0.7, 0.1])
+    scores = iter([0.2, 0.4, 0.7])
     bundle = fake_bundle(lambda *args, **kwargs: next(scores))
     for payload in rows:
         assert apply(conn, bundle, record(payload)) is True
@@ -211,10 +227,10 @@ def test_summary_counts_agreement_confusion_and_score_difference(conn):
             "active_model_version": "active-1",
             "shadow_model_version": "shadow-1",
             "status_counts": {
-                "scored": 4,
+                "scored": 3,
                 "shadow_error": 0,
                 "invalid_score": 0,
-                "no_request": 0,
+                "no_request": 1,
             },
             "active_failures": 1,
             "outcome_agreement": {
@@ -234,4 +250,7 @@ def test_summary_counts_agreement_confusion_and_score_difference(conn):
             },
         }
     ]
-    assert "Active failures excluded from agreement: 1" in markdown(report)
+    assert (
+        "Rows without an active score (excluded from agreement; may overlap shadow failures): 1"
+        in markdown(report)
+    )
