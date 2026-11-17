@@ -106,5 +106,6 @@ missing=$(sql "SELECT COUNT(*) FROM outbox o LEFT JOIN shadow_scores s ON s.even
 sql "SELECT status, COUNT(*) FROM shadow_scores GROUP BY status ORDER BY status" | sed 's/^/shadow status /'
 
 dc start decision >/dev/null 2>&1
+wait_for "decision service health" 'curl -sf "$url/health" >/dev/null'
 echo "PASS: $n decisions committed with the publisher down and the service killed;" \
   "0 lost, 0 phantom, counted once, redelivery recounted 0, one shadow comparison per event"
