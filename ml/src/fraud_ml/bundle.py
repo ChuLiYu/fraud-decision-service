@@ -232,10 +232,11 @@ def main() -> None:
     parser.add_argument("--params", type=Path, default=Path("params.yaml"))
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--demo", action="store_true", help="train on synthetic rows")
+    parser.add_argument("--seed", type=int, default=0, help="synthetic-data seed for --demo")
     args = parser.parse_args()
     params = load_params(args.params)
     if args.demo:
-        raw, kind, params = synthetic_transactions(), "demo", demo_params(params)
+        raw, kind, params = synthetic_transactions(seed=args.seed), "demo", demo_params(params)
     else:
         raw, kind = load_raw(params.data.raw_dir), "real"
     print(f"wrote {build(raw, params, args.out, kind)}")

@@ -1,7 +1,9 @@
 import json
+import sys
 
 import lightgbm as lgb
 
+from fraud_ml import bundle
 from fraud_ml.bundle import build, demo_params, serving_params, synthetic_transactions
 from fraud_ml.config import load_params
 from fraud_ml.preprocess import Preprocessor
@@ -42,3 +44,38 @@ def test_saved_preprocessor_keeps_feature_order(workspace, tmp_path):
     pre = Preprocessor.load(out / "preprocessor.json")
     booster = lgb.Booster(model_file=str(out / "lightgbm.txt"))
     assert booster.feature_name() == pre.feature_names
+
+
+def test_demo_cli_passes_seed_to_synthetic_rows(workspace, tmp_path, monkeypatch):
+    """Demo bundle generation accepts a reproducibility seed without Competition Data."""
+    observed = {}
+
+    def synthetic(n=20_000, seed=0):
+        observed["seed"] = seed
+        return synthetic_transactions(n=100, seed=seed)
+
+    def fake_build(raw, params, out, kind):
+        observed["rows"] = len(raw)
+        observed["kind"] = kind
+        return out / "bundle.json"
+
+    monkeypatch.setattr(bundle, "synthetic_transactions", synthetic)
+    monkeypatch.setattr(bundle, "build", fake_build)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "fraud_ml.bundle",
+            "--demo",
+            "--seed",
+            "1",
+            "--params",
+            str(workspace / "params.yaml"),
+            "--out",
+            str(tmp_path / "bundle"),
+        ],
+    )
+
+    bundle.main()
+
+    assert observed == {"seed": 1, "rows": 100, "kind": "demo"}

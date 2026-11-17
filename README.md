@@ -4,7 +4,7 @@ A fraud decision service that takes an ML model to production: versioned scoring
 
 Reading version (zh-TW): [README.zh-TW.md](README.zh-TW.md)
 
-> **Status:** runnable MVP. One Python decision service serves a LightGBM model behind an approve / review / decline API ([ADR-005](docs/decisions/ADR-005-portfolio-mvp-python-service.md)) and publishes every decision to Kafka through a transactional outbox and Debezium ([ADR-006](docs/decisions/ADR-006-outbox-cdc-postgres.md)); the model work behind it (phase 1) is complete with reports. Shadow scoring, authentication, and the Java decision service are later phases.
+> **Status:** runnable MVP. One Python decision service serves a LightGBM model behind an approve / review / decline API ([ADR-005](docs/decisions/ADR-005-portfolio-mvp-python-service.md)) and publishes every decision to Kafka through a transactional outbox and Debezium ([ADR-006](docs/decisions/ADR-006-outbox-cdc-postgres.md)); the model work behind it (phase 1) is complete with reports. A shadow consumer scores every decision with a second model off the request path and stores the comparison. Authentication, a schema registry, and the Java decision service are later phases.
 
 ## Quick start (no dataset needed)
 
@@ -14,6 +14,8 @@ Requirements: Docker with Compose, about 1.5 GB of free memory for the container
 docker compose up --build -d --wait
 scripts/demo.sh
 scripts/events-e2e.sh   # kill test for decision events (about a minute)
+scripts/shadow-latency.sh   # request latency with and without shadow scoring
+docker compose exec shadow python -m fraud_service.shadow_report
 ```
 
 The image trains a small **demo model on synthetic rows** at build time, because the IEEE-CIS data and models trained on it may not be redistributed. `/health` reports `"model_kind": "demo"`. To serve the real model, download the data (below), run `make -C ml serve-model`, then `docker compose -f compose.yaml -f compose.real.yaml up`.
@@ -45,14 +47,17 @@ client ─HTTP─> FastAPI decision service
                  └ one Postgres transaction: decision log row + outbox row
                       (request hash, model and policy versions, outcome, latency)
 Postgres WAL ─> Debezium outbox router (Kafka Connect) ─> Kafka `fraud.decision-events`
-                                                              └ consumer: outcome counts per model,
-                                                                deduplicated by event_id
+                                                              ├ consumer: outcome counts per model,
+                                                              │ deduplicated by event_id
+                                                              └ shadow consumer: scores the request with a
+                                                                second model, stores the comparison
 ```
 
 - Failure handling follows [ADR-003](docs/decisions/ADR-003-failure-routes-to-review.md) and is tested for errors, timeouts, and NaN or out-of-range scores.
 - Concurrent requests with one `Idempotency-Key` store exactly one decision and one event (database constraint, tested).
 - Events follow a versioned JSON Schema ([decision-made v1](docs/contracts/events/decision-made.v1.schema.json)); the service never calls Kafka, so publishing cannot slow or change a decision. With Kafka Connect stopped and the service killed after 200 commits, all events arrived once restarted, none lost or invented, and replaying the whole topic to the consumer changed no counts ([reliability report](docs/operations/reliability-report.md)).
 - The served model has no per-card history features (no online feature store yet); on the test range it scores PR-AUC 0.583 against 0.580 for the full model, single seed ([serving report](ml/reports/serving/serving.md), [evaluation](ml/reports/runs/m5-client/evaluation.md)).
+- Shadow scoring (S-7) never touches the request path: with the shadow consumer running, the median request-latency change over 5 alternating pairs of 200 sequential requests on a laptop was +0.61 ms at p50 and +8.58 ms at p99 (tolerance 10 ms; the p99 rise is CPU contention on one host), and shadow failures are stored with their cause instead of affecting decisions ([plan](docs/plans/shadow.md), [reliability report](docs/operations/reliability-report.md)).
 - CI ([workflow](.github/workflows/ci.yml)) runs lint and tests for `ml/` and `service/` (with a Postgres container), builds the stack, and runs the demo and kill-test scripts.
 
 | Path | Content |

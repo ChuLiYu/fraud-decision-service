@@ -26,14 +26,20 @@ def check_contract(payload: dict) -> None:
 
 
 def test_each_new_decision_writes_one_matching_event(client):
-    decisions = [client.post("/v1/decisions", json=body).json() for body in (LOW, HIGH)]
+    requests = (LOW, HIGH)
+    decisions = [client.post("/v1/decisions", json=body).json() for body in requests]
     payloads = client.app.state.store.outbox_payloads()
     assert len(payloads) == 2
-    for decision, event in zip(decisions, payloads, strict=True):
+    for request, decision, event in zip(requests, decisions, payloads, strict=True):
         check_contract(event)
         for field in ("decision_id", "transaction_id", "outcome", "reason", "score"):
             assert event[field] == decision[field]
-        assert event["amount"] in (LOW["amount"], HIGH["amount"])
+        assert event["amount"] == request["amount"]
+        assert event["request"] == {
+            "timestamp_seconds": request["timestamp_seconds"],
+            "amount": request["amount"],
+            "fields": request["fields"],
+        }
 
 
 def test_failure_path_decisions_emit_events_with_null_score(make_client):
@@ -45,6 +51,58 @@ def test_failure_path_decisions_emit_events_with_null_score(make_client):
     (event,) = client.app.state.store.outbox_payloads()
     check_contract(event)
     assert (event["outcome"], event["reason"], event["score"]) == ("review", "model_error", None)
+    assert event["request"] == {
+        "timestamp_seconds": LOW["timestamp_seconds"],
+        "amount": LOW["amount"],
+        "fields": LOW["fields"],
+    }
+
+
+def test_contract_accepts_events_written_before_request_was_added():
+    payload = {
+        "event_id": str(uuid.uuid4()),
+        "event_type": "decision.made",
+        "schema_version": 1,
+        "occurred_at": "2026-11-15T00:00:00Z",
+        "decision_id": str(uuid.uuid4()),
+        "transaction_id": LOW["transaction_id"],
+        "amount": LOW["amount"],
+        "outcome": "approve",
+        "reason": "low_risk",
+        "score": 0.1,
+        "model_version": "test",
+        "policy_version": "test",
+        "latency_ms": 1.0,
+    }
+
+    check_contract(payload)
+
+
+def test_contract_rejects_unknown_request_properties():
+    payload = {
+        "event_id": str(uuid.uuid4()),
+        "event_type": "decision.made",
+        "schema_version": 1,
+        "occurred_at": "2026-11-15T00:00:00Z",
+        "decision_id": str(uuid.uuid4()),
+        "transaction_id": LOW["transaction_id"],
+        "amount": LOW["amount"],
+        "outcome": "approve",
+        "reason": "low_risk",
+        "score": 0.1,
+        "model_version": "test",
+        "policy_version": "test",
+        "latency_ms": 1.0,
+        "request": {
+            "timestamp_seconds": LOW["timestamp_seconds"],
+            "amount": LOW["amount"],
+            "fields": LOW["fields"],
+            "unexpected": "value",
+        },
+    }
+
+    with pytest.raises(jsonschema.ValidationError):
+        check_contract(payload)
 
 
 def test_replay_and_conflict_write_no_event(client):
@@ -67,7 +125,7 @@ def test_failed_event_write_rolls_back_the_decision(database_url, monkeypatch):
     try:
         decision = Decision(str(uuid.uuid4()), 1, "approve", "r", 0.1, "m", "p", "h")
         with pytest.raises(RuntimeError, match="event serialisation failed"):
-            store.save(decision, "k", "1.00", 1.0)
+            store.save(decision, "k", 90_000, "1.00", {"ProductCD": "W"}, 1.0)
         assert store.count("decisions") == 0 and store.count("outbox") == 0
     finally:
         store.close()

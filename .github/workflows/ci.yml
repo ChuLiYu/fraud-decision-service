@@ -44,5 +44,6 @@ jobs:
       - run: scripts/demo.sh | tee demo.txt
       - run: grep -q '"outcome":"approve"' demo.txt && grep -q 'HTTP 409' demo.txt
       - run: scripts/events-e2e.sh 50
+      - run: scripts/shadow-latency.sh 2 100 none
       - if: failure()
         run: docker compose logs
